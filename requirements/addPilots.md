@@ -4,7 +4,7 @@
 - [] Receive a POST request in /pilots route
 - [] Validate required fields **certificationDocument, name, age, credits, location**
 - [] Check if already exists a pilot registered with the same certificationDocument in the repository
-- [] Save the user in the repository
+- [] Save the pilot in the repository
 - [] Returns 200 with registered pilot data
 
 ## Exceptions
