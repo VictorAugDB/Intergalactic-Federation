@@ -86,9 +86,11 @@ describe('AddPilots', () => {
     test('Should be able to call AddPilotUseCase with correct values', async () => {
       const { sut, addPilotUseCase } = makeSut()
       const addPilotSpy = jest.spyOn(addPilotUseCase, 'execute')
-      await sut.handle(makeFakeRequest())
 
-      expect(addPilotSpy).toHaveBeenCalledWith(mockFakePilot())
+      const fakeRequest = makeFakeRequest()
+      await sut.handle(fakeRequest)
+
+      expect(addPilotSpy).toHaveBeenCalledWith(fakeRequest.body)
     })
 
     test('Should be able to return 500 if AddPilotUseCase throws', async () => {
