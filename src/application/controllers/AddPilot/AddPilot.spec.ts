@@ -1,4 +1,4 @@
-import { AddPilot } from '@/application/controllers/AddPilot/AddPillot'
+import { AddPilotController } from '@/application/controllers/AddPilot/AddPillot'
 import { IAddPilotDTO } from '@/application/dtos/AddPilot'
 import { MissingParamError } from '@/application/errors/MissingParamError'
 import {
@@ -14,7 +14,7 @@ import { IAddPilot, IAddPilotInput } from '@/domain/usecases/AddPilot'
 import { mockFakePilot } from '@/shared/mocks/fakePilot'
 
 type ISutTypes = {
-  sut: AddPilot
+  sut: AddPilotController
   addPilotUseCase: IAddPilot
   validationStub: IValidation
 }
@@ -36,7 +36,7 @@ const makeAddPilotUseCaseStub = (): IAddPilot => {
 const makeSut = (): ISutTypes => {
   const addPilotUseCase = makeAddPilotUseCaseStub()
   const validationStub = makeValidation()
-  const sut = new AddPilot(addPilotUseCase, validationStub)
+  const sut = new AddPilotController(addPilotUseCase, validationStub)
 
   return {
     sut,

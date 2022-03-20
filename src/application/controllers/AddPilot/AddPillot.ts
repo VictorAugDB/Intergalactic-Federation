@@ -10,7 +10,7 @@ import { IValidation } from '@/application/protocols/Validation'
 import { IPilot } from '@/domain/models/Pilot'
 import { IAddPilot } from '@/domain/usecases/AddPilot'
 
-export class AddPilot implements IController {
+export class AddPilotController implements IController {
   constructor(
     private readonly addPilotUseCase: IAddPilot,
     private readonly validation: IValidation,
