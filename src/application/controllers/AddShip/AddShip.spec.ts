@@ -1,4 +1,4 @@
-import { AddShip } from '@/application/controllers/AddShip/AddShip'
+import { AddShipController } from '@/application/controllers/AddShip/AddShip'
 import { IAddShipDTO } from '@/application/dtos/AddShip'
 import { MissingParamError } from '@/application/errors/MissingParamError'
 import {
@@ -14,7 +14,7 @@ import { IAddShip, IAddShipInput } from '@/domain/usecases/AddShip'
 import { mockFakeShip } from '@/shared/mocks/fakeShip'
 
 type ISutTypes = {
-  sut: AddShip
+  sut: AddShipController
   addShipUseCase: IAddShip
   validationStub: IValidation
 }
@@ -37,7 +37,7 @@ const makeAddShipUseCaseStub = (): IAddShip => {
 const makeSut = (): ISutTypes => {
   const addShipUseCase = makeAddShipUseCaseStub()
   const validationStub = makeValidation()
-  const sut = new AddShip(addShipUseCase, validationStub)
+  const sut = new AddShipController(addShipUseCase, validationStub)
 
   return {
     sut,

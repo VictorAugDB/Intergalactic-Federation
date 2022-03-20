@@ -10,7 +10,7 @@ import { IValidation } from '@/application/protocols/Validation'
 import { IShip } from '@/domain/models/Ship'
 import { IAddShip } from '@/domain/usecases/AddShip'
 
-export class AddShip implements IController {
+export class AddShipController implements IController {
   constructor(
     private readonly addShipUseCase: IAddShip,
     private readonly validation: IValidation,
