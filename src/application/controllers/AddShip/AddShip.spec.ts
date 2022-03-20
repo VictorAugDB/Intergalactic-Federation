@@ -19,9 +19,10 @@ type ISutTypes = {
   validationStub: IValidation
 }
 
-const makeFakeRequest = (): IRequest<IAddShipDTO> => ({
-  body: mockFakeShip(),
-})
+const makeFakeRequest = (): IRequest<IAddShipDTO> => {
+  const { id, ...rest } = mockFakeShip()
+  return { body: rest }
+}
 
 const makeAddShipUseCaseStub = (): IAddShip => {
   class AddShipUseCaseUseCaseStub implements IAddShip {
@@ -86,9 +87,11 @@ describe('AddShips', () => {
     test('Should be able to call AddShipUseCase with correct values', async () => {
       const { sut, addShipUseCase } = makeSut()
       const addShipSpy = jest.spyOn(addShipUseCase, 'execute')
-      await sut.handle(makeFakeRequest())
 
-      expect(addShipSpy).toHaveBeenCalledWith(mockFakeShip())
+      const fakeRequest = makeFakeRequest()
+      await sut.handle(fakeRequest)
+
+      expect(addShipSpy).toHaveBeenCalledWith(fakeRequest.body)
     })
 
     test('Should be able to return 500 if AddShipUseCase throws', async () => {
