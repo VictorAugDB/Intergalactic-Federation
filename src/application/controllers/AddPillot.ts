@@ -7,6 +7,7 @@ import {
   IResponse,
 } from '@/application/protocols/Controller'
 import { IValidation } from '@/application/protocols/Validation'
+import { IPilot } from '@/domain/models/Pilot'
 import { IAddPilot } from '@/domain/usecases/AddPilot'
 
 export class AddPilot implements IController {
@@ -15,7 +16,9 @@ export class AddPilot implements IController {
     private readonly validation: IValidation,
   ) {}
 
-  async handle(req: IRequest<IAddPilotDTO>): Promise<IResponse<any>> {
+  async handle(
+    req: IRequest<IAddPilotDTO>,
+  ): Promise<IResponse<IPilot | Error>> {
     try {
       const error = this.validation.validate(req.body)
       if (error) return badRequest(error)
@@ -28,7 +31,7 @@ export class AddPilot implements IController {
         shipId,
       } = req.body as IAddPilotDTO
 
-      await this.addPilotUseCase.execute({
+      const pilot = await this.addPilotUseCase.execute({
         age,
         certificationDocument,
         credits,
@@ -37,7 +40,7 @@ export class AddPilot implements IController {
         shipId,
       })
 
-      return success('success')
+      return success(pilot)
     } catch (err) {
       return handleDefaultCatchedErrors(err)
     }

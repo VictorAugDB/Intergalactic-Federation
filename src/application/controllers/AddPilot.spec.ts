@@ -1,7 +1,11 @@
 import { AddPilot } from '@/application/controllers/AddPillot'
 import { IAddPilotDTO } from '@/application/dtos/AddPilot'
 import { MissingParamError } from '@/application/errors/MissingParamError'
-import { badRequest, serverError } from '@/application/helpers/HttpHelper'
+import {
+  badRequest,
+  serverError,
+  success,
+} from '@/application/helpers/HttpHelper'
 import { makeValidation } from '@/application/mocks/stubs/makeValidation'
 import { IRequest } from '@/application/protocols/Controller'
 import { IValidation } from '@/application/protocols/Validation'
@@ -60,7 +64,7 @@ describe('AddPilots', () => {
       expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
     })
 
-    test('Should return 400 if Validation returns is an error', async () => {
+    test('Should be able to return 400 if Validation returns is an error', async () => {
       const { sut, validationStub } = makeSut()
       const error = new MissingParamError('any_field')
 
@@ -72,7 +76,7 @@ describe('AddPilots', () => {
       expect(httpResponse).toEqual(badRequest(error))
     })
 
-    test('Should return 500 if Validation throws', async () => {
+    test('Should be able to return 500 if Validation throws', async () => {
       const { sut, validationStub } = makeSut()
       const error = new Error()
 
@@ -94,7 +98,7 @@ describe('AddPilots', () => {
       expect(addPilotSpy).toHaveBeenCalledWith(mockFakePilot())
     })
 
-    test('Should return 500 if AddPilotUseCase throws', async () => {
+    test('Should be able to return 500 if AddPilotUseCase throws', async () => {
       const { sut, addPilotUseCase } = makeSut()
       const error = new Error()
 
@@ -105,5 +109,12 @@ describe('AddPilots', () => {
       const httpResponse = await sut.handle(makeFakeRequest())
       expect(httpResponse).toEqual(serverError(error))
     })
+  })
+
+  test('Should be able to return 200 with pilot data on success', async () => {
+    const { sut } = makeSut()
+    const result = await sut.handle(makeFakeRequest())
+
+    expect(result).toEqual(success(mockFakePilot()))
   })
 })
