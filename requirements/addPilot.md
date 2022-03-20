@@ -8,7 +8,6 @@
 - [] Check if the ship's location is the same as pilot's location planet
 - [] Check if the ship is already in use
 - [] Save the pilot in the repository
-- [] Update the ship with pilot certificationDocument
 - [] Returns 200 with registered pilot data
 
 ## Exceptions
@@ -19,4 +18,3 @@
 - [] Check if the ship's location is not the same as pilot's location planet
 - [] Returns 400 if the ship is already in use
 - [] Returns 500 if something unexpected happens when saving the pilot in the repository
-- [] Returns 500 if something unexpected happens when updating the ship in the repository
