@@ -1,4 +1,4 @@
-import { AddPilot } from '@/application/controllers/AddPillot'
+import { AddPilot } from '@/application/controllers/AddPilot/AddPillot'
 import { IAddPilotDTO } from '@/application/dtos/AddPilot'
 import { MissingParamError } from '@/application/errors/MissingParamError'
 import {
