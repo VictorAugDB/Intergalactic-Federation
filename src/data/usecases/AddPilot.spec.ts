@@ -1,4 +1,8 @@
 import { AppError } from '@/application/errors/AppError'
+import {
+  ICheckShipAlreadyHasOwner,
+  ICheckShipAlreadyHasOwnerInput,
+} from '@/data/contracts/repositories/pilots/CheckShipAlreadyHasOwner'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { AddPilotUseCase } from '@/data/usecases/AddPillot'
@@ -12,6 +16,7 @@ type ISutTypes = {
   sut: AddPilotUseCase
   getPilotRepositoryStub: IGetPilot
   getShipRepositoryStub: IGetShip
+  checkShipAlreadyHasOwnerRepositoryStub: ICheckShipAlreadyHasOwner
 }
 
 const makeFakeRequest = (): IAddPilotInput => ({
@@ -39,15 +44,37 @@ const makeGetShipRepositoryStub = (): IGetShip => {
   return new GetShipRepositoryUseCaseStub()
 }
 
+const makeCheckShipAlreadyHasOwnerRepositoryStub =
+  (): ICheckShipAlreadyHasOwner => {
+    class CheckShipAlreadyHasOwnerRepositoryUseCaseStub
+      implements ICheckShipAlreadyHasOwner
+    {
+      async checkShipAlreadyHasOwner(
+        input: ICheckShipAlreadyHasOwnerInput,
+      ): Promise<boolean> {
+        return false
+      }
+    }
+
+    return new CheckShipAlreadyHasOwnerRepositoryUseCaseStub()
+  }
+
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub()
   const getShipRepositoryStub = makeGetShipRepositoryStub()
-  const sut = new AddPilotUseCase(getPilotRepositoryStub, getShipRepositoryStub)
+  const checkShipAlreadyHasOwnerRepositoryStub =
+    makeCheckShipAlreadyHasOwnerRepositoryStub()
+  const sut = new AddPilotUseCase(
+    getPilotRepositoryStub,
+    getShipRepositoryStub,
+    checkShipAlreadyHasOwnerRepositoryStub,
+  )
 
   return {
     sut,
     getPilotRepositoryStub,
     getShipRepositoryStub,
+    checkShipAlreadyHasOwnerRepositoryStub,
   }
 }
 
@@ -129,6 +156,39 @@ describe('AddPilot', () => {
     await expect(promise).rejects.toBeInstanceOf(AppError)
     await expect(promise).rejects.toThrowError(
       new AppError('Ship does not exists!'),
+    )
+  })
+
+  test("Should throw an AppError if pilot's locationPlanet is not the same as ship's location", async () => {
+    const { sut, getShipRepositoryStub } = makeSut()
+    jest.spyOn(getShipRepositoryStub, 'getById').mockResolvedValueOnce({
+      ...mockFakeShip(),
+      location: 'any_location',
+    })
+
+    const fakeRequest = makeFakeRequest()
+    const promise = sut.execute(fakeRequest)
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError(
+        "This pilot's locationPlanet must be the same as ship's location",
+      ),
+    )
+  })
+
+  test('Should throw an AppError if the ship is already has an owner', async () => {
+    const { sut, checkShipAlreadyHasOwnerRepositoryStub } = makeSut()
+    jest
+      .spyOn(checkShipAlreadyHasOwnerRepositoryStub, 'checkShipAlreadyHasOwner')
+      .mockResolvedValueOnce(true)
+
+    const fakeRequest = makeFakeRequest()
+    const promise = sut.execute(fakeRequest)
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError('This ship already has an owner!'),
     )
   })
 })
