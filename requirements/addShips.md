@@ -3,7 +3,7 @@
 ## Success case
 - [] Receive a POST request in /ships route
 - [] Validate required fields **id, fuelCapacity, fuelLevel, weigthCapacity, location**
-- [] Check if already exists a ship registered with the same certificationDocument in the repository
+- [] Check if already exists a ship registered with the same id in the repository
 - [] Save the ship in the repository
 - [] Returns 200 with registered ship data
 
