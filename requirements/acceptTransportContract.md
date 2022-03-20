@@ -1,7 +1,7 @@
 # Add Ships
 
 ## Success case
-- [] Receive a POST request in /acceptContract route
+- [] Receive a POST request in /contracts/accept route
 - [] Validate required fields **id, certificationDocument**
 - [] Get pilot in the repository
 - [] Get contract in the repository
