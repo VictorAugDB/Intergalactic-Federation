@@ -5,7 +5,6 @@ import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IPilot } from '@/domain/models/Pilot'
 import { IAddPilot, IAddPilotInput } from '@/domain/usecases/AddPilot'
-import { mockFakePilot } from '@/shared/mocks/fakePilot'
 
 export class AddPilotUseCase implements IAddPilot {
   constructor(
@@ -23,10 +22,10 @@ export class AddPilotUseCase implements IAddPilot {
     name,
     shipId,
   }: IAddPilotInput): Promise<IPilot> {
-    const pilot = await this.getPilotRepository.getByDocument(
+    const hasPilot = await this.getPilotRepository.getByDocument(
       certificationDocument,
     )
-    if (pilot) throw new AppError('Pilot already exists!')
+    if (hasPilot) throw new AppError('Pilot already exists!')
 
     const ship = await this.getShipRepository.getById(shipId)
     if (!ship) throw new AppError('Ship does not exists!')
@@ -43,7 +42,7 @@ export class AddPilotUseCase implements IAddPilot {
     if (shipAlreadyHasOwner)
       throw new AppError('This ship already has an owner!')
 
-    await this.createPilotRepository.create({
+    const result = await this.createPilotRepository.create({
       age,
       certificationDocument,
       credits,
@@ -52,6 +51,6 @@ export class AddPilotUseCase implements IAddPilot {
       shipId,
     })
 
-    return await Promise.resolve(mockFakePilot())
+    return result
   }
 }
