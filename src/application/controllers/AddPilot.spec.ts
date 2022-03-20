@@ -5,9 +5,13 @@ import { badRequest, serverError } from '@/application/helpers/HttpHelper'
 import { makeValidation } from '@/application/mocks/stubs/makeValidation'
 import { IRequest } from '@/application/protocols/Controller'
 import { IValidation } from '@/application/protocols/Validation'
+import { IPilot } from '@/domain/models/Pilot'
+import { IAddPilot, IAddPilotInput } from '@/domain/usecases/AddPilot'
+import { mockFakePilot } from '@/shared/mocks/fakePilot'
 
 type ISutTypes = {
   sut: AddPilot
+  addPilotUseCase: IAddPilot
   validationStub: IValidation
 }
 
@@ -22,12 +26,24 @@ const makeFakeRequest = (): IRequest<IAddPilotDTO> => ({
   },
 })
 
+const makeAddPilotUseCaseStub = (): IAddPilot => {
+  class AddPilotUseCaseUseCaseStub implements IAddPilot {
+    async execute(input: IAddPilotInput): Promise<IPilot> {
+      return mockFakePilot()
+    }
+  }
+
+  return new AddPilotUseCaseUseCaseStub()
+}
+
 const makeSut = (): ISutTypes => {
+  const addPilotUseCase = makeAddPilotUseCaseStub()
   const validationStub = makeValidation()
-  const sut = new AddPilot(validationStub)
+  const sut = new AddPilot(addPilotUseCase, validationStub)
 
   return {
     sut,
+    addPilotUseCase,
     validationStub,
   }
 }
@@ -66,6 +82,16 @@ describe('AddPilots', () => {
 
       const httpResponse = await sut.handle(makeFakeRequest())
       expect(httpResponse).toEqual(serverError(error))
+    })
+  })
+
+  describe('AddPilotUseCase', () => {
+    test('Should be able to call AddPilotUseCase with correct values', async () => {
+      const { sut, addPilotUseCase } = makeSut()
+      const addPilotSpy = jest.spyOn(addPilotUseCase, 'execute')
+      await sut.handle(makeFakeRequest())
+
+      expect(addPilotSpy).toHaveBeenCalledWith(mockFakePilot())
     })
   })
 })
