@@ -1,3 +1,4 @@
+import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/GetPilot'
 import { AddPilotUseCase } from '@/data/usecases/AddPillot'
 import { IPilot } from '@/domain/models/Pilot'
@@ -36,22 +37,6 @@ const makeSut = (): ISutTypes => {
 
 describe('AddPilot', () => {
   describe('GetPilotRepository', () => {
-    test('Should be able to call GetPilotRepository with correct values', async () => {
-      const { sut, getPilotRepositoryStub } = makeSut()
-
-      const getPilotRepoSpy = jest.spyOn(
-        getPilotRepositoryStub,
-        'getByDocument',
-      )
-
-      const fakeRequest = makeFakeRequest()
-      await sut.execute(fakeRequest)
-
-      expect(getPilotRepoSpy).toHaveBeenCalledWith(
-        makeFakeRequest().certificationDocument,
-      )
-    })
-
     test('Should throw if GetPilotRepository throws', async () => {
       const { sut, getPilotRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
@@ -62,5 +47,16 @@ describe('AddPilot', () => {
 
       await expect(promise).rejects.toThrowError()
     })
+  })
+
+  test('Should throw an AppError if pilot already exists', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = makeFakeRequest()
+    const promise = sut.execute(fakeRequest)
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError('Pilot already exists!'),
+    )
   })
 })
