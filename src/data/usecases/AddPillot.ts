@@ -1,6 +1,8 @@
+import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/GetPilot'
 import { IPilot } from '@/domain/models/Pilot'
 import { IAddPilot, IAddPilotInput } from '@/domain/usecases/AddPilot'
+import { mockFakePilot } from '@/shared/mocks/fakePilot'
 
 export class AddPilotUseCase implements IAddPilot {
   constructor(private readonly getPilotRepository: IGetPilot) {}
@@ -17,6 +19,10 @@ export class AddPilotUseCase implements IAddPilot {
       certificationDocument,
     )
 
-    return 'a' as unknown as IPilot
+    if (pilot) {
+      throw new AppError('Pilot already exists!')
+    }
+
+    return await Promise.resolve(mockFakePilot())
   }
 }
