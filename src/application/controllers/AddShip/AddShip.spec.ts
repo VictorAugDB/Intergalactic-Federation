@@ -1,5 +1,5 @@
-import { AddPilot } from '@/application/controllers/AddPilot/AddPillot'
-import { IAddPilotDTO } from '@/application/dtos/AddPilot'
+import { AddShip } from '@/application/controllers/AddShip/AddShip'
+import { IAddShipDTO } from '@/application/dtos/AddShip'
 import { MissingParamError } from '@/application/errors/MissingParamError'
 import {
   badRequest,
@@ -9,43 +9,43 @@ import {
 import { makeValidation } from '@/application/mocks/stubs/makeValidation'
 import { IRequest } from '@/application/protocols/Controller'
 import { IValidation } from '@/application/protocols/Validation'
-import { IPilot } from '@/domain/models/Pilot'
-import { IAddPilot, IAddPilotInput } from '@/domain/usecases/AddPilot'
-import { mockFakePilot } from '@/shared/mocks/fakePilot'
+import { IShip } from '@/domain/models/Ship'
+import { IAddShip, IAddShipInput } from '@/domain/usecases/AddShip'
+import { mockFakeShip } from '@/shared/mocks/fakeShip'
 
 type ISutTypes = {
-  sut: AddPilot
-  addPilotUseCase: IAddPilot
+  sut: AddShip
+  addShipUseCase: IAddShip
   validationStub: IValidation
 }
 
-const makeFakeRequest = (): IRequest<IAddPilotDTO> => ({
-  body: mockFakePilot(),
+const makeFakeRequest = (): IRequest<IAddShipDTO> => ({
+  body: mockFakeShip(),
 })
 
-const makeAddPilotUseCaseStub = (): IAddPilot => {
-  class AddPilotUseCaseUseCaseStub implements IAddPilot {
-    async execute(input: IAddPilotInput): Promise<IPilot> {
-      return mockFakePilot()
+const makeAddShipUseCaseStub = (): IAddShip => {
+  class AddShipUseCaseUseCaseStub implements IAddShip {
+    async execute(input: IAddShipInput): Promise<IShip> {
+      return mockFakeShip()
     }
   }
 
-  return new AddPilotUseCaseUseCaseStub()
+  return new AddShipUseCaseUseCaseStub()
 }
 
 const makeSut = (): ISutTypes => {
-  const addPilotUseCase = makeAddPilotUseCaseStub()
+  const addShipUseCase = makeAddShipUseCaseStub()
   const validationStub = makeValidation()
-  const sut = new AddPilot(addPilotUseCase, validationStub)
+  const sut = new AddShip(addShipUseCase, validationStub)
 
   return {
     sut,
-    addPilotUseCase,
+    addShipUseCase,
     validationStub,
   }
 }
 
-describe('AddPilots', () => {
+describe('AddShips', () => {
   describe('Validation', () => {
     test('Should be able to call Validation with correct values', async () => {
       const { sut, validationStub } = makeSut()
@@ -82,20 +82,20 @@ describe('AddPilots', () => {
     })
   })
 
-  describe('AddPilotUseCase', () => {
-    test('Should be able to call AddPilotUseCase with correct values', async () => {
-      const { sut, addPilotUseCase } = makeSut()
-      const addPilotSpy = jest.spyOn(addPilotUseCase, 'execute')
+  describe('AddShipUseCase', () => {
+    test('Should be able to call AddShipUseCase with correct values', async () => {
+      const { sut, addShipUseCase } = makeSut()
+      const addShipSpy = jest.spyOn(addShipUseCase, 'execute')
       await sut.handle(makeFakeRequest())
 
-      expect(addPilotSpy).toHaveBeenCalledWith(mockFakePilot())
+      expect(addShipSpy).toHaveBeenCalledWith(mockFakeShip())
     })
 
-    test('Should be able to return 500 if AddPilotUseCase throws', async () => {
-      const { sut, addPilotUseCase } = makeSut()
+    test('Should be able to return 500 if AddShipUseCase throws', async () => {
+      const { sut, addShipUseCase } = makeSut()
       const error = new Error()
 
-      jest.spyOn(addPilotUseCase, 'execute').mockImplementationOnce(() => {
+      jest.spyOn(addShipUseCase, 'execute').mockImplementationOnce(() => {
         throw error
       })
 
@@ -104,10 +104,10 @@ describe('AddPilots', () => {
     })
   })
 
-  test('Should be able to return 200 with pilot data on success', async () => {
+  test('Should be able to return 200 with ship data on success', async () => {
     const { sut } = makeSut()
     const result = await sut.handle(makeFakeRequest())
 
-    expect(result).toEqual(success(mockFakePilot()))
+    expect(result).toEqual(success(mockFakeShip()))
   })
 })
