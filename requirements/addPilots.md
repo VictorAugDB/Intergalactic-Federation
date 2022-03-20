@@ -18,5 +18,5 @@
 - [] Returns 400 if ship not does exists
 - [] Returns 400 if ship's location is not the same
 - [] Returns 400 if the ship is already in use
-- [] returns 500 if something unexpected happens when saving the pilot in the repository
-- [] returns 500 if something unexpected happens when updating the ship in the repository
+- [] Returns 500 if something unexpected happens when saving the pilot in the repository
+- [] Returns 500 if something unexpected happens when updating the ship in the repository

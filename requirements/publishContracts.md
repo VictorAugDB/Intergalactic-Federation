@@ -11,4 +11,4 @@
 - [] Returns 404 error if the endpoint not exists
 - [] Returns 400 if **id, description, payload, originPlanet, destinationPlanet, value** is not provided by the client
 - [] Returns 400 if contract already exists in the repository
-- [] returns 500 if something unexpected happens when saving to repository
+- [] Returns 500 if something unexpected happens when saving contract in the repository

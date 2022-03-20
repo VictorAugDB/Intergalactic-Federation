@@ -11,4 +11,4 @@
 - [] Returns 404 error if the endpoint not exists
 - [] Returns 400 if **id, fuelCapacity, fuelLevel, weigthCapacity, location** is not provided by the client
 - [] Returns 400 if ship already exists in the repository
-- [] returns 500 if something unexpected happens when saving to repository
+- [] Returns 500 if something unexpected happens when saving ship in the repository

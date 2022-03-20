@@ -20,5 +20,5 @@
 - [] Returns 400 if ship is not found in the repository
 - [] Returns 400 if contract's originPlanet is not the same as pilot's locationPlanet
 - [] Returns 400 if ship currentWeight plus contract resources weight is higher than weightCapacity
-- [] returns 500 if something unexpected happens when updating contract to repository
-- [] returns 500 if something unexpected happens when updating ship to repository
+- [] Returns 500 if something unexpected happens when updating contract to repository
+- [] Returns 500 if something unexpected happens when updating ship to repository
