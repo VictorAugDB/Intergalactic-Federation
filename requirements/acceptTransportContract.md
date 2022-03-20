@@ -1,4 +1,4 @@
-# Add Ships
+# Accept Transport Contract
 
 ## Success case
 - [] Receive a POST request in /contracts/accept route

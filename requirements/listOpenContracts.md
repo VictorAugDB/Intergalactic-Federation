@@ -1,4 +1,4 @@
-# Add Ships
+# List Open Contracts
 
 ## Success case
 - [] Receive a GET request in /contracts route

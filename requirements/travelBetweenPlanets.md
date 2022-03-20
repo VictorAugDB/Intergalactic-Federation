@@ -1,4 +1,4 @@
-# Add Pilots
+# Travel Between Planets
 
 ## Success case
 - [] Receive a POST request in /travelToPlanet route

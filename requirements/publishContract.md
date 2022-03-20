@@ -1,4 +1,4 @@
-# Add Contracts
+# Publish Contract
 
 ## Success case
 - [] Receive a POST request in /contracts route

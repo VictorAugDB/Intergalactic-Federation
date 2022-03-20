@@ -1,4 +1,4 @@
-# Add Contracts
+# Settle Contract
 
 ## Success case
 - [] Receive a POST request in /contracts/settle route

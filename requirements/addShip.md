@@ -1,4 +1,4 @@
-# Add Ships
+# Add Ship
 
 ## Success case
 - [] Receive a POST request in /ships route
