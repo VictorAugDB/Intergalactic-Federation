@@ -1,9 +1,6 @@
 import { IAddPilotDTO } from '@/application/dtos/AddPilot'
-import {
-  badRequest,
-  serverError,
-  success,
-} from '@/application/helpers/HttpHelper'
+import { handleDefaultCatchedErrors } from '@/application/helpers/HandleDefaultCatchedErrorsHelper'
+import { badRequest, success } from '@/application/helpers/HttpHelper'
 import {
   IController,
   IRequest,
@@ -21,7 +18,7 @@ export class AddPilot implements IController {
 
       return success('success')
     } catch (err) {
-      return serverError(err)
+      return handleDefaultCatchedErrors(err)
     }
   }
 }

@@ -11,6 +11,11 @@ export const serverError = (error: unknown): IResponse<Error> => ({
   body: new ServerError(error instanceof Error ? error : undefined),
 })
 
+export const appError = (error: Error): IResponse<Error> => ({
+  status: 400,
+  body: error,
+})
+
 export const success = <T = any>(data: T): IResponse<T> => ({
   status: 200,
   body: data,
