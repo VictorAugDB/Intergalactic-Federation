@@ -1,5 +1,6 @@
 import { AppError } from '@/application/errors/AppError'
 import { ICheckShipAlreadyHasOwner } from '@/data/contracts/repositories/pilots/CheckShipAlreadyHasOwner'
+import { ICreatePilot } from '@/data/contracts/repositories/pilots/CreatePilot'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IPilot } from '@/domain/models/Pilot'
@@ -11,6 +12,7 @@ export class AddPilotUseCase implements IAddPilot {
     private readonly getPilotRepository: IGetPilot,
     private readonly getShipRepository: IGetShip,
     private readonly checkShipAlreadyHasOwnerRepository: ICheckShipAlreadyHasOwner,
+    private readonly createPilotRepository: ICreatePilot,
   ) {}
 
   async execute({
@@ -40,6 +42,15 @@ export class AddPilotUseCase implements IAddPilot {
       })
     if (shipAlreadyHasOwner)
       throw new AppError('This ship already has an owner!')
+
+    await this.createPilotRepository.create({
+      age,
+      certificationDocument,
+      credits,
+      locationPlanet,
+      name,
+      shipId,
+    })
 
     return await Promise.resolve(mockFakePilot())
   }
