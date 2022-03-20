@@ -51,5 +51,16 @@ describe('AddPilot', () => {
         makeFakeRequest().certificationDocument,
       )
     })
+
+    test('Should throw if GetPilotRepository throws', async () => {
+      const { sut, getPilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(getPilotRepositoryStub, 'getByDocument')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
   })
 })
