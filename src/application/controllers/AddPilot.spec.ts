@@ -93,5 +93,17 @@ describe('AddPilots', () => {
 
       expect(addPilotSpy).toHaveBeenCalledWith(mockFakePilot())
     })
+
+    test('Should return 500 if AddPilotUseCase throws', async () => {
+      const { sut, addPilotUseCase } = makeSut()
+      const error = new Error()
+
+      jest.spyOn(addPilotUseCase, 'execute').mockImplementationOnce(() => {
+        throw error
+      })
+
+      const httpResponse = await sut.handle(makeFakeRequest())
+      expect(httpResponse).toEqual(serverError(error))
+    })
   })
 })
