@@ -22,7 +22,7 @@ module.exports = {
     '@typescript-eslint/naming-convention': [
       'error',
       {
-        'selector': 'interface',
+        'selector': ['interface', 'typeAlias'],
         'format': [
           'PascalCase'
         ],
@@ -78,5 +78,10 @@ module.exports = {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/prefer-optional-chain': 'off',
     'prettier/prettier': 'error'
-  }
+  },
+  settings: {
+    'import/resolver': {
+        'typescript': {}
+    }
+}
 };

@@ -3,6 +3,9 @@ module.exports = {
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/main/**',
+    '!<rootDir>/src/**/*-protocols.ts',
+    '!<rootDir>/src/**/*-helpers.ts',
+    '!**/protocols/**',
     '!**/contracts/**',
     '!**/test/**',
     '!**/mocks/**',
@@ -14,6 +17,7 @@ module.exports = {
   transform: {
     '.+\\.ts$': 'ts-jest',
   },
-  testMatch: ['**/*.spec.ts', '**/*.test.ts'],
-  watchPathIgnorePatterns: ['globalConfig'],
+  moduleNameMapper: {
+    '@/(.*)': '<rootDir>/src/$1'
+  }
 }
