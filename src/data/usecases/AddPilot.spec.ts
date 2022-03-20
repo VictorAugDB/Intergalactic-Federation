@@ -175,6 +175,28 @@ describe('AddPilot', () => {
     })
   })
 
+  describe('CreatePilot', () => {
+    test('Should call CreatePilot with correct values', async () => {
+      const { sut, createPilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const getShipRepoSpy = jest.spyOn(createPilotRepositoryStub, 'create')
+      await sut.execute(fakeRequest)
+
+      expect(getShipRepoSpy).toHaveBeenCalledWith(fakeRequest)
+    })
+
+    test('Should throw if CreatePilot throws', async () => {
+      const { sut, createPilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(createPilotRepositoryStub, 'create')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
   test('Should throw an AppError if pilot already exists', async () => {
     const { sut, getPilotRepositoryStub } = makeSut()
     jest
