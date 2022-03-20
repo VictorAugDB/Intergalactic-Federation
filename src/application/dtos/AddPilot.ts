@@ -1,8 +1,3 @@
-export type IAddPilotDTO = {
-  certificationDocument: string
-  shipId: string
-  name: string
-  age: number
-  credits: number
-  locationPlanet: string
-}
+import { IAddPilotInput } from '@/domain/usecases/AddPilot'
+
+export interface IAddPilotDTO extends IAddPilotInput {}
