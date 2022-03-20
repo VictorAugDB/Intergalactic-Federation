@@ -18,7 +18,7 @@ const makeFakeRequest = (): IRequest<IAddPilotDTO> => ({
     credits: 700,
     locationPlanet: 'calas',
     name: 'John Doe',
-    shipId: 'any_shipId',
+    shipId: 'any_id',
   },
 })
 

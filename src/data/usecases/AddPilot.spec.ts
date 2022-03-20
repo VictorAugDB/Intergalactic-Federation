@@ -259,4 +259,13 @@ describe('AddPilot', () => {
       new AppError('This ship already has an owner!'),
     )
   })
+
+  test('Should return pilot on success', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = makeFakeRequest()
+
+    const result = await sut.execute(fakeRequest)
+
+    expect(result).toEqual(fakeRequest)
+  })
 })
