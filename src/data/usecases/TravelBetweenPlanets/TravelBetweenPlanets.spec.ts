@@ -5,12 +5,10 @@ import {
   IUpdatePilotInput,
 } from '@/data/contracts/repositories/pilots/UpdatePilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
-import {
-  IUpdateShip,
-  IUpdateShipInput,
-} from '@/data/contracts/repositories/ships/UpdateShip'
+import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
+import { makeUpdateShipRepositoryStub } from '@/data/mocks/stubs/makeUpdateShipRepositoryStub'
 import { TravelBetweenPlanetsUseCase } from '@/data/usecases/TravelBetweenPlanets/TravelBetweenPlanets'
 import { ITravelBetweenPlanetsInput } from '@/domain/usecases/TravelBetweenPlanets'
 import { mockFakePilot } from '@/shared/mocks/fakePilot'
@@ -35,14 +33,6 @@ const makeUpdatePilotRepositoryStub = (): IUpdatePilot => {
   }
 
   return new UpdatePilotRepositoryUseCaseStub()
-}
-
-const makeUpdateShipRepositoryStub = (): IUpdateShip => {
-  class UpdateShipRepositoryUseCaseStub implements IUpdateShip {
-    async update(data: IUpdateShipInput): Promise<void> {}
-  }
-
-  return new UpdateShipRepositoryUseCaseStub()
 }
 
 const makeSut = (): ISutTypes => {
