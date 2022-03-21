@@ -1,11 +1,10 @@
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IPilot } from '@/domain/models/Pilot'
-import { mockFakePilot } from '@/shared/mocks/fakePilot'
 
-export const makeGetPilotRepositoryStub = (): IGetPilot => {
+export const makeGetPilotRepositoryStub = (pilot?: IPilot): IGetPilot => {
   class GetPilotRepositoryUseCaseStub implements IGetPilot {
-    async getByDocument(document: string): Promise<IPilot> {
-      return mockFakePilot()
+    async getByDocument(document: string): Promise<IPilot | undefined> {
+      return pilot
     }
   }
 

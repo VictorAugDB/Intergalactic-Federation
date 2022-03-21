@@ -16,7 +16,7 @@ const makeFakeRequest = (): ITravelBetweenPlanetsInput => ({
 })
 
 const makeSut = (): ISutTypes => {
-  const getPilotRepositoryStub = makeGetPilotRepositoryStub()
+  const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
 
   const sut = new TravelBetweenPlanetsUseCase(getPilotRepositoryStub)
 
