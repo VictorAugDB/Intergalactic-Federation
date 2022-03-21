@@ -1,6 +1,14 @@
 import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
+import {
+  IUpdatePilot,
+  IUpdatePilotInput,
+} from '@/data/contracts/repositories/pilots/UpdatePilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
+import {
+  IUpdateShip,
+  IUpdateShipInput,
+} from '@/data/contracts/repositories/ships/UpdateShip'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
 import { TravelBetweenPlanetsUseCase } from '@/data/usecases/TravelBetweenPlanets/TravelBetweenPlanets'
@@ -12,6 +20,8 @@ type ISutTypes = {
   sut: TravelBetweenPlanetsUseCase
   getPilotRepositoryStub: IGetPilot
   getShipRepositoryStub: IGetShip
+  updatePilotRepositoryStub: IUpdatePilot
+  updateShipRepositoryStub: IUpdateShip
 }
 
 const makeFakeRequest = (): ITravelBetweenPlanetsInput => ({
@@ -19,19 +29,41 @@ const makeFakeRequest = (): ITravelBetweenPlanetsInput => ({
   destinationPlanet: 'aqua',
 })
 
+const makeUpdatePilotRepositoryStub = (): IUpdatePilot => {
+  class UpdatePilotRepositoryUseCaseStub implements IUpdatePilot {
+    async update(data: IUpdatePilotInput): Promise<void> {}
+  }
+
+  return new UpdatePilotRepositoryUseCaseStub()
+}
+
+const makeUpdateShipRepositoryStub = (): IUpdateShip => {
+  class UpdateShipRepositoryUseCaseStub implements IUpdateShip {
+    async update(data: IUpdateShipInput): Promise<void> {}
+  }
+
+  return new UpdateShipRepositoryUseCaseStub()
+}
+
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
   const getShipRepositoryStub = makeGetShipRepositoryStub()
+  const updatePilotRepositoryStub = makeUpdatePilotRepositoryStub()
+  const updateShipRepositoryStub = makeUpdateShipRepositoryStub()
 
   const sut = new TravelBetweenPlanetsUseCase(
     getPilotRepositoryStub,
     getShipRepositoryStub,
+    updatePilotRepositoryStub,
+    updateShipRepositoryStub,
   )
 
   return {
     sut,
     getPilotRepositoryStub,
     getShipRepositoryStub,
+    updatePilotRepositoryStub,
+    updateShipRepositoryStub,
   }
 }
 
@@ -78,6 +110,56 @@ describe('TravelBetweenPlanetsUseCase', () => {
       const fakeRequest = makeFakeRequest()
       jest
         .spyOn(getShipRepositoryStub, 'getById')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
+  describe('UpdatePilotRepository', () => {
+    test('Should call UpdatePilotRepository with correct values', async () => {
+      const { sut, updatePilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const updatePilotRepoSpy = jest.spyOn(updatePilotRepositoryStub, 'update')
+      await sut.execute(fakeRequest)
+
+      expect(updatePilotRepoSpy).toHaveBeenCalledWith({
+        certificationDocument: 'any_document',
+        locationPlanet: 'aqua',
+      })
+    })
+
+    test('Should throw if UpdatePilotRepository throws', async () => {
+      const { sut, updatePilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(updatePilotRepositoryStub, 'update')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
+  describe('UpdateShipRepository', () => {
+    test('Should call UpdateShipRepository with correct values', async () => {
+      const { sut, updateShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const updateShipRepoSpy = jest.spyOn(updateShipRepositoryStub, 'update')
+      await sut.execute(fakeRequest)
+
+      expect(updateShipRepoSpy).toHaveBeenCalledWith({
+        id: 'any_id',
+        fuelLevel: 70 - 13,
+      })
+    })
+
+    test('Should throw if UpdateShipRepository throws', async () => {
+      const { sut, updateShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(updateShipRepositoryStub, 'update')
         .mockRejectedValueOnce(new Error())
       const promise = sut.execute(fakeRequest)
 
