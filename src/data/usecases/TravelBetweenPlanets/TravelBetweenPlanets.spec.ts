@@ -1,7 +1,9 @@
+import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { TravelBetweenPlanetsUseCase } from '@/data/usecases/TravelBetweenPlanets/TravelBetweenPlanets'
 import { ITravelBetweenPlanetsInput } from '@/domain/usecases/TravelBetweenPlanets'
+import { mockFakePilot } from '@/shared/mocks/fakePilot'
 
 type ISutTypes = {
   sut: TravelBetweenPlanetsUseCase
@@ -50,6 +52,33 @@ describe('TravelBetweenPlanetsUseCase', () => {
 
       await expect(promise).rejects.toThrowError()
     })
+  })
+
+  test('Should throw an AppError if pilot is not found', async () => {
+    const { sut, getPilotRepositoryStub } = makeSut()
+    jest
+      .spyOn(getPilotRepositoryStub, 'getByDocument')
+      .mockResolvedValueOnce(undefined)
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError('Pilot was not found!'),
+    )
+  })
+
+  test('Should throw an Error if planetInfo is not found', async () => {
+    const { sut, getPilotRepositoryStub } = makeSut()
+    jest.spyOn(getPilotRepositoryStub, 'getByDocument').mockResolvedValueOnce({
+      ...mockFakePilot(),
+      locationPlanet: 'any_planet',
+    })
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(Error)
+    await expect(promise).rejects.toThrowError(new Error())
   })
 
   test('Should not throw on success', async () => {
