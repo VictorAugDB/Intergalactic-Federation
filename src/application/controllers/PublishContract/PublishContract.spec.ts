@@ -90,7 +90,7 @@ describe('PublishContractController', () => {
   })
 
   describe('PublishContractUseCase', () => {
-    test('Should be able to call AddContractUseCase with correct values', async () => {
+    test('Should be able to call PublishContractUseCase with correct values', async () => {
       const { sut, publishContractUseCaseStub } = makeSut()
       const addContractSpy = jest.spyOn(publishContractUseCaseStub, 'execute')
 
@@ -100,7 +100,7 @@ describe('PublishContractController', () => {
       expect(addContractSpy).toHaveBeenCalledWith(fakeRequest.body)
     })
 
-    test('Should be able to return 500 if AddContractUseCase throws', async () => {
+    test('Should be able to return 500 if PublishContractUseCase throws', async () => {
       const { sut, publishContractUseCaseStub } = makeSut()
       const error = new Error()
 
