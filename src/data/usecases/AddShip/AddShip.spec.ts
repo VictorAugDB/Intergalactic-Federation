@@ -41,9 +41,9 @@ const makeSut = (): ISutTypes => {
   }
 }
 
-describe('AddShip', () => {
-  describe('CreateShip', () => {
-    test('Should call CreateShip with correct values', async () => {
+describe('AddShipUseCase', () => {
+  describe('CreateShipRepository', () => {
+    test('Should call CreateShipRepository with correct values', async () => {
       const { sut, createShipRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       const getShipRepoSpy = jest.spyOn(createShipRepositoryStub, 'create')
@@ -55,7 +55,7 @@ describe('AddShip', () => {
       })
     })
 
-    test('Should throw if CreateShip throws', async () => {
+    test('Should throw if CreateShipRepository throws', async () => {
       const { sut, createShipRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       jest

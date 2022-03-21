@@ -94,7 +94,7 @@ const makeSut = (): ISutTypes => {
   }
 }
 
-describe('AddPilot', () => {
+describe('AddPilotUseCase', () => {
   describe('GetPilotRepository', () => {
     test('Should call GetShipRepository with correct values', async () => {
       const { sut, getPilotRepositoryStub } = makeSut()
@@ -175,8 +175,8 @@ describe('AddPilot', () => {
     })
   })
 
-  describe('CreatePilot', () => {
-    test('Should call CreatePilot with correct values', async () => {
+  describe('CreatePilotRepository', () => {
+    test('Should call CreatePilotRepository with correct values', async () => {
       const { sut, createPilotRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       const getShipRepoSpy = jest.spyOn(createPilotRepositoryStub, 'create')
@@ -185,7 +185,7 @@ describe('AddPilot', () => {
       expect(getShipRepoSpy).toHaveBeenCalledWith(fakeRequest)
     })
 
-    test('Should throw if CreatePilot throws', async () => {
+    test('Should throw if CreatePilotRepository throws', async () => {
       const { sut, createPilotRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       jest

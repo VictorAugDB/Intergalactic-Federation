@@ -30,8 +30,8 @@ const makeSut = (): ISutTypes => {
 }
 
 describe('ListOpenContractsUseCase', () => {
-  describe('ListContracts', () => {
-    test('Should call ListContracts', async () => {
+  describe('ListContractsRepository', () => {
+    test('Should call ListContractsRepository', async () => {
       const { sut, listContractsRepositoryStub } = makeSut()
       const getContractRepoSpy = jest.spyOn(
         listContractsRepositoryStub,
@@ -42,7 +42,7 @@ describe('ListOpenContractsUseCase', () => {
       expect(getContractRepoSpy).toHaveBeenCalled()
     })
 
-    test('Should throw if ListContracts throws', async () => {
+    test('Should throw if ListContractsRepository throws', async () => {
       const { sut, listContractsRepositoryStub } = makeSut()
       jest
         .spyOn(listContractsRepositoryStub, 'listOpenContracts')

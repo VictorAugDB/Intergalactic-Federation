@@ -41,9 +41,9 @@ const makeSut = (): ISutTypes => {
   }
 }
 
-describe('PublishContract', () => {
-  describe('CreateContract', () => {
-    test('Should call CreateContract with correct values', async () => {
+describe('PublishContractUseCase', () => {
+  describe('CreateContractRepository', () => {
+    test('Should call CreateContractRepository with correct values', async () => {
       const { sut, createContractRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       const getContractRepoSpy = jest.spyOn(
@@ -58,7 +58,7 @@ describe('PublishContract', () => {
       })
     })
 
-    test('Should throw if CreateContract throws', async () => {
+    test('Should throw if CreateContractRepository throws', async () => {
       const { sut, createContractRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       jest
