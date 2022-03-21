@@ -1,0 +1,60 @@
+{
+  "infos": [
+    {
+      "planet": "andvari",
+      "possibleRoutes": [
+        {
+          "to": "aqua",
+          "fuelCost": 13
+        },
+        {
+          "to": "calas",
+          "fuelCost": 23
+        }
+      ]
+    },
+    {
+      "planet": "demeter",
+      "possibleRoutes": [
+        {
+          "to": "aqua",
+          "fuelCost": 22
+        },
+        {
+          "to": "calas",
+          "fuelCost": 25
+        }
+      ]
+    },
+    {
+      "planet": "aqua",
+      "possibleRoutes": [
+        {
+          "to": "demeter",
+          "fuelCost": 30
+        },
+        {
+          "to": "calas",
+          "fuelCost": 12
+        }
+      ]
+    },
+    {
+      "planet": "calas",
+      "possibleRoutes": [
+        {
+          "to": "andvari",
+          "fuelCost": 20
+        },
+        {
+          "to": "demeter",
+          "fuelCost": 25
+        },
+        {
+          "to": "aqua",
+          "fuelCost": 15
+        }
+      ]
+    }
+  ]
+}
