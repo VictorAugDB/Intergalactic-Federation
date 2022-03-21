@@ -46,7 +46,7 @@ const makeSut = (): ISutTypes => {
   }
 }
 
-describe('AddShips', () => {
+describe('AddShipsController', () => {
   describe('Validation', () => {
     test('Should be able to call Validation with correct values', async () => {
       const { sut, validationStub } = makeSut()

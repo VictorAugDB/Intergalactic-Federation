@@ -52,7 +52,7 @@ const makeSut = (): ISutTypes => {
   }
 }
 
-describe('AddContracts', () => {
+describe('PublishContractController', () => {
   describe('Validation', () => {
     test('Should be able to call Validation with correct values', async () => {
       const { sut, validationStub } = makeSut()
@@ -89,7 +89,7 @@ describe('AddContracts', () => {
     })
   })
 
-  describe('AddContractUseCase', () => {
+  describe('PublishContractUseCase', () => {
     test('Should be able to call AddContractUseCase with correct values', async () => {
       const { sut, publishContractUseCaseStub } = makeSut()
       const addContractSpy = jest.spyOn(publishContractUseCaseStub, 'execute')

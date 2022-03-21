@@ -1,4 +1,4 @@
-import { AddPilotController } from '@/application/controllers/AddPilot/AddPillot'
+import { AddPilotController } from '@/application/controllers/AddPilot/AddPilot'
 import { IAddPilotDTO } from '@/application/dtos/AddPilot'
 import { MissingParamError } from '@/application/errors/MissingParamError'
 import {
@@ -45,7 +45,7 @@ const makeSut = (): ISutTypes => {
   }
 }
 
-describe('AddPilots', () => {
+describe('AddPilotsController', () => {
   describe('Validation', () => {
     test('Should be able to call Validation with correct values', async () => {
       const { sut, validationStub } = makeSut()
