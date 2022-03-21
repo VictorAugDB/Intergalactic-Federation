@@ -7,9 +7,9 @@ import { ICreatePilot } from '@/data/contracts/repositories/pilots/CreatePilot'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
+import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
 import { AddPilotUseCase } from '@/data/usecases/AddPilot/AddPillot'
 import { IPilot } from '@/domain/models/Pilot'
-import { IShip } from '@/domain/models/Ship'
 import { IAddPilotInput } from '@/domain/usecases/AddPilot'
 import { mockFakePilot } from '@/shared/mocks/fakePilot'
 import { mockFakeShip } from '@/shared/mocks/fakeShip'
@@ -26,16 +26,6 @@ const makeFakeRequest = (): IAddPilotInput => ({
   ...mockFakePilot(),
   shipId: 'any_id',
 })
-
-const makeGetShipRepositoryStub = (): IGetShip => {
-  class GetShipRepositoryUseCaseStub implements IGetShip {
-    async getById(id: string): Promise<IShip> {
-      return mockFakeShip()
-    }
-  }
-
-  return new GetShipRepositoryUseCaseStub()
-}
 
 const makeCheckShipAlreadyHasOwnerRepositoryStub =
   (): ICheckShipAlreadyHasOwner => {
