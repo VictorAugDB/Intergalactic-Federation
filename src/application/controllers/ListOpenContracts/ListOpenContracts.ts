@@ -1,5 +1,5 @@
 import { handleDefaultCatchedErrors } from '@/application/helpers/HandleDefaultCatchedErrorsHelper'
-import { success } from '@/application/helpers/HttpHelper'
+import { noContent, success } from '@/application/helpers/HttpHelper'
 import {
   IController,
   IRequest,
@@ -13,9 +13,13 @@ export class ListOpenContractsController implements IController {
 
   async handle(req: IRequest): Promise<IResponse<IContract[] | Error>> {
     try {
-      const ship = await this.listOpenContractsUseCase.execute()
+      const contracts = await this.listOpenContractsUseCase.execute()
 
-      return success(ship)
+      if (!contracts.length) {
+        return noContent()
+      }
+
+      return success(contracts)
     } catch (err) {
       return handleDefaultCatchedErrors(err)
     }

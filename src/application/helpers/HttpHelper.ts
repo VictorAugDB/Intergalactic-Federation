@@ -16,6 +16,11 @@ export const appError = (error: Error): IResponse<Error> => ({
   body: error,
 })
 
+export const noContent = (): IResponse<any> => ({
+  status: 204,
+  body: {},
+})
+
 export const success = <T = any>(data: T): IResponse<T> => ({
   status: 200,
   body: data,
