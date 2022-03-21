@@ -1,13 +1,17 @@
 import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
+import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
+import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
 import { TravelBetweenPlanetsUseCase } from '@/data/usecases/TravelBetweenPlanets/TravelBetweenPlanets'
 import { ITravelBetweenPlanetsInput } from '@/domain/usecases/TravelBetweenPlanets'
 import { mockFakePilot } from '@/shared/mocks/fakePilot'
+import { mockFakeShip } from '@/shared/mocks/fakeShip'
 
 type ISutTypes = {
   sut: TravelBetweenPlanetsUseCase
   getPilotRepositoryStub: IGetPilot
+  getShipRepositoryStub: IGetShip
 }
 
 const makeFakeRequest = (): ITravelBetweenPlanetsInput => ({
@@ -17,12 +21,17 @@ const makeFakeRequest = (): ITravelBetweenPlanetsInput => ({
 
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
+  const getShipRepositoryStub = makeGetShipRepositoryStub()
 
-  const sut = new TravelBetweenPlanetsUseCase(getPilotRepositoryStub)
+  const sut = new TravelBetweenPlanetsUseCase(
+    getPilotRepositoryStub,
+    getShipRepositoryStub,
+  )
 
   return {
     sut,
     getPilotRepositoryStub,
+    getShipRepositoryStub,
   }
 }
 
@@ -54,7 +63,29 @@ describe('TravelBetweenPlanetsUseCase', () => {
     })
   })
 
-  test('Should throw an AppError if pilot is not found', async () => {
+  describe('GetShipRepository', () => {
+    test('Should call GetShipRepository with correct values', async () => {
+      const { sut, getShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const getShipRepoSpy = jest.spyOn(getShipRepositoryStub, 'getById')
+      await sut.execute(fakeRequest)
+
+      expect(getShipRepoSpy).toHaveBeenCalledWith('any_id')
+    })
+
+    test('Should throw if GetShipRepository throws', async () => {
+      const { sut, getShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(getShipRepositoryStub, 'getById')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
+  test('Should throw an AppError if pilot not found', async () => {
     const { sut, getPilotRepositoryStub } = makeSut()
     jest
       .spyOn(getPilotRepositoryStub, 'getByDocument')
@@ -63,9 +94,52 @@ describe('TravelBetweenPlanetsUseCase', () => {
     const promise = sut.execute(makeFakeRequest())
 
     await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(new AppError('Pilot not found!'))
+  })
+
+  test('Should throw an AppError if destinationPlanet is not reachable from pilot locationPlanet', async () => {
+    const { sut } = makeSut()
+
+    const promise = sut.execute({
+      ...makeFakeRequest(),
+      destinationPlanet: 'demeter',
+    })
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
     await expect(promise).rejects.toThrowError(
-      new AppError('Pilot was not found!'),
+      new AppError(
+        'Unable to travel to this planet from your current location',
+      ),
     )
+  })
+
+  test("Should throw an AppError if ship's fuelLevel is less than travel fuelCost", async () => {
+    const { sut, getShipRepositoryStub } = makeSut()
+    jest.spyOn(getShipRepositoryStub, 'getById').mockResolvedValueOnce({
+      ...mockFakeShip(),
+      fuelLevel: 12,
+    })
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError(
+        "Unable to travel to this planet with the ship's fuel level",
+      ),
+    )
+  })
+
+  test('Should throw an AppError if ship not found', async () => {
+    const { sut, getShipRepositoryStub } = makeSut()
+    jest
+      .spyOn(getShipRepositoryStub, 'getById')
+      .mockResolvedValueOnce(undefined)
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(new AppError('Ship not found!'))
   })
 
   test('Should throw an Error if planetInfo is not found', async () => {
