@@ -6,7 +6,7 @@ export function mockFakePilot(): IPilot {
     shipId: 'any_id',
     certificationDocument: 'any_document',
     credits: 700,
-    locationPlanet: 'calas',
+    locationPlanet: 'andvari',
     name: 'John Doe',
   }
 }
