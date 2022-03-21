@@ -44,7 +44,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "eslint 'src/**' --cache --fix",
+      "eslint 'src/**/*.ts' --cache --fix",
       "yarn test:staged"
     ]
   },
