@@ -5,8 +5,8 @@
 - [ ] Validate required fields **contractId, certificationDocument**
 - [ ] Get pilot in the repository
 - [ ] Get contract in the repository
-- [ ] Get ship in the repository
 - [ ] Check if contract's originPlanet the same as pilot's locationPlanet
+- [ ] Get ship in the repository
 - [ ] Check if ship currentWeight plus contract resources weight is less than weightCapacity
 - [ ] Update the contract in the repository with the certificationDocument and acceptanceDate
 - [ ] Update the ship currentWeight plus the weight of contract resources

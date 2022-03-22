@@ -1,3 +1,4 @@
+import { AppError } from '@/application/errors/AppError'
 import { IGetContract } from '@/data/contracts/repositories/contracts/GetContract'
 import {
   IUpdateContract,
@@ -85,32 +86,32 @@ const makeSut = (): ISutTypes => {
 }
 
 describe('AcceptTransportContractUseCase', () => {
-  // describe('GetPilotRepository', () => {
-  //   test('Should call GetPilotRepository with correct values', async () => {
-  //     const { sut, getPilotRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     const getPilotRepoSpy = jest.spyOn(
-  //       getPilotRepositoryStub,
-  //       'getByDocument',
-  //     )
-  //     await sut.execute(fakeRequest)
+  describe('GetPilotRepository', () => {
+    test('Should call GetPilotRepository with correct values', async () => {
+      const { sut, getPilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const getPilotRepoSpy = jest.spyOn(
+        getPilotRepositoryStub,
+        'getByDocument',
+      )
+      await sut.execute(fakeRequest)
 
-  //     expect(getPilotRepoSpy).toHaveBeenCalledWith(
-  //       fakeRequest.certificationDocument,
-  //     )
-  //   })
+      expect(getPilotRepoSpy).toHaveBeenCalledWith(
+        fakeRequest.certificationDocument,
+      )
+    })
 
-  //   test('Should throw if GetPilotRepository throws', async () => {
-  //     const { sut, getPilotRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     jest
-  //       .spyOn(getPilotRepositoryStub, 'getByDocument')
-  //       .mockRejectedValueOnce(new Error())
-  //     const promise = sut.execute(fakeRequest)
+    test('Should throw if GetPilotRepository throws', async () => {
+      const { sut, getPilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(getPilotRepositoryStub, 'getByDocument')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
 
-  //     await expect(promise).rejects.toThrowError()
-  //   })
-  // })
+      await expect(promise).rejects.toThrowError()
+    })
+  })
 
   // describe('GetShipRepository', () => {
   //   test('Should call GetShipRepository with correct values', async () => {
@@ -158,6 +159,18 @@ describe('AcceptTransportContractUseCase', () => {
   //     await expect(promise).rejects.toThrowError()
   //   })
   // })
+
+  test('Should throw an AppError if pilot not found', async () => {
+    const { sut, getPilotRepositoryStub } = makeSut()
+    jest
+      .spyOn(getPilotRepositoryStub, 'getByDocument')
+      .mockResolvedValueOnce(undefined)
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(new AppError('Pilot not found!'))
+  })
 
   test('Should not throw on success', async () => {
     const { sut } = makeSut()

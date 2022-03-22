@@ -1,3 +1,4 @@
+import { AppError } from '@/application/errors/AppError'
 import { IGetContract } from '@/data/contracts/repositories/contracts/GetContract'
 import { IUpdateContract } from '@/data/contracts/repositories/contracts/UpdateContract'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
@@ -22,5 +23,12 @@ export class AcceptTransportContractUseCase
   async execute({
     contractId,
     certificationDocument,
-  }: IAcceptTransportContractInput): Promise<void> {}
+  }: IAcceptTransportContractInput): Promise<void> {
+    const pilot = await this.getPilotRepository.getByDocument(
+      certificationDocument,
+    )
+    if (!pilot) {
+      throw new AppError('Pilot not found!')
+    }
+  }
 }
