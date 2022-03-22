@@ -113,6 +113,31 @@ describe('AcceptTransportContractUseCase', () => {
     })
   })
 
+  describe('GetContractRepository', () => {
+    test('Should call GetContractRepository with correct values', async () => {
+      const { sut, getContractRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const getContractRepoSpy = jest.spyOn(
+        getContractRepositoryStub,
+        'getById',
+      )
+      await sut.execute(fakeRequest)
+
+      expect(getContractRepoSpy).toHaveBeenCalledWith(fakeRequest.contractId)
+    })
+
+    test('Should throw if GetContractRepository throws', async () => {
+      const { sut, getContractRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(getContractRepositoryStub, 'getById')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
   // describe('GetShipRepository', () => {
   //   test('Should call GetShipRepository with correct values', async () => {
   //     const { sut, getShipRepositoryStub } = makeSut()
@@ -170,6 +195,20 @@ describe('AcceptTransportContractUseCase', () => {
 
     await expect(promise).rejects.toBeInstanceOf(AppError)
     await expect(promise).rejects.toThrowError(new AppError('Pilot not found!'))
+  })
+
+  test('Should throw an AppError if contract not found', async () => {
+    const { sut, getContractRepositoryStub } = makeSut()
+    jest
+      .spyOn(getContractRepositoryStub, 'getById')
+      .mockResolvedValueOnce(undefined)
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError('Contract not found!'),
+    )
   })
 
   test('Should not throw on success', async () => {

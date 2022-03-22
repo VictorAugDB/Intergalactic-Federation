@@ -30,5 +30,10 @@ export class AcceptTransportContractUseCase
     if (!pilot) {
       throw new AppError('Pilot not found!')
     }
+
+    const contract = await this.getContractRepository.getById(contractId)
+    if (!contract) {
+      throw new AppError('Contract not found!')
+    }
   }
 }
