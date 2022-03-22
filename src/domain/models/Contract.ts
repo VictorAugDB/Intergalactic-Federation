@@ -9,5 +9,7 @@ export type IContract = {
   payload: IResource[]
   originPlanet: string
   destinationPlanet: string
+  acceptanceDate?: Date
+  settlementDate?: Date
   value: number
 }

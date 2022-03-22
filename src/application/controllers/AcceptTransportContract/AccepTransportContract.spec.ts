@@ -22,7 +22,7 @@ type ISutTypes = {
 
 const makeFakeRequest = (): IRequest<IAcceptTransportContractDTO> => ({
   body: {
-    id: 'any_id',
+    contractId: 'any_id',
     certificationDocument: 'any_document',
   },
 })

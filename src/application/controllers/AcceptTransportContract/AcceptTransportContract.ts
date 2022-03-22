@@ -21,11 +21,11 @@ export class AcceptTransportContractController implements IController {
     try {
       const error = this.validation.validate(req.body)
       if (error) return badRequest(error)
-      const { id, certificationDocument } =
+      const { contractId, certificationDocument } =
         req.body as IAcceptTransportContractDTO
 
       await this.travelBetweenPlanetstUseCase.execute({
-        id,
+        contractId,
         certificationDocument,
       })
 

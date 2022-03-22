@@ -1,5 +1,5 @@
 export interface IAcceptTransportContractInput {
-  id: string
+  contractId: string
   certificationDocument: string
 }
 
