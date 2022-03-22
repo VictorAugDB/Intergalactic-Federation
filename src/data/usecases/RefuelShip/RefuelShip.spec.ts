@@ -138,6 +138,26 @@ describe('PublishContractUseCase', () => {
     )
   })
 
+  test('Should throw if the ship fuelCapacity is less than fuelLevel plus amountOfFuel', async () => {
+    const { sut, getShipRepositoryStub } = makeSut()
+    jest.spyOn(getShipRepositoryStub, 'getById').mockResolvedValueOnce({
+      ...mockFakeShip(),
+      fuelLevel: 95,
+    })
+
+    const fakeRequest = makeFakeRequest()
+    const result = sut.execute(fakeRequest)
+
+    await expect(result).rejects.toBeInstanceOf(AppError)
+    await expect(result).rejects.toThrowError(
+      new AppError(
+        `The ship fuelCapacity is less than amountOfFuel that you want to refuel the max that you can refuel is ${
+          mockFakeShip().fuelCapacity - 95
+        }`,
+      ),
+    )
+  })
+
   test('Should return fuelLevel on sucess', async () => {
     const { sut } = makeSut()
     const fakeRequest = makeFakeRequest()
