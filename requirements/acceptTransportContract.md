@@ -2,7 +2,7 @@
 
 ## Success case
 - [ ] Receive a POST request in /contracts/accept
-- [ ] Validate required fields **id, certificationDocument**
+- [ ] Validate required fields **contractId, certificationDocument**
 - [ ] Get pilot in the repository
 - [ ] Get contract in the repository
 - [ ] Get ship in the repository
