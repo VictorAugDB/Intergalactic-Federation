@@ -25,7 +25,12 @@ export class RefuelShipUseCase implements IRefuelShip {
     if (!pilot) {
       throw new AppError('Pilot not found')
     }
-    const { shipId } = pilot
+    const { shipId, credits } = pilot
+    const fuelPrice = amountOfFuel * 7
+
+    if (credits < fuelPrice) {
+      throw new AppError('You do not pay for this amount of fuel!')
+    }
 
     const ship = await this.getShipRepository.getById(shipId)
     if (!ship) {
