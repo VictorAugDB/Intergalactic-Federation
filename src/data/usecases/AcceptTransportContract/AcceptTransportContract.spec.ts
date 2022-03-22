@@ -161,30 +161,34 @@ describe('AcceptTransportContractUseCase', () => {
     })
   })
 
-  // describe('UpdateShipRepository', () => {
-  //   test('Should call UpdateShipRepository with correct values', async () => {
-  //     const { sut, updateShipRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     const updateShipRepoSpy = jest.spyOn(updateShipRepositoryStub, 'update')
-  //     await sut.execute(fakeRequest)
+  describe('UpdateShipRepository', () => {
+    test('Should call UpdateShipRepository with correct values', async () => {
+      const { sut, updateShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const updateShipRepoSpy = jest.spyOn(updateShipRepositoryStub, 'update')
+      await sut.execute(fakeRequest)
+      const fakeContractResourcesWeight = mockFakeContract().payload.reduce(
+        (acc: number, resource) => (acc += resource.weight),
+        0,
+      )
 
-  //     expect(updateShipRepoSpy).toHaveBeenCalledWith({
-  //       id: 'any_id',
-  //       fuelLevel: 70 - 13,
-  //     })
-  //   })
+      expect(updateShipRepoSpy).toHaveBeenCalledWith({
+        id: 'any_id',
+        weightLevel: mockFakeShip().weightLevel + fakeContractResourcesWeight,
+      })
+    })
 
-  //   test('Should throw if UpdateShipRepository throws', async () => {
-  //     const { sut, updateShipRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     jest
-  //       .spyOn(updateShipRepositoryStub, 'update')
-  //       .mockRejectedValueOnce(new Error())
-  //     const promise = sut.execute(fakeRequest)
+    test('Should throw if UpdateShipRepository throws', async () => {
+      const { sut, updateShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(updateShipRepositoryStub, 'update')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
 
-  //     await expect(promise).rejects.toThrowError()
-  //   })
-  // })
+      await expect(promise).rejects.toThrowError()
+    })
+  })
 
   describe('UpdateContractRepository', () => {
     test('Should call UpdateContractRepository with correct values', async () => {

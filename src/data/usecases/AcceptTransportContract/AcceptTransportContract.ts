@@ -50,11 +50,11 @@ export class AcceptTransportContractUseCase
     const { weightLevel, weightCapacity } = ship
 
     const { payload } = contract
-    const contractResourceWeight = payload.reduce(
+    const contractResourcesWeight = payload.reduce(
       (acc: number, resource) => (acc += resource.weight),
       0,
     )
-    if (weightCapacity < weightLevel + contractResourceWeight) {
+    if (weightCapacity < weightLevel + contractResourcesWeight) {
       throw new AppError(
         'Your ship cannot carry this contract resources weight',
       )
@@ -63,6 +63,11 @@ export class AcceptTransportContractUseCase
     await this.updateContractRepository.update({
       id: contractId,
       acceptanceDate: new Date(),
+    })
+
+    await this.updateShipRepository.update({
+      id: shipId,
+      weightLevel: weightLevel + contractResourcesWeight,
     })
   }
 }
