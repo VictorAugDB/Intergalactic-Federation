@@ -138,27 +138,27 @@ describe('AcceptTransportContractUseCase', () => {
     })
   })
 
-  // describe('GetShipRepository', () => {
-  //   test('Should call GetShipRepository with correct values', async () => {
-  //     const { sut, getShipRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     const getShipRepoSpy = jest.spyOn(getShipRepositoryStub, 'getById')
-  //     await sut.execute(fakeRequest)
+  describe('GetShipRepository', () => {
+    test('Should call GetShipRepository with correct values', async () => {
+      const { sut, getShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const getShipRepoSpy = jest.spyOn(getShipRepositoryStub, 'getById')
+      await sut.execute(fakeRequest)
 
-  //     expect(getShipRepoSpy).toHaveBeenCalledWith('any_id')
-  //   })
+      expect(getShipRepoSpy).toHaveBeenCalledWith('any_id')
+    })
 
-  //   test('Should throw if GetShipRepository throws', async () => {
-  //     const { sut, getShipRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     jest
-  //       .spyOn(getShipRepositoryStub, 'getById')
-  //       .mockRejectedValueOnce(new Error())
-  //     const promise = sut.execute(fakeRequest)
+    test('Should throw if GetShipRepository throws', async () => {
+      const { sut, getShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(getShipRepositoryStub, 'getById')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
 
-  //     await expect(promise).rejects.toThrowError()
-  //   })
-  // })
+      await expect(promise).rejects.toThrowError()
+    })
+  })
 
   // describe('UpdateShipRepository', () => {
   //   test('Should call UpdateShipRepository with correct values', async () => {
@@ -209,6 +209,18 @@ describe('AcceptTransportContractUseCase', () => {
     await expect(promise).rejects.toThrowError(
       new AppError('Contract not found!'),
     )
+  })
+
+  test('Should throw an AppError if ship not found', async () => {
+    const { sut, getShipRepositoryStub } = makeSut()
+    jest
+      .spyOn(getShipRepositoryStub, 'getById')
+      .mockResolvedValueOnce(undefined)
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(new AppError('Ship not found!'))
   })
 
   test("Should throw an AppError if pilot is not on the same planet as contract's originPlanet", async () => {

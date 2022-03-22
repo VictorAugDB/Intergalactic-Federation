@@ -30,16 +30,22 @@ export class AcceptTransportContractUseCase
     if (!pilot) {
       throw new AppError('Pilot not found!')
     }
+    const { locationPlanet, shipId } = pilot
 
     const contract = await this.getContractRepository.getById(contractId)
     if (!contract) {
       throw new AppError('Contract not found!')
     }
 
-    if (pilot.locationPlanet !== contract.originPlanet) {
+    if (locationPlanet !== contract.originPlanet) {
       throw new AppError(
         'You cannot accept the contract without being on the contract originPlanet!',
       )
+    }
+
+    const ship = await this.getShipRepository.getById(shipId)
+    if (!ship) {
+      throw new AppError('Ship not found!')
     }
   }
 }
