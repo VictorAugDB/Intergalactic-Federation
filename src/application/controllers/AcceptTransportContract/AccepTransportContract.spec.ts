@@ -1,4 +1,4 @@
-import { AcceptTransportContractController } from '@/application/controllers/AccepTransportContract/AcceptTransportContract'
+import { AcceptTransportContractController } from '@/application/controllers/AcceptTransportContract/AcceptTransportContract'
 import { IAcceptTransportContractDTO } from '@/application/dtos/AcceptTransportContract'
 import { MissingParamError } from '@/application/errors/MissingParamError'
 import {
