@@ -35,5 +35,11 @@ export class AcceptTransportContractUseCase
     if (!contract) {
       throw new AppError('Contract not found!')
     }
+
+    if (pilot.locationPlanet !== contract.originPlanet) {
+      throw new AppError(
+        'You cannot accept the contract without being on the contract originPlanet!',
+      )
+    }
   }
 }

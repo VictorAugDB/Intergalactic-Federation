@@ -211,6 +211,23 @@ describe('AcceptTransportContractUseCase', () => {
     )
   })
 
+  test("Should throw an AppError if pilot is not on the same planet as contract's originPlanet", async () => {
+    const { sut, getContractRepositoryStub } = makeSut()
+    jest.spyOn(getContractRepositoryStub, 'getById').mockResolvedValueOnce({
+      ...mockFakeContract(),
+      originPlanet: 'calas',
+    })
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError(
+        'You cannot accept the contract without being on the contract originPlanet!',
+      ),
+    )
+  })
+
   test('Should not throw on success', async () => {
     const { sut } = makeSut()
     const fakeRequest = makeFakeRequest()

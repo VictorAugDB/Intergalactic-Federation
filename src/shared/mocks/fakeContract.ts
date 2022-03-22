@@ -5,7 +5,7 @@ export function mockFakeContract(): IContract {
     id: 'any_id',
     description: 'any_description',
     destinationPlanet: 'aqua',
-    originPlanet: 'calas',
+    originPlanet: 'andvari',
     payload: [
       {
         name: 'water',
