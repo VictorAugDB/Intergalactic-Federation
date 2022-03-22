@@ -1,5 +1,6 @@
 import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
+import { IUpdatePilot } from '@/data/contracts/repositories/pilots/UpdatePilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import {
@@ -13,6 +14,7 @@ export class RefuelShipUseCase implements IRefuelShip {
     private readonly getPilotRepository: IGetPilot,
     private readonly getShipRepository: IGetShip,
     private readonly updateShipRepository: IUpdateShip,
+    private readonly updatePilotRepository: IUpdatePilot,
   ) {}
 
   async execute({
@@ -51,6 +53,11 @@ export class RefuelShipUseCase implements IRefuelShip {
         id: shipId,
         fuelLevel: ship.fuelLevel + amountOfFuel,
       })
+
+    await this.updatePilotRepository.update({
+      certificationDocument,
+      credits: credits - fuelPrice,
+    })
 
     return { fuelLevel: updatedFuelLevel }
   }
