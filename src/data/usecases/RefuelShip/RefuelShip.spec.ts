@@ -1,9 +1,11 @@
 import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
+import { IUpdatePilot } from '@/data/contracts/repositories/pilots/UpdatePilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
+import { makeUpdatePilotRepositoryStub } from '@/data/mocks/stubs/makeUpdatePilotRepositoryStub'
 import { makeUpdateShipRepositoryStub } from '@/data/mocks/stubs/makeUpdateShipRepositoryStub'
 import { RefuelShipUseCase } from '@/data/usecases/RefuelShip/RefuelShip'
 import { IRefuelShipInput } from '@/domain/usecases/RefuelShip'
@@ -19,6 +21,7 @@ type ISutTypes = {
   getShipRepositoryStub: IGetShip
   updateShipRepositoryStub: IUpdateShip
   getPilotRepositoryStub: IGetPilot
+  updatePilotRepositoryStub: IUpdatePilot
 }
 
 const makeFakeRequest = (): IRefuelShipInput => ({
@@ -32,11 +35,13 @@ const makeSut = (): ISutTypes => {
   const updateShipRepositoryStub = makeUpdateShipRepositoryStub({
     fuelCapacity: makeFakeRequest().amountOfFuel,
   })
+  const updatePilotRepositoryStub = makeUpdatePilotRepositoryStub()
 
   const sut = new RefuelShipUseCase(
     getPilotRepositoryStub,
     getShipRepositoryStub,
     updateShipRepositoryStub,
+    updatePilotRepositoryStub,
   )
 
   return {
@@ -44,6 +49,7 @@ const makeSut = (): ISutTypes => {
     getPilotRepositoryStub,
     getShipRepositoryStub,
     updateShipRepositoryStub,
+    updatePilotRepositoryStub,
   }
 }
 
@@ -115,6 +121,31 @@ describe('PublishContractUseCase', () => {
       const fakeRequest = makeFakeRequest()
       jest
         .spyOn(updateShipRepositoryStub, 'update')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
+  describe('UpdatePilotRepository', () => {
+    test('Should call UpdatePilotRepository with correct values', async () => {
+      const { sut, updatePilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const updatePilotRepoSpy = jest.spyOn(updatePilotRepositoryStub, 'update')
+      await sut.execute(fakeRequest)
+
+      expect(updatePilotRepoSpy).toHaveBeenCalledWith({
+        certificationDocument: 'any_document',
+        credits: mockFakePilot().credits - fakeRequest.amountOfFuel * 7,
+      })
+    })
+
+    test('Should throw if UpdatePilotRepository throws', async () => {
+      const { sut, updatePilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(updatePilotRepositoryStub, 'update')
         .mockRejectedValueOnce(new Error())
       const promise = sut.execute(fakeRequest)
 
