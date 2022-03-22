@@ -36,12 +36,22 @@ export class RefuelShipUseCase implements IRefuelShip {
     if (!ship) {
       throw new AppError('Ship not found!')
     }
+    const { fuelCapacity, fuelLevel } = ship
 
-    const { fuelLevel } = await this.updateShipRepository.update({
-      id: shipId,
-      fuelLevel: ship.fuelLevel + amountOfFuel,
-    })
+    if (fuelCapacity < fuelLevel + amountOfFuel) {
+      throw new AppError(
+        `The ship fuelCapacity is less than amountOfFuel that you want to refuel the max that you can refuel is ${
+          fuelCapacity - fuelLevel
+        }`,
+      )
+    }
 
-    return { fuelLevel }
+    const { fuelLevel: updatedFuelLevel } =
+      await this.updateShipRepository.update({
+        id: shipId,
+        fuelLevel: ship.fuelLevel + amountOfFuel,
+      })
+
+    return { fuelLevel: updatedFuelLevel }
   }
 }
