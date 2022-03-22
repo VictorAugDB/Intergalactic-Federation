@@ -1,6 +1,6 @@
 export interface IRefuelShipInput {
-  shipId: string
-  quantity: number
+  certificationDocument: string
+  amountOfFuel: number
 }
 
 export interface IRefuelShipResult {

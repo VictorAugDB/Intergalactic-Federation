@@ -21,11 +21,11 @@ export class RefuelShipController implements IController {
     try {
       const error = this.validation.validate(req.body)
       if (error) return badRequest(error)
-      const { quantity, shipId } = req.body as IRefuelShipDTO
+      const { certificationDocument, amountOfFuel } = req.body as IRefuelShipDTO
 
       const result = await this.refuelShiptUseCase.execute({
-        shipId,
-        quantity,
+        certificationDocument,
+        amountOfFuel,
       })
 
       return success(result)
