@@ -15,6 +15,7 @@ import { IContract } from '@/domain/models/Contract'
 import { IAcceptTransportContractInput } from '@/domain/usecases/AcceptTransportContract'
 import { mockFakeContract } from '@/shared/mocks/fakeContract'
 import { mockFakePilot } from '@/shared/mocks/fakePilot'
+import { mockFakeShip } from '@/shared/mocks/fakeShip'
 import MockDate from 'mockdate'
 
 type ISutTypes = {
@@ -237,6 +238,21 @@ describe('AcceptTransportContractUseCase', () => {
       new AppError(
         'You cannot accept the contract without being on the contract originPlanet!',
       ),
+    )
+  })
+
+  test('Should throw an AppError if ship weightCapacity is less than your weightLevel plus contract resource weight', async () => {
+    const { sut, getShipRepositoryStub } = makeSut()
+    jest.spyOn(getShipRepositoryStub, 'getById').mockResolvedValueOnce({
+      ...mockFakeShip(),
+      weightCapacity: 5,
+    })
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError('Your ship cannot carry this contract resources weight'),
     )
   })
 

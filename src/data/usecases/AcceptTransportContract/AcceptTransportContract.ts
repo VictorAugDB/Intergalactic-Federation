@@ -47,5 +47,17 @@ export class AcceptTransportContractUseCase
     if (!ship) {
       throw new AppError('Ship not found!')
     }
+    const { weightLevel, weightCapacity } = ship
+
+    const { payload } = contract
+    const contractResourceWeight = payload.reduce(
+      (acc: number, resource) => (acc += resource.weight),
+      0,
+    )
+    if (weightCapacity < weightLevel + contractResourceWeight) {
+      throw new AppError(
+        'Your ship cannot carry this contract resources weight',
+      )
+    }
   }
 }
