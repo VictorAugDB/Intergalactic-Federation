@@ -1,6 +1,7 @@
 import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IUpdatePilot } from '@/data/contracts/repositories/pilots/UpdatePilot'
+import { ICreateTransactionReport } from '@/data/contracts/repositories/reports/CreateTransactionReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
@@ -22,12 +23,24 @@ type ISutTypes = {
   updateShipRepositoryStub: IUpdateShip
   getPilotRepositoryStub: IGetPilot
   updatePilotRepositoryStub: IUpdatePilot
+  createTransactionReportStub: ICreateTransactionReport
 }
 
 const makeFakeRequest = (): IRefuelShipInput => ({
   certificationDocument: 'any_document',
   amountOfFuel: 10,
 })
+
+const makeCreateTransationReportRepositoryStub =
+  (): ICreateTransactionReport => {
+    class CreateTransationReportRepositoryUseCaseStub
+      implements ICreateTransactionReport
+    {
+      async create(description: string): Promise<void> {}
+    }
+
+    return new CreateTransationReportRepositoryUseCaseStub()
+  }
 
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
@@ -36,12 +49,14 @@ const makeSut = (): ISutTypes => {
     fuelCapacity: makeFakeRequest().amountOfFuel,
   })
   const updatePilotRepositoryStub = makeUpdatePilotRepositoryStub()
+  const createTransactionReportStub = makeCreateTransationReportRepositoryStub()
 
   const sut = new RefuelShipUseCase(
     getPilotRepositoryStub,
     getShipRepositoryStub,
     updateShipRepositoryStub,
     updatePilotRepositoryStub,
+    createTransactionReportStub,
   )
 
   return {
@@ -50,6 +65,7 @@ const makeSut = (): ISutTypes => {
     getShipRepositoryStub,
     updateShipRepositoryStub,
     updatePilotRepositoryStub,
+    createTransactionReportStub,
   }
 }
 
@@ -146,6 +162,35 @@ describe('PublishContractUseCase', () => {
       const fakeRequest = makeFakeRequest()
       jest
         .spyOn(updatePilotRepositoryStub, 'update')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
+  describe('CreateTransactionReport', () => {
+    test('Should call CreateTransactionReport with correct values', async () => {
+      const { sut, createTransactionReportStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const createTransactionRepoSpy = jest.spyOn(
+        createTransactionReportStub,
+        'create',
+      )
+      await sut.execute(fakeRequest)
+
+      expect(createTransactionRepoSpy).toHaveBeenCalledWith(
+        `${mockFakePilot().name} bought fuel: +₭${
+          fakeRequest.amountOfFuel * 7
+        }`,
+      )
+    })
+
+    test('Should throw if CreateTransactionReport throws', async () => {
+      const { sut, createTransactionReportStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(createTransactionReportStub, 'create')
         .mockRejectedValueOnce(new Error())
       const promise = sut.execute(fakeRequest)
 
