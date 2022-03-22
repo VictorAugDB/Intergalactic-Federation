@@ -91,7 +91,10 @@ describe('AddShipsController', () => {
       const fakeRequest = makeFakeRequest()
       await sut.handle(fakeRequest)
 
-      expect(addShipSpy).toHaveBeenCalledWith(fakeRequest.body)
+      expect(addShipSpy).toHaveBeenCalledWith({
+        ...fakeRequest.body,
+        weightLevel: 0,
+      })
     })
 
     test('Should be able to return 500 if AddShipUseCase throws', async () => {

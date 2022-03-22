@@ -7,5 +7,6 @@ export function mockFakeShip(): IShip {
     fuelLevel: 70,
     location: 'andvari',
     weightCapacity: 5,
+    weightLevel: 0,
   }
 }

@@ -28,6 +28,7 @@ export class AddShipController implements IController {
         fuelLevel,
         location,
         weightCapacity,
+        weightLevel: 0,
       })
 
       return success(ship)

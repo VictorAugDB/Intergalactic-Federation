@@ -19,6 +19,7 @@ export class AddShipUseCase implements IAddShip {
       fuelLevel,
       location,
       weightCapacity,
+      weightLevel: 0,
     })
 
     return ship
