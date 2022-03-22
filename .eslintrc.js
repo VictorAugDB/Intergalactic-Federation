@@ -77,7 +77,8 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/prefer-optional-chain': 'off',
-    'prettier/prettier': 'error'
+    'prettier/prettier': 'error',
+    'import/no-extraneous-dependencies': ['error', {'devDependencies': true}]
   },
   settings: {
     'import/resolver': {
