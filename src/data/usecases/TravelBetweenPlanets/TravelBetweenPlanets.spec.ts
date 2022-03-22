@@ -1,13 +1,11 @@
 import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
-import {
-  IUpdatePilot,
-  IUpdatePilotInput,
-} from '@/data/contracts/repositories/pilots/UpdatePilot'
+import { IUpdatePilot } from '@/data/contracts/repositories/pilots/UpdatePilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
+import { makeUpdatePilotRepositoryStub } from '@/data/mocks/stubs/makeUpdatePilotRepositoryStub'
 import { makeUpdateShipRepositoryStub } from '@/data/mocks/stubs/makeUpdateShipRepositoryStub'
 import { TravelBetweenPlanetsUseCase } from '@/data/usecases/TravelBetweenPlanets/TravelBetweenPlanets'
 import { ITravelBetweenPlanetsInput } from '@/domain/usecases/TravelBetweenPlanets'
@@ -26,14 +24,6 @@ const makeFakeRequest = (): ITravelBetweenPlanetsInput => ({
   certificationDocument: 'any_document',
   destinationPlanet: 'aqua',
 })
-
-const makeUpdatePilotRepositoryStub = (): IUpdatePilot => {
-  class UpdatePilotRepositoryUseCaseStub implements IUpdatePilot {
-    async update(data: IUpdatePilotInput): Promise<void> {}
-  }
-
-  return new UpdatePilotRepositoryUseCaseStub()
-}
 
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
