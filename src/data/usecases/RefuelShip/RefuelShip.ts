@@ -27,7 +27,7 @@ export class RefuelShipUseCase implements IRefuelShip {
       certificationDocument,
     )
     if (!pilot) {
-      throw new AppError('Pilot not found')
+      throw new AppError('Pilot not found!')
     }
     const { shipId, credits, name } = pilot
     const fuelPrice = amountOfFuel * 7

@@ -198,6 +198,30 @@ describe('PublishContractUseCase', () => {
     })
   })
 
+  test('Should throw an AppError if pilot not found', async () => {
+    const { sut, getPilotRepositoryStub } = makeSut()
+    jest
+      .spyOn(getPilotRepositoryStub, 'getByDocument')
+      .mockResolvedValueOnce(undefined)
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(new AppError('Pilot not found!'))
+  })
+
+  test('Should throw an AppError if ship not found', async () => {
+    const { sut, getShipRepositoryStub } = makeSut()
+    jest
+      .spyOn(getShipRepositoryStub, 'getById')
+      .mockResolvedValueOnce(undefined)
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(new AppError('Ship not found!'))
+  })
+
   test('Should throw if pilot not have credits to pay for requested amountOfFuel', async () => {
     const { sut, getPilotRepositoryStub } = makeSut()
     jest.spyOn(getPilotRepositoryStub, 'getByDocument').mockResolvedValueOnce({
