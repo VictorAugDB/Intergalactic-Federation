@@ -59,5 +59,10 @@ export class AcceptTransportContractUseCase
         'Your ship cannot carry this contract resources weight',
       )
     }
+
+    await this.updateContractRepository.update({
+      id: contractId,
+      acceptanceDate: new Date(),
+    })
   }
 }

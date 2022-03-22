@@ -186,6 +186,34 @@ describe('AcceptTransportContractUseCase', () => {
   //   })
   // })
 
+  describe('UpdateContractRepository', () => {
+    test('Should call UpdateContractRepository with correct values', async () => {
+      const { sut, updateContractRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const updateContractRepoSpy = jest.spyOn(
+        updateContractRepositoryStub,
+        'update',
+      )
+      await sut.execute(fakeRequest)
+
+      expect(updateContractRepoSpy).toHaveBeenCalledWith({
+        id: 'any_id',
+        acceptanceDate: new Date(),
+      })
+    })
+
+    test('Should throw if UpdateContractRepository throws', async () => {
+      const { sut, updateContractRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(updateContractRepositoryStub, 'update')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
   test('Should throw an AppError if pilot not found', async () => {
     const { sut, getPilotRepositoryStub } = makeSut()
     jest
