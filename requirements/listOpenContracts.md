@@ -1,7 +1,7 @@
 # List Open Contracts
 
 ## Success case
-- [x] Receive a GET request in /contracts route
+- [x] Receive a GET request in /contracts
 - [x] List repository contracts
 - [x] Remove contracts that have the acceptanceDate property
 - [x] Returns 200 with a list of open contracts

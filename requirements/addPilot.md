@@ -1,7 +1,7 @@
 # Add Pilot
 
 ## Success case
-- [x] Receive a POST request in /pilots route
+- [x] Receive a POST request in /pilots
 - [x] Validate required fields **certificationDocument, shipId, name, age, credits, locationPlanet**
 - [x] Get the pilot in the repository to check if already exists a pilot registered with the same certificationDocument in the repository
 - [x] Get the ship in the repository

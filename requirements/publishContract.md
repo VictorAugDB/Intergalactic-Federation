@@ -1,7 +1,7 @@
 # Publish Contract
 
 ## Success case
-- [x] Receive a POST request in /contracts route
+- [x] Receive a POST request in /contracts
 - [x] Validate required fields **id, description, payload, originPlanet, destinationPlanet, value**
 - [x] Check if already exists a contract registered with the same id in the repository
 - [x] Save the contract in the repository

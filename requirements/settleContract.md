@@ -1,7 +1,7 @@
 # Settle Contract
 
 ## Success case
-- [ ] Receive a POST request in /contracts/settle route
+- [ ] Receive a POST request in /contracts/settle
 - [ ] Validate required fields **contractId**
 - [ ] Get contract in the repository
 - [ ] Get the pilot in the repository

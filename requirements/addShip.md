@@ -1,7 +1,7 @@
 # Add Ship
 
 ## Success case
-- [x] Receive a POST request in /ships route
+- [x] Receive a POST request in /ships
 - [x] Validate required fields **id, fuelCapacity, fuelLevel, weigthCapacity, location**
 - [x] Save the ship in the repository
 - [x] Returns 200 with registered ship data
