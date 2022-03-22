@@ -8,6 +8,7 @@
 - [ ] Check if pilot has enough credits
 - [ ] Check if the fuelLevel plus the amountOfFuel is less than the fuelCapacity
 - [ ] Update ship in the repository with fuelLevel plus amountOfFuel
+- [ ] Update pilot in the repository with your credits - fuelPrice
 - [ ] Update the reports in the repository with the transaction log
 - [ ] Returns 200 with success message
 
@@ -20,4 +21,5 @@
 - [ ] Returns 400 if the pilot does not have enough credits
 - [ ] Returns 400 if the fuelLevel plus the amountOfFuel is greater than the fuelCapacity
 - [ ] Returns 500 if something unexpected happens when updating ship in the repository
+- [ ] Returns 500 if something unexpected happens when updating pilot in the repository
 - [ ] Returns 500 if something unexpected happens when updating reports in the repository
