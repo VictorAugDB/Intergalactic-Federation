@@ -1,4 +1,4 @@
-import { IListContracts } from '@/data/contracts/repositories/contracts/ListContrats'
+import { IListContracts } from '@/data/contracts/repositories/contracts/ListContracts'
 import { IContract } from '@/domain/models/Contract'
 import { IListOpenContracts } from '@/domain/usecases/ListOpenContracts'
 

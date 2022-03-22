@@ -1,4 +1,4 @@
-import { IListContracts } from '@/data/contracts/repositories/contracts/ListContrats'
+import { IListContracts } from '@/data/contracts/repositories/contracts/ListContracts'
 import { ListOpenContractsUseCase } from '@/data/usecases/ListOpenContracts/ListOpenContracts'
 import { IContract } from '@/domain/models/Contract'
 import { mockFakeListOpenContracts } from '@/shared/mocks/fakeListOpenContracts'
