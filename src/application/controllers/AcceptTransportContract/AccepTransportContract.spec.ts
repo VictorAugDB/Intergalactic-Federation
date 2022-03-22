@@ -12,6 +12,7 @@ import { IValidation } from '@/application/protocols/Validation'
 import {
   IAcceptTransportContract,
   IAcceptTransportContractInput,
+  IAcceptTransportContractResult,
 } from '@/domain/usecases/AcceptTransportContract'
 
 type ISutTypes = {
@@ -31,7 +32,15 @@ const makeAcceptTransportContractUseCaseStub = (): IAcceptTransportContract => {
   class AcceptTransportContractUseCaseUseCaseStub
     implements IAcceptTransportContract
   {
-    async execute(input: IAcceptTransportContractInput): Promise<void> {}
+    async execute(
+      input: IAcceptTransportContractInput,
+    ): Promise<IAcceptTransportContractResult> {
+      return {
+        acceptanceDate: new Date(),
+        contractId: 'any_id',
+        shipWeightLevel: 20,
+      }
+    }
   }
 
   return new AcceptTransportContractUseCaseUseCaseStub()

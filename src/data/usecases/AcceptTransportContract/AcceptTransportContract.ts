@@ -7,6 +7,7 @@ import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import {
   IAcceptTransportContract,
   IAcceptTransportContractInput,
+  IAcceptTransportContractResult,
 } from '@/domain/usecases/AcceptTransportContract'
 
 export class AcceptTransportContractUseCase
@@ -23,7 +24,7 @@ export class AcceptTransportContractUseCase
   async execute({
     contractId,
     certificationDocument,
-  }: IAcceptTransportContractInput): Promise<void> {
+  }: IAcceptTransportContractInput): Promise<IAcceptTransportContractResult> {
     const pilot = await this.getPilotRepository.getByDocument(
       certificationDocument,
     )
@@ -60,14 +61,20 @@ export class AcceptTransportContractUseCase
       )
     }
 
-    await this.updateContractRepository.update({
+    const { acceptanceDate } = await this.updateContractRepository.update({
       id: contractId,
       acceptanceDate: new Date(),
     })
+    if (!acceptanceDate) {
+      throw new Error()
+    }
 
-    await this.updateShipRepository.update({
-      id: shipId,
-      weightLevel: weightLevel + contractResourcesWeight,
-    })
+    const { weightLevel: shipWeightLevel } =
+      await this.updateShipRepository.update({
+        id: shipId,
+        weightLevel: weightLevel + contractResourcesWeight,
+      })
+
+    return { contractId, acceptanceDate, shipWeightLevel }
   }
 }
