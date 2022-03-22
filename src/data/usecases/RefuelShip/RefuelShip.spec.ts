@@ -1,3 +1,4 @@
+import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
@@ -119,6 +120,22 @@ describe('PublishContractUseCase', () => {
 
       await expect(promise).rejects.toThrowError()
     })
+  })
+
+  test('Should throw if pilot not have credits to pay for requested amountOfFuel', async () => {
+    const { sut, getPilotRepositoryStub } = makeSut()
+    jest.spyOn(getPilotRepositoryStub, 'getByDocument').mockResolvedValueOnce({
+      ...mockFakePilot(),
+      credits: 20,
+    })
+
+    const fakeRequest = makeFakeRequest()
+    const result = sut.execute(fakeRequest)
+
+    await expect(result).rejects.toBeInstanceOf(AppError)
+    await expect(result).rejects.toThrowError(
+      new AppError('You do not pay for this amount of fuel!'),
+    )
   })
 
   test('Should return fuelLevel on sucess', async () => {
