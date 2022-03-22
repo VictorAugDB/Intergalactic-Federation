@@ -1,6 +1,7 @@
 import { AppError } from '@/application/errors/AppError'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IUpdatePilot } from '@/data/contracts/repositories/pilots/UpdatePilot'
+import { ICreateTransactionReport } from '@/data/contracts/repositories/reports/CreateTransactionReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import {
@@ -15,6 +16,7 @@ export class RefuelShipUseCase implements IRefuelShip {
     private readonly getShipRepository: IGetShip,
     private readonly updateShipRepository: IUpdateShip,
     private readonly updatePilotRepository: IUpdatePilot,
+    private readonly createTransactionReportRepository: ICreateTransactionReport,
   ) {}
 
   async execute({
@@ -27,7 +29,7 @@ export class RefuelShipUseCase implements IRefuelShip {
     if (!pilot) {
       throw new AppError('Pilot not found')
     }
-    const { shipId, credits } = pilot
+    const { shipId, credits, name } = pilot
     const fuelPrice = amountOfFuel * 7
 
     if (credits < fuelPrice) {
@@ -58,6 +60,10 @@ export class RefuelShipUseCase implements IRefuelShip {
       certificationDocument,
       credits: credits - fuelPrice,
     })
+
+    await this.createTransactionReportRepository.create(
+      `${name} bought fuel: +₭${fuelPrice}`,
+    )
 
     return { fuelLevel: updatedFuelLevel }
   }
