@@ -16,6 +16,7 @@ import { IContract } from '@/domain/models/Contract'
 import { ISettleContractInput } from '@/domain/usecases/SettleContrac'
 import { mockFakeContract } from '@/shared/mocks/fakeContract'
 import { mockFakePilot } from '@/shared/mocks/fakePilot'
+import { mockFakeShip } from '@/shared/mocks/fakeShip'
 import MockDate from 'mockdate'
 
 type ISutTypes = {
@@ -58,7 +59,10 @@ export const makeUpdateContractRepositoryStub = (): IUpdateContract => {
 
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
-  const getShipRepositoryStub = makeGetShipRepositoryStub()
+  const getShipRepositoryStub = makeGetShipRepositoryStub({
+    ...mockFakeShip(),
+    weightLevel: 20,
+  })
   const getContractRepositoryStub = makeGetContractRepositoryStub()
   const updateShipRepositoryStub = makeUpdateShipRepositoryStub()
   const updateContractRepositoryStub = makeUpdateContractRepositoryStub()
@@ -259,6 +263,21 @@ describe('SettleContractUseCase', () => {
     await expect(promise).rejects.toThrowError(new AppError('Ship not found!'))
   })
 
+  test('Should throw an AppError if contract is already settled', async () => {
+    const { sut, getContractRepositoryStub } = makeSut()
+    jest.spyOn(getContractRepositoryStub, 'getById').mockResolvedValueOnce({
+      ...mockFakeAcceptedContract(),
+      settlementDate: new Date(),
+    })
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError('This contract is already settled!'),
+    )
+  })
+
   test('Should throw an AppError if contract not return pilotCertificationDocument', async () => {
     const { sut, getContractRepositoryStub } = makeSut()
     jest
@@ -301,6 +320,23 @@ describe('SettleContractUseCase', () => {
     await expect(promise).rejects.toThrowError(
       new AppError(
         'You cannot accept the contract without being on the contract originPlanet!',
+      ),
+    )
+  })
+
+  test('Should throw an AppError if ship weightLevel minus contract resources weight is less than zero', async () => {
+    const { sut, getShipRepositoryStub } = makeSut()
+    jest.spyOn(getShipRepositoryStub, 'getById').mockResolvedValueOnce({
+      ...mockFakeShip(),
+      weightLevel: 0,
+    })
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError(
+        'You cannot settle this contract because you do not have the resources!',
       ),
     )
   })
