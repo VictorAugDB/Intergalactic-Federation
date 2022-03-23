@@ -5,12 +5,23 @@ import {
   IUpdateContractInput,
 } from '@/data/contracts/repositories/contracts/UpdateContract'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
+import { IUpdatePilot } from '@/data/contracts/repositories/pilots/UpdatePilot'
+import { ICreateTransactionReport } from '@/data/contracts/repositories/reports/CreateTransactionReport'
+import {
+  IUpdatePilotTransportedResourcesReport,
+  IUpdatePilotTransportedResourcesReportInput,
+} from '@/data/contracts/repositories/reports/UpdatePilotTransportedResourcesReport'
+import {
+  IUpdatePlanetResourcesReport,
+  IUpdatePlanetResourcesReportInput,
+} from '@/data/contracts/repositories/reports/UpdatePlanetResourcesReportReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { mockFakeAcceptedContract } from '@/data/mocks/fakes/mockFakeAcceptContract'
 import { mockFakeContractResourcesWeight } from '@/data/mocks/fakes/mockFakeContractResourcesWeight'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
+import { makeUpdatePilotRepositoryStub } from '@/data/mocks/stubs/makeUpdatePilotRepositoryStub'
 import { makeUpdateShipRepositoryStub } from '@/data/mocks/stubs/makeUpdateShipRepositoryStub'
 import { SettleContractUseCase } from '@/data/usecases/SettleContract/SettleContract'
 import { IContract } from '@/domain/models/Contract'
@@ -27,7 +38,11 @@ type ISutTypes = {
   getShipRepositoryStub: IGetShip
   getContractRepositoryStub: IGetContract
   updateShipRepositoryStub: IUpdateShip
+  updatePilotRepositoryStub: IUpdatePilot
   updateContractRepositoryStub: IUpdateContract
+  createTransactionReportRepositoryStub: ICreateTransactionReport
+  updatePlanetResourcesReportRepositoryStub: IUpdatePlanetResourcesReport
+  updatePilotTransportedResourcesReportRepositoryStub: IUpdatePilotTransportedResourcesReport
 }
 
 Date.now = jest.fn(() => 1487076708000)
@@ -64,6 +79,41 @@ export const makeUpdateContractRepositoryStub = (): IUpdateContract => {
   return new UpdateContractRepositoryUseCaseStub()
 }
 
+const makeCreateTransationReportRepositoryStub =
+  (): ICreateTransactionReport => {
+    class CreateTransationReportRepositoryUseCaseStub
+      implements ICreateTransactionReport
+    {
+      async create(description: string): Promise<void> {}
+    }
+
+    return new CreateTransationReportRepositoryUseCaseStub()
+  }
+
+export const makeUpdatePlanetResourcesReportRepositoryStub =
+  (): IUpdatePlanetResourcesReport => {
+    class UpdatePlanetResourcesReportRepositoryUseCaseStub
+      implements IUpdatePlanetResourcesReport
+    {
+      async update(data: IUpdatePlanetResourcesReportInput): Promise<void> {}
+    }
+
+    return new UpdatePlanetResourcesReportRepositoryUseCaseStub()
+  }
+
+export const makeUpdatePilotTransportedResourcesReportRepositoryStub =
+  (): IUpdatePilotTransportedResourcesReport => {
+    class UpdatePilotTransportedResourcesReportRepositoryUseCaseStub
+      implements IUpdatePilotTransportedResourcesReport
+    {
+      async update(
+        data: IUpdatePilotTransportedResourcesReportInput,
+      ): Promise<void> {}
+    }
+
+    return new UpdatePilotTransportedResourcesReportRepositoryUseCaseStub()
+  }
+
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
   const getShipRepositoryStub = makeGetShipRepositoryStub(
@@ -72,22 +122,37 @@ const makeSut = (): ISutTypes => {
   const getContractRepositoryStub = makeGetContractRepositoryStub()
   const updateShipRepositoryStub = makeUpdateShipRepositoryStub()
   const updateContractRepositoryStub = makeUpdateContractRepositoryStub()
+  const updatePilotRepositoryStub = makeUpdatePilotRepositoryStub()
+  const createTransactionReportRepositoryStub =
+    makeCreateTransationReportRepositoryStub()
+  const updatePlanetResourcesReportRepositoryStub =
+    makeUpdatePlanetResourcesReportRepositoryStub()
+  const updatePilotTransportedResourcesReportRepositoryStub =
+    makeUpdatePilotTransportedResourcesReportRepositoryStub()
 
   const sut = new SettleContractUseCase(
     getPilotRepositoryStub,
     getShipRepositoryStub,
     getContractRepositoryStub,
     updateShipRepositoryStub,
+    updatePilotRepositoryStub,
     updateContractRepositoryStub,
+    createTransactionReportRepositoryStub,
+    updatePlanetResourcesReportRepositoryStub,
+    updatePilotTransportedResourcesReportRepositoryStub,
   )
 
   return {
     sut,
     getPilotRepositoryStub,
     getShipRepositoryStub,
-    updateShipRepositoryStub,
     getContractRepositoryStub,
+    updateShipRepositoryStub,
+    updatePilotRepositoryStub,
     updateContractRepositoryStub,
+    createTransactionReportRepositoryStub,
+    updatePlanetResourcesReportRepositoryStub,
+    updatePilotTransportedResourcesReportRepositoryStub,
   }
 }
 

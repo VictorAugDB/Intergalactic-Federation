@@ -2,6 +2,10 @@ import { AppError } from '@/application/errors/AppError'
 import { IGetContract } from '@/data/contracts/repositories/contracts/GetContract'
 import { IUpdateContract } from '@/data/contracts/repositories/contracts/UpdateContract'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
+import { IUpdatePilot } from '@/data/contracts/repositories/pilots/UpdatePilot'
+import { ICreateTransactionReport } from '@/data/contracts/repositories/reports/CreateTransactionReport'
+import { IUpdatePilotTransportedResourcesReport } from '@/data/contracts/repositories/reports/UpdatePilotTransportedResourcesReport'
+import { IUpdatePlanetResourcesReport } from '@/data/contracts/repositories/reports/UpdatePlanetResourcesReportReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import {
@@ -15,7 +19,11 @@ export class SettleContractUseCase implements ISettleContract {
     private readonly getShipRepository: IGetShip,
     private readonly getContractRepository: IGetContract,
     private readonly updateShipRepository: IUpdateShip,
+    private readonly updatePilotRepository: IUpdatePilot,
     private readonly updateContractRepository: IUpdateContract,
+    private readonly createTransationRepository: ICreateTransactionReport,
+    private readonly updatePlanetResourcesReportRepository: IUpdatePlanetResourcesReport,
+    private readonly updatePilotTransportedResourcesReportRepository: IUpdatePilotTransportedResourcesReport,
   ) {}
 
   async execute({
