@@ -5,8 +5,8 @@
 - [ ] Validate required fields **contractId**
 - [ ] Get contract in the repository
 - [ ] Get the pilot in the repository
-- [ ] Get the ship in the repository
 - [ ] Check if pilot's locationPlanet is the same as contract's destinationPlanet
+- [ ] Get the ship in the repository
 - [ ] Update the contract in the repository with settlementDate property
 - [ ] Update the ship in the repository with currentWeight minus contract resources weight
 - [ ] Update the pilot in the repository by adding the contract value to your credits
