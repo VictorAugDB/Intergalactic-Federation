@@ -94,5 +94,9 @@ export class SettleContractUseCase implements ISettleContract {
       certificationDocument,
       credits: credits + value,
     })
+
+    await this.createTransationRepository.create(
+      `${contractId} Description paid -₭${value}`,
+    )
   }
 }

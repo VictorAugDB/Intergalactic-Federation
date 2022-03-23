@@ -316,6 +316,34 @@ describe('SettleContractUseCase', () => {
     })
   })
 
+  describe('CreateTransactionReport', () => {
+    test('Should call CreateTransactionReport with correct values', async () => {
+      const { sut, createTransactionReportRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const createTransactionRepoSpy = jest.spyOn(
+        createTransactionReportRepositoryStub,
+        'create',
+      )
+      await sut.execute(fakeRequest)
+      const settledContract = mockFakeSettledContract()
+
+      expect(createTransactionRepoSpy).toHaveBeenCalledWith(
+        `${settledContract.id} Description paid -₭${settledContract.value}`,
+      )
+    })
+
+    test('Should throw if CreateTransactionReport throws', async () => {
+      const { sut, createTransactionReportRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(createTransactionReportRepositoryStub, 'create')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
   test('Should throw an AppError if pilot not found', async () => {
     const { sut, getPilotRepositoryStub } = makeSut()
     jest
