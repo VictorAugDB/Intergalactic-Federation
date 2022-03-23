@@ -1,5 +1,6 @@
 export interface ISettleContractInput {
   contractId: string
+  certificationDocument: string
 }
 
 export interface ISettleContract {

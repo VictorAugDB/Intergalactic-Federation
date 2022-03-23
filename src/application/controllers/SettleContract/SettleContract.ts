@@ -21,10 +21,12 @@ export class SettleContractController implements IController {
     try {
       const error = this.validation.validate(req.body)
       if (error) return badRequest(error)
-      const { contractId } = req.body as ISettleContractDTO
+      const { contractId, certificationDocument } =
+        req.body as ISettleContractDTO
 
       await this.travelBetweenPlanetsUseCase.execute({
         contractId,
+        certificationDocument,
       })
 
       return success({ message: 'SUCCESS' })
