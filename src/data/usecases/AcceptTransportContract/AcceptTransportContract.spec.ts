@@ -65,7 +65,7 @@ export const makeUpdateContractRepositoryStub = (): IUpdateContract => {
 
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
-  const getShipRepositoryStub = makeGetShipRepositoryStub()
+  const getShipRepositoryStub = makeGetShipRepositoryStub(mockFakeShip())
   const getContractRepositoryStub = makeGetContractRepositoryStub()
   const updateShipRepositoryStub = makeUpdateShipRepositoryStub()
   const updateContractRepositoryStub = makeUpdateContractRepositoryStub()

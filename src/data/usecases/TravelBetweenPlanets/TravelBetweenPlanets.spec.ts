@@ -27,7 +27,7 @@ const makeFakeRequest = (): ITravelBetweenPlanetsInput => ({
 
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
-  const getShipRepositoryStub = makeGetShipRepositoryStub()
+  const getShipRepositoryStub = makeGetShipRepositoryStub(mockFakeShip())
   const updatePilotRepositoryStub = makeUpdatePilotRepositoryStub()
   const updateShipRepositoryStub = makeUpdateShipRepositoryStub()
 

@@ -54,7 +54,7 @@ const makeCreatePilotRepositoryStub = (): ICreatePilot => {
 
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(undefined)
-  const getShipRepositoryStub = makeGetShipRepositoryStub()
+  const getShipRepositoryStub = makeGetShipRepositoryStub(mockFakeShip())
   const checkShipAlreadyHasOwnerRepositoryStub =
     makeCheckShipAlreadyHasOwnerRepositoryStub()
   const createPilotRepositoryStub = makeCreatePilotRepositoryStub()

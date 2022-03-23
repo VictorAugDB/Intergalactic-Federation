@@ -44,7 +44,7 @@ const makeCreateTransationReportRepositoryStub =
 
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
-  const getShipRepositoryStub = makeGetShipRepositoryStub()
+  const getShipRepositoryStub = makeGetShipRepositoryStub(mockFakeShip())
   const updateShipRepositoryStub = makeUpdateShipRepositoryStub({
     fuelCapacity: makeFakeRequest().amountOfFuel,
   })
