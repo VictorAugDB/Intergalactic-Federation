@@ -41,6 +41,12 @@ const mockFakeAcceptedContract = (): IContract => ({
   acceptanceDate: new Date(),
 })
 
+const mockFakeContractResourcesWeight = (): number =>
+  mockFakeContract().payload.reduce(
+    (acc: number, resource) => (acc += resource.weight),
+    0,
+  )
+
 export const makeGetContractRepositoryStub = (): IGetContract => {
   class GetContractRepositoryUseCaseStub implements IGetContract {
     async getById(id: string): Promise<IContract | undefined> {
@@ -167,14 +173,11 @@ describe('AcceptTransportContractUseCase', () => {
       const fakeRequest = makeFakeRequest()
       const updateShipRepoSpy = jest.spyOn(updateShipRepositoryStub, 'update')
       await sut.execute(fakeRequest)
-      const fakeContractResourcesWeight = mockFakeContract().payload.reduce(
-        (acc: number, resource) => (acc += resource.weight),
-        0,
-      )
 
       expect(updateShipRepoSpy).toHaveBeenCalledWith({
         id: 'any_id',
-        weightLevel: mockFakeShip().weightLevel + fakeContractResourcesWeight,
+        weightLevel:
+          mockFakeShip().weightLevel + mockFakeContractResourcesWeight(),
       })
     })
 
@@ -212,6 +215,17 @@ describe('AcceptTransportContractUseCase', () => {
       jest
         .spyOn(updateContractRepositoryStub, 'update')
         .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+
+    test('Should throw if UpdateContractRepository not return acceptanceDate', async () => {
+      const { sut, updateContractRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest.spyOn(updateContractRepositoryStub, 'update').mockResolvedValueOnce({
+        ...mockFakeContract(),
+      })
       const promise = sut.execute(fakeRequest)
 
       await expect(promise).rejects.toThrowError()
@@ -288,12 +302,17 @@ describe('AcceptTransportContractUseCase', () => {
     )
   })
 
-  test('Should not throw on success', async () => {
+  test('Should return correct data on success', async () => {
     const { sut } = makeSut()
     const fakeRequest = makeFakeRequest()
 
-    const result = sut.execute(fakeRequest)
+    const result = await sut.execute(fakeRequest)
 
-    await expect(result).resolves.not.toThrow()
+    expect(result).toEqual({
+      acceptanceDate: new Date(),
+      contractId: 'any_id',
+      shipWeightLevel:
+        mockFakeShip().weightLevel + mockFakeContractResourcesWeight(),
+    })
   })
 })
