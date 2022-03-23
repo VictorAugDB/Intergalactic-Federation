@@ -26,6 +26,11 @@ export class SettleContractUseCase implements ISettleContract {
     if (!contract) {
       throw new AppError('Contract not found!')
     }
+
+    if (contract.settlementDate) {
+      throw new AppError('This contract is already settled!')
+    }
+
     if (!contract.pilotCerficiationDocument) {
       throw new AppError('This contract must be accepted on your originPlanet!')
     }
@@ -53,17 +58,19 @@ export class SettleContractUseCase implements ISettleContract {
     if (!ship) {
       throw new AppError('Ship not found!')
     }
-    // const { weightLevel, weightCapacity } = ship
-    // const { payload } = contract
-    // const contractResourcesWeight = payload.reduce(
-    //   (acc: number, resource) => (acc += resource.weight),
-    //   0,
-    // )
-    // if (weightCapacity < weightLevel + contractResourcesWeight) {
-    //   throw new AppError(
-    //     'Your ship cannot carry this contract resources weight',
-    //   )
-    // }
+
+    const { weightLevel } = ship
+    const { payload } = contract
+    const contractResourcesWeight = payload.reduce(
+      (acc: number, resource) => (acc += resource.weight),
+      0,
+    )
+
+    if (weightLevel - contractResourcesWeight < 0) {
+      throw new AppError(
+        'You cannot settle this contract because you do not have the resources!',
+      )
+    }
     // const { acceptanceDate } = await this.updateContractRepository.update({
     //   id: contractId,
     //   acceptanceDate: new Date(),
