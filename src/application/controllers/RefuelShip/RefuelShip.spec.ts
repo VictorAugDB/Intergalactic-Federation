@@ -1,5 +1,5 @@
-import { TravelBetweenPlanetsController } from '@/application/controllers/TravelBetweenPlanets/TravelBetweenPlanets'
-import { ITravelBetweenPlanetsDTO } from '@/application/dtos/TravelBetweenPlanets'
+import { RefuelShipController } from '@/application/controllers/RefuelShip/RefuelShip'
+import { IRefuelShipDTO } from '@/application/dtos/RefuelShipDTO'
 import { MissingParamError } from '@/application/errors/MissingParamError'
 import {
   badRequest,
@@ -10,49 +10,49 @@ import { makeValidation } from '@/application/mocks/stubs/makeValidation'
 import { IRequest } from '@/application/protocols/Controller'
 import { IValidation } from '@/application/protocols/Validation'
 import {
-  ITravelBetweenPlanets,
-  ITravelBetweenPlanetsInput,
-} from '@/domain/usecases/TravelBetweenPlanets'
+  IRefuelShip,
+  IRefuelShipInput,
+  IRefuelShipResult,
+} from '@/domain/usecases/RefuelShip'
 
 type ISutTypes = {
-  sut: TravelBetweenPlanetsController
-  publishContractUseCaseStub: ITravelBetweenPlanets
+  sut: RefuelShipController
+  refuelShipUseCaseStub: IRefuelShip
   validationStub: IValidation
 }
 
-const makeFakeRequest = (): IRequest<ITravelBetweenPlanetsDTO> => ({
+const makeFakeRequest = (): IRequest<IRefuelShipDTO> => ({
   body: {
+    amountOfFuel: 50,
     certificationDocument: 'any_document',
-    destinationPlanet: 'aqua',
   },
 })
 
-const makeTravelBetweenPlanetsUseCaseStub = (): ITravelBetweenPlanets => {
-  class TravelBetweenPlanetsUseCaseUseCaseStub
-    implements ITravelBetweenPlanets
-  {
-    async execute(input: ITravelBetweenPlanetsInput): Promise<void> {}
+const makeRefuelShipUseCaseStub = (): IRefuelShip => {
+  class RefuelShipUseCaseUseCaseStub implements IRefuelShip {
+    async execute(input: IRefuelShipInput): Promise<IRefuelShipResult> {
+      return {
+        fuelLevel: 100,
+      }
+    }
   }
 
-  return new TravelBetweenPlanetsUseCaseUseCaseStub()
+  return new RefuelShipUseCaseUseCaseStub()
 }
 
 const makeSut = (): ISutTypes => {
-  const publishContractUseCaseStub = makeTravelBetweenPlanetsUseCaseStub()
+  const refuelShipUseCaseStub = makeRefuelShipUseCaseStub()
   const validationStub = makeValidation()
-  const sut = new TravelBetweenPlanetsController(
-    publishContractUseCaseStub,
-    validationStub,
-  )
+  const sut = new RefuelShipController(refuelShipUseCaseStub, validationStub)
 
   return {
     sut,
-    publishContractUseCaseStub,
+    refuelShipUseCaseStub,
     validationStub,
   }
 }
 
-describe('TravelBetweenPlanetsController', () => {
+describe('RefuelShipController', () => {
   describe('Validation', () => {
     test('Should be able to call Validation with correct values', async () => {
       const { sut, validationStub } = makeSut()
@@ -89,23 +89,23 @@ describe('TravelBetweenPlanetsController', () => {
     })
   })
 
-  describe('TravelBetweenPlanetsUseCase', () => {
-    test('Should be able to call TravelBetweenPlanetsUseCase with correct values', async () => {
-      const { sut, publishContractUseCaseStub } = makeSut()
-      const addContractSpy = jest.spyOn(publishContractUseCaseStub, 'execute')
+  describe('RefuelShipUseCase', () => {
+    test('Should be able to call RefuelShipUseCase with correct values', async () => {
+      const { sut, refuelShipUseCaseStub } = makeSut()
+      const refuelShipSpy = jest.spyOn(refuelShipUseCaseStub, 'execute')
 
       const fakeRequest = makeFakeRequest()
       await sut.handle(fakeRequest)
 
-      expect(addContractSpy).toHaveBeenCalledWith(fakeRequest.body)
+      expect(refuelShipSpy).toHaveBeenCalledWith(fakeRequest.body)
     })
 
-    test('Should be able to return 500 if TravelBetweenPlanetsUseCase throws', async () => {
-      const { sut, publishContractUseCaseStub } = makeSut()
+    test('Should be able to return 500 if RefuelShipUseCase throws', async () => {
+      const { sut, refuelShipUseCaseStub } = makeSut()
       const error = new Error()
 
       jest
-        .spyOn(publishContractUseCaseStub, 'execute')
+        .spyOn(refuelShipUseCaseStub, 'execute')
         .mockImplementationOnce(() => {
           throw error
         })
@@ -119,6 +119,6 @@ describe('TravelBetweenPlanetsController', () => {
     const { sut } = makeSut()
     const result = await sut.handle(makeFakeRequest())
 
-    expect(result).toEqual(success({ message: 'SUCCESS' }))
+    expect(result).toEqual(success({ fuelLevel: 100 }))
   })
 })
