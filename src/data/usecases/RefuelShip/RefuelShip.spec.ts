@@ -23,7 +23,7 @@ type ISutTypes = {
   updateShipRepositoryStub: IUpdateShip
   getPilotRepositoryStub: IGetPilot
   updatePilotRepositoryStub: IUpdatePilot
-  createTransactionReportStub: ICreateTransactionReport
+  createTransactionReportRepositoryStub: ICreateTransactionReport
 }
 
 const makeFakeRequest = (): IRefuelShipInput => ({
@@ -49,14 +49,15 @@ const makeSut = (): ISutTypes => {
     fuelCapacity: makeFakeRequest().amountOfFuel,
   })
   const updatePilotRepositoryStub = makeUpdatePilotRepositoryStub()
-  const createTransactionReportStub = makeCreateTransationReportRepositoryStub()
+  const createTransactionReportRepositoryStub =
+    makeCreateTransationReportRepositoryStub()
 
   const sut = new RefuelShipUseCase(
     getPilotRepositoryStub,
     getShipRepositoryStub,
     updateShipRepositoryStub,
     updatePilotRepositoryStub,
-    createTransactionReportStub,
+    createTransactionReportRepositoryStub,
   )
 
   return {
@@ -65,7 +66,7 @@ const makeSut = (): ISutTypes => {
     getShipRepositoryStub,
     updateShipRepositoryStub,
     updatePilotRepositoryStub,
-    createTransactionReportStub,
+    createTransactionReportRepositoryStub,
   }
 }
 
@@ -171,10 +172,10 @@ describe('PublishContractUseCase', () => {
 
   describe('CreateTransactionReport', () => {
     test('Should call CreateTransactionReport with correct values', async () => {
-      const { sut, createTransactionReportStub } = makeSut()
+      const { sut, createTransactionReportRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       const createTransactionRepoSpy = jest.spyOn(
-        createTransactionReportStub,
+        createTransactionReportRepositoryStub,
         'create',
       )
       await sut.execute(fakeRequest)
@@ -187,10 +188,10 @@ describe('PublishContractUseCase', () => {
     })
 
     test('Should throw if CreateTransactionReport throws', async () => {
-      const { sut, createTransactionReportStub } = makeSut()
+      const { sut, createTransactionReportRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       jest
-        .spyOn(createTransactionReportStub, 'create')
+        .spyOn(createTransactionReportRepositoryStub, 'create')
         .mockRejectedValueOnce(new Error())
       const promise = sut.execute(fakeRequest)
 
