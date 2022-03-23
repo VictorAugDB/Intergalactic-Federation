@@ -2,8 +2,11 @@
 
 ## Success case
 - [ ] Receive a POST request in /contracts/settle
-- [ ] Validate required fields **contractId**
+- [ ] Validate required fields **contractId, certificationDocument**
 - [ ] Get contract in the repository
+- [ ] Check if pilotCertificationDocument exists in contract
+- [ ] Check if cerificationDocument is the same as pilotCertificationDocument
+- [ ] Verificar se 
 - [ ] Get the pilot in the repository
 - [ ] Check if pilot's locationPlanet is the same as contract's destinationPlanet
 - [ ] Get the ship in the repository
@@ -17,8 +20,10 @@
 
 ## Exceptions
 - [ ] Returns 404 error if the endpoint not exists
-- [ ] Returns 400 if **contractId** is not provided by the client
+- [ ] Returns 400 if **contractId, certificationDocument** is not provided by the client
 - [ ] Returns 400 if contract is not found in the repository
+- [ ] Returns 400 if pilotCertificationDocument not exists in contract
+- [ ] Returns 400 if cerificationDocument is not the same as pilotCertificationDocument
 - [ ] Returns 400 if pilot is not found in the repository
 - [ ] Returns 400 if ship is not found in the repository
 - [ ] Returns 400 if pilot's locationPlanet is not the same as contract's destinationPlanet
