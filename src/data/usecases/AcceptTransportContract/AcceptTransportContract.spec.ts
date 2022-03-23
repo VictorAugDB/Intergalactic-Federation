@@ -8,6 +8,7 @@ import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { mockFakeAcceptedContract } from '@/data/mocks/fakes/mockFakeAcceptContract'
+import { mockFakeContractResourcesWeight } from '@/data/mocks/fakes/mockFakeContractResourcesWeight'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
 import { makeUpdateShipRepositoryStub } from '@/data/mocks/stubs/makeUpdateShipRepositoryStub'
@@ -36,12 +37,6 @@ const makeFakeRequest = (): IAcceptTransportContractInput => ({
   certificationDocument: 'any_document',
   contractId: 'any_id',
 })
-
-const mockFakeContractResourcesWeight = (): number =>
-  mockFakeContract().payload.reduce(
-    (acc: number, resource) => (acc += resource.weight),
-    0,
-  )
 
 export const makeGetContractRepositoryStub = (): IGetContract => {
   class GetContractRepositoryUseCaseStub implements IGetContract {
