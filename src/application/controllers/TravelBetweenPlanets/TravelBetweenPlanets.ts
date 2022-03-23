@@ -11,7 +11,7 @@ import { ITravelBetweenPlanets } from '@/domain/usecases/TravelBetweenPlanets'
 
 export class TravelBetweenPlanetsController implements IController {
   constructor(
-    private readonly travelBetweenPlanetstUseCase: ITravelBetweenPlanets,
+    private readonly travelBetweenPlanetsUseCase: ITravelBetweenPlanets,
     private readonly validation: IValidation,
   ) {}
 
@@ -24,7 +24,7 @@ export class TravelBetweenPlanetsController implements IController {
       const { certificationDocument, destinationPlanet } =
         req.body as ITravelBetweenPlanetsDTO
 
-      await this.travelBetweenPlanetstUseCase.execute({
+      await this.travelBetweenPlanetsUseCase.execute({
         certificationDocument,
         destinationPlanet,
       })
