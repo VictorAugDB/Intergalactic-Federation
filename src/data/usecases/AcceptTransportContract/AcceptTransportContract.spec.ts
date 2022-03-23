@@ -7,6 +7,7 @@ import {
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
+import { mockFakeAcceptedContract } from '@/data/mocks/fakes/mockFakeAcceptContract'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
 import { makeUpdateShipRepositoryStub } from '@/data/mocks/stubs/makeUpdateShipRepositoryStub'
@@ -34,11 +35,6 @@ MockDate.set(new Date(1487076708000))
 const makeFakeRequest = (): IAcceptTransportContractInput => ({
   certificationDocument: 'any_document',
   contractId: 'any_id',
-})
-
-const mockFakeAcceptedContract = (): IContract => ({
-  ...mockFakeContract(),
-  acceptanceDate: new Date(),
 })
 
 const mockFakeContractResourcesWeight = (): number =>
