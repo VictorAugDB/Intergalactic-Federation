@@ -59,6 +59,11 @@ const mockFakeShipWithCustomWeightLevel = (): IShip => ({
   weightLevel: 20,
 })
 
+export const mockFakeSettledContract = (): IContract => ({
+  ...mockFakeAcceptedContract(),
+  settlementDate: new Date(),
+})
+
 export const makeGetContractRepositoryStub = (): IGetContract => {
   class GetContractRepositoryUseCaseStub implements IGetContract {
     async getById(id: string): Promise<IContract | undefined> {
@@ -72,7 +77,7 @@ export const makeGetContractRepositoryStub = (): IGetContract => {
 export const makeUpdateContractRepositoryStub = (): IUpdateContract => {
   class UpdateContractRepositoryUseCaseStub implements IUpdateContract {
     async update(data: IUpdateContractInput): Promise<IContract> {
-      return mockFakeAcceptedContract()
+      return mockFakeSettledContract()
     }
   }
 
@@ -258,44 +263,33 @@ describe('SettleContractUseCase', () => {
     })
   })
 
-  // describe('UpdateContractRepository', () => {
-  //   test('Should call UpdateContractRepository with correct values', async () => {
-  //     const { sut, updateContractRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     const updateContractRepoSpy = jest.spyOn(
-  //       updateContractRepositoryStub,
-  //       'update',
-  //     )
-  //     await sut.execute(fakeRequest)
+  describe('UpdateContractRepository', () => {
+    test('Should call UpdateContractRepository with correct values', async () => {
+      const { sut, updateContractRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const updateContractRepoSpy = jest.spyOn(
+        updateContractRepositoryStub,
+        'update',
+      )
+      await sut.execute(fakeRequest)
 
-  //     expect(updateContractRepoSpy).toHaveBeenCalledWith({
-  //       id: 'any_id',
-  //       acceptanceDate: new Date(),
-  //     })
-  //   })
+      expect(updateContractRepoSpy).toHaveBeenCalledWith({
+        id: 'any_id',
+        settlementDate: new Date(),
+      })
+    })
 
-  //   test('Should throw if UpdateContractRepository throws', async () => {
-  //     const { sut, updateContractRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     jest
-  //       .spyOn(updateContractRepositoryStub, 'update')
-  //       .mockRejectedValueOnce(new Error())
-  //     const promise = sut.execute(fakeRequest)
+    test('Should throw if UpdateContractRepository throws', async () => {
+      const { sut, updateContractRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(updateContractRepositoryStub, 'update')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
 
-  //     await expect(promise).rejects.toThrowError()
-  //   })
-
-  //   test('Should throw if UpdateContractRepository not return acceptanceDate', async () => {
-  //     const { sut, updateContractRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     jest.spyOn(updateContractRepositoryStub, 'update').mockResolvedValueOnce({
-  //       ...mockFakeContract(),
-  //     })
-  //     const promise = sut.execute(fakeRequest)
-
-  //     await expect(promise).rejects.toThrowError()
-  //   })
-  // })
+      await expect(promise).rejects.toThrowError()
+    })
+  })
 
   test('Should throw an AppError if pilot not found', async () => {
     const { sut, getPilotRepositoryStub } = makeSut()
@@ -412,21 +406,6 @@ describe('SettleContractUseCase', () => {
       ),
     )
   })
-
-  // test('Should throw an AppError if ship weightCapacity is less than your weightLevel plus contract resource weight', async () => {
-  //   const { sut, getShipRepositoryStub } = makeSut()
-  //   jest.spyOn(getShipRepositoryStub, 'getById').mockResolvedValueOnce({
-  //     ...mockFakeShip(),
-  //     weightCapacity: 5,
-  //   })
-
-  //   const promise = sut.execute(makeFakeRequest())
-
-  //   await expect(promise).rejects.toBeInstanceOf(AppError)
-  //   await expect(promise).rejects.toThrowError(
-  //     new AppError('Your ship cannot carry this contract resources weight'),
-  //   )
-  // })
 
   test('Should not throw on success', async () => {
     const { sut } = makeSut()

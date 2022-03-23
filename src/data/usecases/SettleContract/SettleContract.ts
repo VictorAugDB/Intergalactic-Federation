@@ -85,12 +85,9 @@ export class SettleContractUseCase implements ISettleContract {
       weightLevel: weightLevel - contractResourcesWeight,
     })
 
-    // const { acceptanceDate } = await this.updateContractRepository.update({
-    //   id: contractId,
-    //   acceptanceDate: new Date(),
-    // })
-    // if (!acceptanceDate) {
-    //   throw new Error()
-    // }
+    await this.updateContractRepository.update({
+      id: contractId,
+      settlementDate: new Date(),
+    })
   }
 }
