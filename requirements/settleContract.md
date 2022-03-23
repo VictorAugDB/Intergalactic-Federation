@@ -28,9 +28,9 @@
 - [x] Returns 400 if cerificationDocument is not the same as pilotCertificationDocument
 - [x] Returns 400 if pilot is not found in the repository
 - [x] Returns 400 if ship is not found in the repository
-- [x] Returns 400 if weightLevel minus contract weight resources is less than zero
-- [ ] Returns 400 if pilot's locationPlanet is not the same as contract's destinationPlanet
-- [ ] Returns 500 if something unexpected happens when updating contract in the repository
-- [ ] Returns 500 if something unexpected happens when updating ship in the repository
-- [ ] Returns 500 if something unexpected happens when updating pilot in the repository
-- [ ] Returns 500 if something unexpected happens when updating reports in the repository
+- [ ] Returns 400 if weightLevel minus contract weight resources is less than zero
+- [x] Returns 400 if pilot's locationPlanet is not the same as contract's destinationPlanet
+- [x] Returns 500 if something unexpected happens when updating contract in the repository
+- [x] Returns 500 if something unexpected happens when updating ship in the repository
+- [x] Returns 500 if something unexpected happens when updating pilot in the repository
+- [x] Returns 500 if something unexpected happens when updating reports in the repository
