@@ -3,9 +3,9 @@ import { IGetContract } from '@/data/contracts/repositories/contracts/GetContrac
 import { IUpdateContract } from '@/data/contracts/repositories/contracts/UpdateContract'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IUpdatePilot } from '@/data/contracts/repositories/pilots/UpdatePilot'
+import { IAddToPilotTransportedResourcesReport } from '@/data/contracts/repositories/reports/AddToPilotTransportedResourcesReport'
+import { IAddToPlanetResourcesReport } from '@/data/contracts/repositories/reports/AddToPlanetResourcesReportReport'
 import { ICreateTransactionReport } from '@/data/contracts/repositories/reports/CreateTransactionReport'
-import { IUpdatePilotTransportedResourcesReport } from '@/data/contracts/repositories/reports/UpdatePilotTransportedResourcesReport'
-import { IUpdatePlanetResourcesReport } from '@/data/contracts/repositories/reports/UpdatePlanetResourcesReportReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import {
@@ -22,8 +22,8 @@ export class SettleContractUseCase implements ISettleContract {
     private readonly updateContractRepository: IUpdateContract,
     private readonly updatePilotRepository: IUpdatePilot,
     private readonly createTransationRepository: ICreateTransactionReport,
-    private readonly updatePlanetResourcesReportRepository: IUpdatePlanetResourcesReport,
-    private readonly updatePilotTransportedResourcesReportRepository: IUpdatePilotTransportedResourcesReport,
+    private readonly addToPlanetResourcesReportRepository: IAddToPlanetResourcesReport,
+    private readonly addToPilotTransportedResourcesReportRepository: IAddToPilotTransportedResourcesReport,
   ) {}
 
   async execute({
@@ -34,7 +34,13 @@ export class SettleContractUseCase implements ISettleContract {
     if (!contract) {
       throw new AppError('Contract not found!')
     }
-    const { settlementDate, pilotCerficiationDocument, value } = contract
+    const {
+      settlementDate,
+      pilotCerficiationDocument,
+      value,
+      destinationPlanet,
+      payload,
+    } = contract
 
     if (settlementDate) {
       throw new AppError('This contract is already settled!')
@@ -54,7 +60,7 @@ export class SettleContractUseCase implements ISettleContract {
     if (!pilot) {
       throw new AppError('Pilot not found!')
     }
-    const { locationPlanet, shipId, credits } = pilot
+    const { locationPlanet, shipId, credits, name } = pilot
     const { originPlanet } = contract
 
     if (locationPlanet !== originPlanet) {
@@ -68,7 +74,6 @@ export class SettleContractUseCase implements ISettleContract {
     }
 
     const { weightLevel } = ship
-    const { payload } = contract
     const contractResourcesWeight = payload.reduce(
       (acc: number, resource) => (acc += resource.weight),
       0,
@@ -98,5 +103,23 @@ export class SettleContractUseCase implements ISettleContract {
     await this.createTransationRepository.create(
       `${contractId} Description paid -₭${value}`,
     )
+
+    await this.addToPlanetResourcesReportRepository.add({
+      planet: destinationPlanet,
+      received: {
+        water: payload.find((resource) => resource.name === 'water')?.weight,
+        food: payload.find((resource) => resource.name === 'food')?.weight,
+        minerals: payload.find((resource) => resource.name === 'minerals')
+          ?.weight,
+      },
+    })
+
+    await this.addToPilotTransportedResourcesReportRepository.add({
+      pilotName: name,
+      water: payload.find((resource) => resource.name === 'water')?.weight,
+      food: payload.find((resource) => resource.name === 'food')?.weight,
+      minerals: payload.find((resource) => resource.name === 'minerals')
+        ?.weight,
+    })
   }
 }

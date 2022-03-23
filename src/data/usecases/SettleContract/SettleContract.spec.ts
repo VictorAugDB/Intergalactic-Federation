@@ -6,15 +6,15 @@ import {
 } from '@/data/contracts/repositories/contracts/UpdateContract'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IUpdatePilot } from '@/data/contracts/repositories/pilots/UpdatePilot'
+import {
+  IAddToPilotTransportedResourcesReport,
+  IAddToPilotTransportedResourcesReportInput,
+} from '@/data/contracts/repositories/reports/AddToPilotTransportedResourcesReport'
+import {
+  IAddToPlanetResourcesReport,
+  IAddToPlanetResourcesReportInput,
+} from '@/data/contracts/repositories/reports/AddToPlanetResourcesReportReport'
 import { ICreateTransactionReport } from '@/data/contracts/repositories/reports/CreateTransactionReport'
-import {
-  IUpdatePilotTransportedResourcesReport,
-  IUpdatePilotTransportedResourcesReportInput,
-} from '@/data/contracts/repositories/reports/UpdatePilotTransportedResourcesReport'
-import {
-  IUpdatePlanetResourcesReport,
-  IUpdatePlanetResourcesReportInput,
-} from '@/data/contracts/repositories/reports/UpdatePlanetResourcesReportReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { mockFakeAcceptedContract } from '@/data/mocks/fakes/mockFakeAcceptContract'
@@ -41,8 +41,8 @@ type ISutTypes = {
   updatePilotRepositoryStub: IUpdatePilot
   updateContractRepositoryStub: IUpdateContract
   createTransactionReportRepositoryStub: ICreateTransactionReport
-  updatePlanetResourcesReportRepositoryStub: IUpdatePlanetResourcesReport
-  updatePilotTransportedResourcesReportRepositoryStub: IUpdatePilotTransportedResourcesReport
+  addToPlanetResourcesReportRepositoryStub: IAddToPlanetResourcesReport
+  addToPilotTransportedResourcesReportRepositoryStub: IAddToPilotTransportedResourcesReport
 }
 
 Date.now = jest.fn(() => 1487076708000)
@@ -95,28 +95,28 @@ const makeCreateTransationReportRepositoryStub =
     return new CreateTransationReportRepositoryUseCaseStub()
   }
 
-export const makeUpdatePlanetResourcesReportRepositoryStub =
-  (): IUpdatePlanetResourcesReport => {
-    class UpdatePlanetResourcesReportRepositoryUseCaseStub
-      implements IUpdatePlanetResourcesReport
+export const makeAddToPlanetResourcesReportRepositoryStub =
+  (): IAddToPlanetResourcesReport => {
+    class AddToPlanetResourcesReportRepositoryUseCaseStub
+      implements IAddToPlanetResourcesReport
     {
-      async update(data: IUpdatePlanetResourcesReportInput): Promise<void> {}
+      async add(data: IAddToPlanetResourcesReportInput): Promise<void> {}
     }
 
-    return new UpdatePlanetResourcesReportRepositoryUseCaseStub()
+    return new AddToPlanetResourcesReportRepositoryUseCaseStub()
   }
 
-export const makeUpdatePilotTransportedResourcesReportRepositoryStub =
-  (): IUpdatePilotTransportedResourcesReport => {
-    class UpdatePilotTransportedResourcesReportRepositoryUseCaseStub
-      implements IUpdatePilotTransportedResourcesReport
+export const makeAddToPilotTransportedResourcesReportRepositoryStub =
+  (): IAddToPilotTransportedResourcesReport => {
+    class AddToPilotTransportedResourcesReportRepositoryUseCaseStub
+      implements IAddToPilotTransportedResourcesReport
     {
-      async update(
-        data: IUpdatePilotTransportedResourcesReportInput,
+      async add(
+        data: IAddToPilotTransportedResourcesReportInput,
       ): Promise<void> {}
     }
 
-    return new UpdatePilotTransportedResourcesReportRepositoryUseCaseStub()
+    return new AddToPilotTransportedResourcesReportRepositoryUseCaseStub()
   }
 
 const makeSut = (): ISutTypes => {
@@ -130,10 +130,10 @@ const makeSut = (): ISutTypes => {
   const updatePilotRepositoryStub = makeUpdatePilotRepositoryStub()
   const createTransactionReportRepositoryStub =
     makeCreateTransationReportRepositoryStub()
-  const updatePlanetResourcesReportRepositoryStub =
-    makeUpdatePlanetResourcesReportRepositoryStub()
-  const updatePilotTransportedResourcesReportRepositoryStub =
-    makeUpdatePilotTransportedResourcesReportRepositoryStub()
+  const addToPlanetResourcesReportRepositoryStub =
+    makeAddToPlanetResourcesReportRepositoryStub()
+  const addToPilotTransportedResourcesReportRepositoryStub =
+    makeAddToPilotTransportedResourcesReportRepositoryStub()
 
   const sut = new SettleContractUseCase(
     getPilotRepositoryStub,
@@ -143,8 +143,8 @@ const makeSut = (): ISutTypes => {
     updateContractRepositoryStub,
     updatePilotRepositoryStub,
     createTransactionReportRepositoryStub,
-    updatePlanetResourcesReportRepositoryStub,
-    updatePilotTransportedResourcesReportRepositoryStub,
+    addToPlanetResourcesReportRepositoryStub,
+    addToPilotTransportedResourcesReportRepositoryStub,
   )
 
   return {
@@ -156,8 +156,8 @@ const makeSut = (): ISutTypes => {
     updatePilotRepositoryStub,
     updateContractRepositoryStub,
     createTransactionReportRepositoryStub,
-    updatePlanetResourcesReportRepositoryStub,
-    updatePilotTransportedResourcesReportRepositoryStub,
+    addToPlanetResourcesReportRepositoryStub,
+    addToPilotTransportedResourcesReportRepositoryStub,
   }
 }
 
@@ -337,6 +337,66 @@ describe('SettleContractUseCase', () => {
       const fakeRequest = makeFakeRequest()
       jest
         .spyOn(createTransactionReportRepositoryStub, 'create')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
+  describe('AddToPlanetResourcesReport', () => {
+    test('Should call AddToPlanetResourcesReport with correct values', async () => {
+      const { sut, addToPlanetResourcesReportRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const addToPlanetResourcesRepoSpy = jest.spyOn(
+        addToPlanetResourcesReportRepositoryStub,
+        'add',
+      )
+      await sut.execute(fakeRequest)
+
+      expect(addToPlanetResourcesRepoSpy).toHaveBeenCalledWith({
+        planet: 'aqua',
+        received: { food: 5, minerals: 1, water: 10 },
+      })
+    })
+
+    test('Should throw if AddToPlanetResourcesReport throws', async () => {
+      const { sut, addToPlanetResourcesReportRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(addToPlanetResourcesReportRepositoryStub, 'add')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
+  describe('AddToPilotTransportedResourcesReport', () => {
+    test('Should call AddToPilotTransportedResourcesReport with correct values', async () => {
+      const { sut, addToPilotTransportedResourcesReportRepositoryStub } =
+        makeSut()
+      const fakeRequest = makeFakeRequest()
+      const addToPlanetResourcesRepoSpy = jest.spyOn(
+        addToPilotTransportedResourcesReportRepositoryStub,
+        'add',
+      )
+      await sut.execute(fakeRequest)
+
+      expect(addToPlanetResourcesRepoSpy).toHaveBeenCalledWith({
+        pilotName: mockFakePilot().name,
+        water: 10,
+        food: 5,
+        minerals: 1,
+      })
+    })
+
+    test('Should throw if AddToPilotTransportedResourcesReport throws', async () => {
+      const { sut, addToPilotTransportedResourcesReportRepositoryStub } =
+        makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(addToPilotTransportedResourcesReportRepositoryStub, 'add')
         .mockRejectedValueOnce(new Error())
       const promise = sut.execute(fakeRequest)
 

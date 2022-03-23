@@ -15,6 +15,10 @@ export function mockFakeContract(): IContract {
         name: 'food',
         weight: 5,
       },
+      {
+        name: 'minerals',
+        weight: 1,
+      },
     ],
     value: 500,
   }

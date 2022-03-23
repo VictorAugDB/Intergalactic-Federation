@@ -14,9 +14,9 @@
 - [x] Update the ship in the repository with currentWeight minus contract resources weight
 - [x] Update the contract in the repository with settlementDate property
 - [x] Update the pilot in the repository by adding the contract value to your credits
-- [ ] Update the reports in the repository by adding the contract resources weight to current amount of planet resources weight
-- [ ] Update the reports in the repository by adding the percentage of each resource type transported by this pilot
-- [ ] Update the reports in the repository with the transaction log
+- [x] Update the reports in the repository by adding the contract resources weight to current amount of planet resources weight
+- [x] Update the reports in the repository by adding the percentage of each resource type transported by this pilot
+- [x] Update the reports in the repository with the transaction log
 - [ ] Returns 200 with success message
 
 ## Exceptions
