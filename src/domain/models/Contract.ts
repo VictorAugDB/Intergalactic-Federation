@@ -11,5 +11,6 @@ export type IContract = {
   destinationPlanet: string
   acceptanceDate?: Date
   settlementDate?: Date
+  pilotCerficiationDocument?: string
   value: number
 }

@@ -64,6 +64,7 @@ export class AcceptTransportContractUseCase
     const { acceptanceDate } = await this.updateContractRepository.update({
       id: contractId,
       acceptanceDate: new Date(),
+      pilotCerficiationDocument: certificationDocument,
     })
     if (!acceptanceDate) {
       throw new Error()
