@@ -7,29 +7,32 @@ import {
   IResponse,
 } from '@/application/protocols/Controller'
 import { IValidation } from '@/application/protocols/Validation'
-import { IAcceptTransportContract } from '@/domain/usecases/AcceptTransportContract'
+import {
+  IAcceptTransportContract,
+  IAcceptTransportContractResult,
+} from '@/domain/usecases/AcceptTransportContract'
 
 export class AcceptTransportContractController implements IController {
   constructor(
-    private readonly travelBetweenPlanetstUseCase: IAcceptTransportContract,
+    private readonly acceptTransportContractUseCase: IAcceptTransportContract,
     private readonly validation: IValidation,
   ) {}
 
   async handle(
     req: IRequest<IAcceptTransportContractDTO>,
-  ): Promise<IResponse<{ message: 'SUCCESS' } | Error>> {
+  ): Promise<IResponse<IAcceptTransportContractResult | Error>> {
     try {
       const error = this.validation.validate(req.body)
       if (error) return badRequest(error)
       const { contractId, certificationDocument } =
         req.body as IAcceptTransportContractDTO
 
-      await this.travelBetweenPlanetstUseCase.execute({
+      const result = await this.acceptTransportContractUseCase.execute({
         contractId,
         certificationDocument,
       })
 
-      return success({ message: 'SUCCESS' })
+      return success(result)
     } catch (err) {
       return handleDefaultCatchedErrors(err)
     }

@@ -14,12 +14,17 @@ import {
   IAcceptTransportContractInput,
   IAcceptTransportContractResult,
 } from '@/domain/usecases/AcceptTransportContract'
+import MockDate from 'mockdate'
 
 type ISutTypes = {
   sut: AcceptTransportContractController
   acceptTransportContractStub: IAcceptTransportContract
   validationStub: IValidation
 }
+
+Date.now = jest.fn(() => 1487076708000)
+
+MockDate.set(new Date(1487076708000))
 
 const makeFakeRequest = (): IRequest<IAcceptTransportContractDTO> => ({
   body: {
@@ -131,6 +136,12 @@ describe('AcceptTransportContractController', () => {
     const { sut } = makeSut()
     const result = await sut.handle(makeFakeRequest())
 
-    expect(result).toEqual(success({ message: 'SUCCESS' }))
+    expect(result).toEqual(
+      success({
+        acceptanceDate: new Date(),
+        contractId: 'any_id',
+        shipWeightLevel: 20,
+      }),
+    )
   })
 })
