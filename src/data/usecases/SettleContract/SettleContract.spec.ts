@@ -291,6 +291,31 @@ describe('SettleContractUseCase', () => {
     })
   })
 
+  describe('UpdatePilotRepository', () => {
+    test('Should call UpdatePilotRepository with correct values', async () => {
+      const { sut, updatePilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const updatePilotRepoSpy = jest.spyOn(updatePilotRepositoryStub, 'update')
+      await sut.execute(fakeRequest)
+
+      expect(updatePilotRepoSpy).toHaveBeenCalledWith({
+        certificationDocument: 'any_document',
+        credits: mockFakePilot().credits + mockFakeSettledContract().value,
+      })
+    })
+
+    test('Should throw if UpdatePilotRepository throws', async () => {
+      const { sut, updatePilotRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(updatePilotRepositoryStub, 'update')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
   test('Should throw an AppError if pilot not found', async () => {
     const { sut, getPilotRepositoryStub } = makeSut()
     jest

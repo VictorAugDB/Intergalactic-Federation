@@ -11,8 +11,8 @@
 - [x] Check if pilot's locationPlanet is the same as contract's destinationPlanet
 - [x] Get the ship in the repository
 - [x] Check if weightLevel minus contract weight resources is less than zero
-- [ ] Update the contract in the repository with settlementDate property
-- [ ] Update the ship in the repository with currentWeight minus contract resources weight
+- [x] Update the ship in the repository with currentWeight minus contract resources weight
+- [x] Update the contract in the repository with settlementDate property
 - [ ] Update the pilot in the repository by adding the contract value to your credits
 - [ ] Update the reports in the repository by adding the contract resources wieght to current amount of planet resources weight
 - [ ] Update the reports in the repository by adding the percentage of each resource type transported by this pilot

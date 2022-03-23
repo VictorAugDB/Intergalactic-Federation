@@ -34,15 +34,15 @@ export class SettleContractUseCase implements ISettleContract {
     if (!contract) {
       throw new AppError('Contract not found!')
     }
+    const { settlementDate, pilotCerficiationDocument, value } = contract
 
-    if (contract.settlementDate) {
+    if (settlementDate) {
       throw new AppError('This contract is already settled!')
     }
 
-    if (!contract.pilotCerficiationDocument) {
+    if (!pilotCerficiationDocument) {
       throw new AppError('This contract must be accepted on your originPlanet!')
     }
-    const { pilotCerficiationDocument } = contract
 
     if (certificationDocument !== pilotCerficiationDocument) {
       throw new AppError('You not have authorization to settle this contract!')
@@ -54,7 +54,7 @@ export class SettleContractUseCase implements ISettleContract {
     if (!pilot) {
       throw new AppError('Pilot not found!')
     }
-    const { locationPlanet, shipId } = pilot
+    const { locationPlanet, shipId, credits } = pilot
     const { originPlanet } = contract
 
     if (locationPlanet !== originPlanet) {
@@ -88,6 +88,11 @@ export class SettleContractUseCase implements ISettleContract {
     await this.updateContractRepository.update({
       id: contractId,
       settlementDate: new Date(),
+    })
+
+    await this.updatePilotRepository.update({
+      certificationDocument,
+      credits: credits + value,
     })
   }
 }
