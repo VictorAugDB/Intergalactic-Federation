@@ -8,11 +8,13 @@ import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { mockFakeAcceptedContract } from '@/data/mocks/fakes/mockFakeAcceptContract'
+import { mockFakeContractResourcesWeight } from '@/data/mocks/fakes/mockFakeContractResourcesWeight'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
 import { makeUpdateShipRepositoryStub } from '@/data/mocks/stubs/makeUpdateShipRepositoryStub'
 import { SettleContractUseCase } from '@/data/usecases/SettleContract/SettleContract'
 import { IContract } from '@/domain/models/Contract'
+import { IShip } from '@/domain/models/Ship'
 import { ISettleContractInput } from '@/domain/usecases/SettleContrac'
 import { mockFakeContract } from '@/shared/mocks/fakeContract'
 import { mockFakePilot } from '@/shared/mocks/fakePilot'
@@ -37,6 +39,11 @@ const makeFakeRequest = (): ISettleContractInput => ({
   contractId: 'any_id',
 })
 
+const mockFakeShipWithCustomWeightLevel = (): IShip => ({
+  ...mockFakeShip(),
+  weightLevel: 20,
+})
+
 export const makeGetContractRepositoryStub = (): IGetContract => {
   class GetContractRepositoryUseCaseStub implements IGetContract {
     async getById(id: string): Promise<IContract | undefined> {
@@ -59,10 +66,9 @@ export const makeUpdateContractRepositoryStub = (): IUpdateContract => {
 
 const makeSut = (): ISutTypes => {
   const getPilotRepositoryStub = makeGetPilotRepositoryStub(mockFakePilot())
-  const getShipRepositoryStub = makeGetShipRepositoryStub({
-    ...mockFakeShip(),
-    weightLevel: 20,
-  })
+  const getShipRepositoryStub = makeGetShipRepositoryStub(
+    mockFakeShipWithCustomWeightLevel(),
+  )
   const getContractRepositoryStub = makeGetContractRepositoryStub()
   const updateShipRepositoryStub = makeUpdateShipRepositoryStub()
   const updateContractRepositoryStub = makeUpdateContractRepositoryStub()
@@ -160,31 +166,32 @@ describe('SettleContractUseCase', () => {
     })
   })
 
-  // describe('UpdateShipRepository', () => {
-  //   test('Should call UpdateShipRepository with correct values', async () => {
-  //     const { sut, updateShipRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     const updateShipRepoSpy = jest.spyOn(updateShipRepositoryStub, 'update')
-  //     await sut.execute(fakeRequest)
+  describe('UpdateShipRepository', () => {
+    test('Should call UpdateShipRepository with correct values', async () => {
+      const { sut, updateShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const updateShipRepoSpy = jest.spyOn(updateShipRepositoryStub, 'update')
+      await sut.execute(fakeRequest)
 
-  //     expect(updateShipRepoSpy).toHaveBeenCalledWith({
-  //       id: 'any_id',
-  //       weightLevel:
-  //         mockFakeShip().weightLevel + mockFakeContractResourcesWeight(),
-  //     })
-  //   })
+      expect(updateShipRepoSpy).toHaveBeenCalledWith({
+        id: 'any_id',
+        weightLevel:
+          mockFakeShipWithCustomWeightLevel().weightLevel -
+          mockFakeContractResourcesWeight(),
+      })
+    })
 
-  //   test('Should throw if UpdateShipRepository throws', async () => {
-  //     const { sut, updateShipRepositoryStub } = makeSut()
-  //     const fakeRequest = makeFakeRequest()
-  //     jest
-  //       .spyOn(updateShipRepositoryStub, 'update')
-  //       .mockRejectedValueOnce(new Error())
-  //     const promise = sut.execute(fakeRequest)
+    test('Should throw if UpdateShipRepository throws', async () => {
+      const { sut, updateShipRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(updateShipRepositoryStub, 'update')
+        .mockRejectedValueOnce(new Error())
+      const promise = sut.execute(fakeRequest)
 
-  //     await expect(promise).rejects.toThrowError()
-  //   })
-  // })
+      await expect(promise).rejects.toThrowError()
+    })
+  })
 
   // describe('UpdateContractRepository', () => {
   //   test('Should call UpdateContractRepository with correct values', async () => {

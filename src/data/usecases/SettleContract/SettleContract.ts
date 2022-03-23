@@ -71,6 +71,12 @@ export class SettleContractUseCase implements ISettleContract {
         'You cannot settle this contract because you do not have the resources!',
       )
     }
+
+    await this.updateShipRepository.update({
+      id: shipId,
+      weightLevel: weightLevel - contractResourcesWeight,
+    })
+
     // const { acceptanceDate } = await this.updateContractRepository.update({
     //   id: contractId,
     //   acceptanceDate: new Date(),
@@ -78,10 +84,5 @@ export class SettleContractUseCase implements ISettleContract {
     // if (!acceptanceDate) {
     //   throw new Error()
     // }
-    // const { weightLevel: shipWeightLevel } =
-    //   await this.updateShipRepository.update({
-    //     id: shipId,
-    //     weightLevel: weightLevel + contractResourcesWeight,
-    //   })
   }
 }
