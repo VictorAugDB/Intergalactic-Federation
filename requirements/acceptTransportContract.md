@@ -1,24 +1,24 @@
 # Accept Transport Contract
 
 ## Success case
-- [ ] Receive a POST request in /contracts/accept
-- [ ] Validate required fields **contractId, certificationDocument**
-- [ ] Get pilot in the repository
-- [ ] Get contract in the repository
-- [ ] Check if contract's originPlanet the same as pilot's locationPlanet
-- [ ] Get ship in the repository
-- [ ] Check if ship weightLevel plus contract resources weight is less than weightCapacity
-- [ ] Update the contract in the repository with the certificationDocument and acceptanceDate
-- [ ] Update the ship weightLevel plus the weight of contract resources
-- [ ] Returns 200 with a success message
+- [x] Receive a POST request in /contracts/accept
+- [x] Validate required fields **contractId, certificationDocument**
+- [x] Get pilot in the repository
+- [x] Get contract in the repository
+- [x] Check if contract's originPlanet the same as pilot's locationPlanet
+- [x] Get ship in the repository
+- [x] Check if ship weightLevel plus contract resources weight is less than weightCapacity
+- [x] Update the contract in the repository with the certificationDocument and acceptanceDate
+- [x] Update the ship weightLevel plus the weight of contract resources
+- [x] Returns 200 with **contractId, shipWeightLevel, acceptanceDate**
 
 ## Exceptions
-- [ ] Returns 404 error if the endpoint not exists
-- [ ] Returns 400 if **id, certificationDocument** is not provided by the client
-- [ ] Returns 400 if pilot is not found in the repository
-- [ ] Returns 400 if contract is not found in the repository
-- [ ] Returns 400 if ship is not found in the repository
-- [ ] Returns 400 if contract's originPlanet is not the same as pilot's locationPlanet
-- [ ] Returns 400 if ship weightLevel plus contract resources weight is higher than weightCapacity
-- [ ] Returns 500 if something unexpected happens when updating contract to repository
-- [ ] Returns 500 if something unexpected happens when updating ship to repository
+- [x] Returns 404 error if the endpoint not exists
+- [x] Returns 400 if **id, certificationDocument** is not provided by the client
+- [x] Returns 400 if pilot is not found in the repository
+- [x] Returns 400 if contract is not found in the repository
+- [x] Returns 400 if ship is not found in the repository
+- [x] Returns 400 if contract's originPlanet is not the same as pilot's locationPlanet
+- [x] Returns 400 if ship weightLevel plus contract resources weight is higher than weightCapacity
+- [x] Returns 500 if something unexpected happens when updating contract to repository
+- [x] Returns 500 if something unexpected happens when updating ship to repository
