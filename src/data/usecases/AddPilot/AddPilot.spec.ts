@@ -178,10 +178,25 @@ describe('AddPilotUseCase', () => {
     })
   })
 
-  test('Should throw an AppError if pilot already exists', async () => {
+  test('Should throw an AppError if already exists pilot with requested certificationDocument', async () => {
     const { sut, getPilotRepositoryStub } = makeSut()
     jest
       .spyOn(getPilotRepositoryStub, 'getByDocument')
+      .mockResolvedValueOnce(mockFakePilot())
+
+    const fakeRequest = makeFakeRequest()
+    const promise = sut.execute(fakeRequest)
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError('Pilot already exists!'),
+    )
+  })
+
+  test('Should throw an AppError if already exists pilot with requested name', async () => {
+    const { sut, getPilotRepositoryStub } = makeSut()
+    jest
+      .spyOn(getPilotRepositoryStub, 'getByName')
       .mockResolvedValueOnce(mockFakePilot())
 
     const fakeRequest = makeFakeRequest()

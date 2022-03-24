@@ -6,6 +6,10 @@ export const makeGetPilotRepositoryStub = (pilot?: IPilot): IGetPilot => {
     async getByDocument(document: string): Promise<IPilot | undefined> {
       return pilot
     }
+
+    async getByName(document: string): Promise<IPilot | undefined> {
+      return pilot
+    }
   }
 
   return new GetPilotRepositoryUseCaseStub()

@@ -10,15 +10,13 @@ import {
   IAddToPilotTransportedResourcesReport,
   IAddToPilotTransportedResourcesReportInput,
 } from '@/data/contracts/repositories/reports/AddToPilotTransportedResourcesReport'
-import {
-  IAddToPlanetResourcesReport,
-  IAddToPlanetResourcesReportInput,
-} from '@/data/contracts/repositories/reports/AddToPlanetResourcesReportReport'
+import { IAddToPlanetResourcesReport } from '@/data/contracts/repositories/reports/AddToPlanetResourcesReportReport'
 import { ICreateTransactionReport } from '@/data/contracts/repositories/reports/CreateTransactionReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { mockFakeAcceptedContract } from '@/data/mocks/fakes/mockFakeAcceptContract'
 import { mockFakeContractResourcesWeight } from '@/data/mocks/fakes/mockFakeContractResourcesWeight'
+import { makeAddToPlanetResourcesReportRepositoryStub } from '@/data/mocks/stubs/makeAddToPlanetReportRepositoryStub'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
 import { makeUpdatePilotRepositoryStub } from '@/data/mocks/stubs/makeUpdatePilotRepositoryStub'
@@ -95,18 +93,7 @@ const makeCreateTransationReportRepositoryStub =
     return new CreateTransationReportRepositoryUseCaseStub()
   }
 
-export const makeAddToPlanetResourcesReportRepositoryStub =
-  (): IAddToPlanetResourcesReport => {
-    class AddToPlanetResourcesReportRepositoryUseCaseStub
-      implements IAddToPlanetResourcesReport
-    {
-      async add(data: IAddToPlanetResourcesReportInput): Promise<void> {}
-    }
-
-    return new AddToPlanetResourcesReportRepositoryUseCaseStub()
-  }
-
-export const makeAddToPilotTransportedResourcesReportRepositoryStub =
+const makeAddToPilotTransportedResourcesReportRepositoryStub =
   (): IAddToPilotTransportedResourcesReport => {
     class AddToPilotTransportedResourcesReportRepositoryUseCaseStub
       implements IAddToPilotTransportedResourcesReport

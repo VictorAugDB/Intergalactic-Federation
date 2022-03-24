@@ -2,6 +2,7 @@ import { AppError } from '@/application/errors/AppError'
 import { IGetContract } from '@/data/contracts/repositories/contracts/GetContract'
 import { IUpdateContract } from '@/data/contracts/repositories/contracts/UpdateContract'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
+import { IAddToPlanetResourcesReport } from '@/data/contracts/repositories/reports/AddToPlanetResourcesReportReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import {
@@ -19,6 +20,7 @@ export class AcceptTransportContractUseCase
     private readonly getContractRepository: IGetContract,
     private readonly updateShipRepository: IUpdateShip,
     private readonly updateContractRepository: IUpdateContract,
+    private readonly addToPlanetResourcesReportRepository: IAddToPlanetResourcesReport,
   ) {}
 
   async execute({
@@ -50,7 +52,7 @@ export class AcceptTransportContractUseCase
     }
     const { weightLevel, weightCapacity } = ship
 
-    const { payload } = contract
+    const { payload, originPlanet } = contract
     const contractResourcesWeight = payload.reduce(
       (acc: number, resource) => (acc += resource.weight),
       0,
@@ -75,6 +77,16 @@ export class AcceptTransportContractUseCase
         id: shipId,
         weightLevel: weightLevel + contractResourcesWeight,
       })
+
+    await this.addToPlanetResourcesReportRepository.add({
+      planet: originPlanet,
+      sent: {
+        water: payload.find((resource) => resource.name === 'water')?.weight,
+        food: payload.find((resource) => resource.name === 'food')?.weight,
+        minerals: payload.find((resource) => resource.name === 'minerals')
+          ?.weight,
+      },
+    })
 
     return { contractId, acceptanceDate, shipWeightLevel }
   }

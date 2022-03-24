@@ -22,10 +22,12 @@ export class AddPilotUseCase implements IAddPilot {
     name,
     shipId,
   }: IAddPilotInput): Promise<IPilot> {
-    const hasPilot = await this.getPilotRepository.getByDocument(
-      certificationDocument,
-    )
-    if (hasPilot) throw new AppError('Pilot already exists!')
+    const hasPilotWithSameDocument =
+      await this.getPilotRepository.getByDocument(certificationDocument)
+    if (hasPilotWithSameDocument) throw new AppError('Pilot already exists!')
+
+    const hasPilotWithSameName = await this.getPilotRepository.getByName(name)
+    if (hasPilotWithSameName) throw new AppError('Pilot already exists!')
 
     const ship = await this.getShipRepository.getById(shipId)
     if (!ship) throw new AppError('Ship does not exists!')

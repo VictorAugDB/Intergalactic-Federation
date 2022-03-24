@@ -5,10 +5,12 @@ import {
   IUpdateContractInput,
 } from '@/data/contracts/repositories/contracts/UpdateContract'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
+import { IAddToPlanetResourcesReport } from '@/data/contracts/repositories/reports/AddToPlanetResourcesReportReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
 import { mockFakeAcceptedContract } from '@/data/mocks/fakes/mockFakeAcceptContract'
 import { mockFakeContractResourcesWeight } from '@/data/mocks/fakes/mockFakeContractResourcesWeight'
+import { makeAddToPlanetResourcesReportRepositoryStub } from '@/data/mocks/stubs/makeAddToPlanetReportRepositoryStub'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
 import { makeGetShipRepositoryStub } from '@/data/mocks/stubs/makeGetShipRepositoryStub'
 import { makeUpdateShipRepositoryStub } from '@/data/mocks/stubs/makeUpdateShipRepositoryStub'
@@ -27,6 +29,7 @@ type ISutTypes = {
   getContractRepositoryStub: IGetContract
   updateShipRepositoryStub: IUpdateShip
   updateContractRepositoryStub: IUpdateContract
+  addToPlanetResourcesReportRepositoryStub: IAddToPlanetResourcesReport
 }
 
 Date.now = jest.fn(() => 1487076708000)
@@ -64,6 +67,8 @@ const makeSut = (): ISutTypes => {
   const getContractRepositoryStub = makeGetContractRepositoryStub()
   const updateShipRepositoryStub = makeUpdateShipRepositoryStub()
   const updateContractRepositoryStub = makeUpdateContractRepositoryStub()
+  const addToPlanetResourcesReportRepositoryStub =
+    makeAddToPlanetResourcesReportRepositoryStub()
 
   const sut = new AcceptTransportContractUseCase(
     getPilotRepositoryStub,
@@ -71,6 +76,7 @@ const makeSut = (): ISutTypes => {
     getContractRepositoryStub,
     updateShipRepositoryStub,
     updateContractRepositoryStub,
+    addToPlanetResourcesReportRepositoryStub,
   )
 
   return {
@@ -80,6 +86,7 @@ const makeSut = (): ISutTypes => {
     updateShipRepositoryStub,
     getContractRepositoryStub,
     updateContractRepositoryStub,
+    addToPlanetResourcesReportRepositoryStub,
   }
 }
 
@@ -218,6 +225,34 @@ describe('AcceptTransportContractUseCase', () => {
       jest.spyOn(updateContractRepositoryStub, 'update').mockResolvedValueOnce({
         ...mockFakeContract(),
       })
+      const promise = sut.execute(fakeRequest)
+
+      await expect(promise).rejects.toThrowError()
+    })
+  })
+
+  describe('AddToPlanetResourcesReport', () => {
+    test('Should call AddToPlanetResourcesReport with correct values', async () => {
+      const { sut, addToPlanetResourcesReportRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      const addToPlanetResourcesRepoSpy = jest.spyOn(
+        addToPlanetResourcesReportRepositoryStub,
+        'add',
+      )
+      await sut.execute(fakeRequest)
+
+      expect(addToPlanetResourcesRepoSpy).toHaveBeenCalledWith({
+        planet: 'andvari',
+        sent: { food: 5, minerals: 1, water: 10 },
+      })
+    })
+
+    test('Should throw if AddToPlanetResourcesReport throws', async () => {
+      const { sut, addToPlanetResourcesReportRepositoryStub } = makeSut()
+      const fakeRequest = makeFakeRequest()
+      jest
+        .spyOn(addToPlanetResourcesReportRepositoryStub, 'add')
+        .mockRejectedValueOnce(new Error())
       const promise = sut.execute(fakeRequest)
 
       await expect(promise).rejects.toThrowError()

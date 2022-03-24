@@ -14,10 +14,10 @@
 - [x] Update the ship in the repository with currentWeight minus contract resources weight
 - [x] Update the contract in the repository with settlementDate property
 - [x] Update the pilot in the repository by adding the contract value to your credits
-- [x] Update the reports in the repository by adding the contract resources weight to current amount of planet resources weight
+- [x] Update the reports in the repository by adding the contract resources weight to current amount of planet received resources weight
 - [x] Update the reports in the repository by adding the percentage of each resource type transported by this pilot
 - [x] Update the reports in the repository with the transaction log
-- [ ] Returns 200 with success message
+- [x] Returns 200 with success message
 
 ## Exceptions
 - [x] Returns 404 error if the endpoint not exists
@@ -28,7 +28,7 @@
 - [x] Returns 400 if cerificationDocument is not the same as pilotCertificationDocument
 - [x] Returns 400 if pilot is not found in the repository
 - [x] Returns 400 if ship is not found in the repository
-- [ ] Returns 400 if weightLevel minus contract weight resources is less than zero
+- [x] Returns 400 if weightLevel minus contract weight resources is less than zero
 - [x] Returns 400 if pilot's locationPlanet is not the same as contract's destinationPlanet
 - [x] Returns 500 if something unexpected happens when updating contract in the repository
 - [x] Returns 500 if something unexpected happens when updating ship in the repository

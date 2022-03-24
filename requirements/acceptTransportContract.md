@@ -10,6 +10,7 @@
 - [x] Check if ship weightLevel plus contract resources weight is less than weightCapacity
 - [x] Update the contract in the repository with the certificationDocument and acceptanceDate
 - [x] Update the ship weightLevel plus the weight of contract resources
+- [x] Update the reports in the repository by adding the contract resources weight to current amount of planet send resources weight
 - [x] Returns 200 with **contractId, shipWeightLevel, acceptanceDate**
 
 ## Exceptions
@@ -22,3 +23,4 @@
 - [x] Returns 400 if ship weightLevel plus contract resources weight is higher than weightCapacity
 - [x] Returns 500 if something unexpected happens when updating contract to repository
 - [x] Returns 500 if something unexpected happens when updating ship to repository
+- [x] Returns 500 if something unexpected happens when updating reports to repository
