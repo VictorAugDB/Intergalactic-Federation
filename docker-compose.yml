@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  database:
+    image: postgres
+    container_name: database_intergalatic_federation
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=adminUser
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=intergalatic-federation
+    volumes:
+      - pgdata:/data/postgres
+  app:
+    build: .
+    container_name: intergalatic-federation
+    ports:
+      - 3333:3333
+      - 9229:9229
+    volumes:
+      - .:/usr/app
+    links:
+      - database
+    depends_on:
+      - database
+volumes:
+  pgdata:
+    driver: local
