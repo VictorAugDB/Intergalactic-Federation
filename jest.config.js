@@ -10,7 +10,9 @@ module.exports = {
     '!**/test/**',
     '!**/mocks/**',
     '!<rootDir>/src/**/contracts/index.ts',
-    '!<rootDir>/src/docs/**/*'
+    '!<rootDir>/src/docs/**/*',
+    '!<rootDir>/src/infra/database/**/*',
+    '!<rootDir>/src/domain/entities/*.ts'
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
