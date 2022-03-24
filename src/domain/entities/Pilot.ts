@@ -23,5 +23,5 @@ export class Pilot {
   credits!: number
 
   @Column()
-  locationPlanet!: number
+  locationPlanet!: string
 }

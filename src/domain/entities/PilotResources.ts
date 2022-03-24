@@ -1,9 +1,9 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm'
 
 @Entity('pilot_resources')
-export class Ship {
+export class PilotsResources {
   @PrimaryColumn()
-  planet!: string
+  name!: string
 
   @Column()
   water!: number

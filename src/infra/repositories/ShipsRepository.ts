@@ -6,12 +6,12 @@ import {
 } from '@/data/contracts/repositories/ships/UpdateShip'
 import { Ship } from '@/domain/entities/Ship'
 import { IShip } from '@/domain/models/Ship'
-import { IRepository } from '@/infra/contracts/Repository'
+import { Repository } from 'typeorm'
 
 export class ShipsRepository implements ICreateShip, IGetShip, IUpdateShip {
-  repository: IRepository<Ship> | undefined
+  repository: Repository<Ship> | undefined
 
-  constructor(private readonly makeRepository: () => IRepository<Ship>) {
+  constructor(private readonly makeRepository: () => Repository<Ship>) {
     this.repository = undefined
   }
 
@@ -52,7 +52,7 @@ export class ShipsRepository implements ICreateShip, IGetShip, IUpdateShip {
       throw new Error()
     }
 
-    const ship = await this.repository.findOne(id)
+    const ship = await this.repository.findOne({ id })
     return ship
   }
 
@@ -69,13 +69,16 @@ export class ShipsRepository implements ICreateShip, IGetShip, IUpdateShip {
       throw new Error()
     }
 
-    const ship = await this.repository.update(id, {
-      fuelCapacity,
-      fuelLevel,
-      location,
-      weightCapacity,
-      weightLevel,
-    })
+    const ship = await this.repository.update(
+      { id },
+      {
+        fuelCapacity,
+        fuelLevel,
+        location,
+        weightCapacity,
+        weightLevel,
+      },
+    )
     return ship as unknown as IShip
   }
 }

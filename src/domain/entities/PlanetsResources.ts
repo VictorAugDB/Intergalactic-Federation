@@ -1,29 +1,19 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm'
 
-type ISentResources = {
-  sent?: {
-    food?: number
-    minerals?: number
-    water?: number
-  }
-}
-
-type IReceivedResources = {
-  received?: {
-    food?: number
-    minerals?: number
-    water?: number
-  }
+type IResources = {
+  food?: number
+  minerals?: number
+  water?: number
 }
 
 @Entity('planets_resources')
-export class Ship {
+export class PlanetsResources {
   @PrimaryColumn()
   planet!: string
 
   @Column('jsonb')
-  sent!: ISentResources
+  sent!: IResources
 
   @Column('jsonb')
-  resources!: IReceivedResources
+  received!: IResources
 }

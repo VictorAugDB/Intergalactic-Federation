@@ -36,7 +36,7 @@ export class SettleContractUseCase implements ISettleContract {
     }
     const {
       settlementDate,
-      pilotCerficiationDocument,
+      pilotCertificationDocument,
       value,
       destinationPlanet,
       payload,
@@ -46,11 +46,11 @@ export class SettleContractUseCase implements ISettleContract {
       throw new AppError('This contract is already settled!')
     }
 
-    if (!pilotCerficiationDocument) {
+    if (!pilotCertificationDocument) {
       throw new AppError('This contract must be accepted on your originPlanet!')
     }
 
-    if (certificationDocument !== pilotCerficiationDocument) {
+    if (certificationDocument !== pilotCertificationDocument) {
       throw new AppError('You not have authorization to settle this contract!')
     }
 

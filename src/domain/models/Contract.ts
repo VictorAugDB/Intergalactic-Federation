@@ -5,7 +5,7 @@ export type IResource = {
 
 export type IContract = {
   id: string
-  pilotCerficiationDocument?: string
+  pilotCertificationDocument?: string
   description: string
   payload: IResource[]
   originPlanet: string

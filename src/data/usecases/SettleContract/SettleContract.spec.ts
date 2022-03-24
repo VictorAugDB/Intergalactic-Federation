@@ -462,7 +462,7 @@ describe('SettleContractUseCase', () => {
     const { sut, getContractRepositoryStub } = makeSut()
     jest.spyOn(getContractRepositoryStub, 'getById').mockResolvedValueOnce({
       ...mockFakeAcceptedContract(),
-      pilotCerficiationDocument: 'other_document',
+      pilotCertificationDocument: 'other_document',
     })
 
     const promise = sut.execute(makeFakeRequest())

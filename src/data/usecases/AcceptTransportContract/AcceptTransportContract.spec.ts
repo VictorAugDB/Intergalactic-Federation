@@ -204,7 +204,7 @@ describe('AcceptTransportContractUseCase', () => {
       expect(updateContractRepoSpy).toHaveBeenCalledWith({
         id: 'any_id',
         acceptanceDate: new Date(),
-        pilotCerficiationDocument: mockFakePilot().certificationDocument,
+        pilotCertificationDocument: mockFakePilot().certificationDocument,
       })
     })
 

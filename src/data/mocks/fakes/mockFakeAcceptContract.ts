@@ -5,5 +5,5 @@ import { mockFakePilot } from '@/shared/mocks/fakePilot'
 export const mockFakeAcceptedContract = (): IContract => ({
   ...mockFakeContract(),
   acceptanceDate: new Date(),
-  pilotCerficiationDocument: mockFakePilot().certificationDocument,
+  pilotCertificationDocument: mockFakePilot().certificationDocument,
 })
