@@ -46,12 +46,15 @@ User: adminUser,
 password: root, 
 
 Default database: intergalatic-federation
+
 ![image](https://user-images.githubusercontent.com/50158294/160209498-621fbc07-b167-4c6a-aba6-6d4031c52e29.png)
 
 Click connect
 If the migrations:run was succesful the entities must be equal to the next image
+
 ![image](https://user-images.githubusercontent.com/50158294/160209732-708de984-0a67-4de5-ac3c-b08724b622ad.png)
 
 ### ER Diagram
+
 ![image](https://user-images.githubusercontent.com/50158294/160210581-9f99b12e-2871-413c-aad0-a662b6de6387.png)
 
