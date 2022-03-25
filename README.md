@@ -18,27 +18,28 @@ A complete system to manage your intergalatic travels
   * Beekeeper, or another database manager (Optional, only if you need to see the data and application reports) [Beekeeper](https://www.beekeeperstudio.io/)
 
 ### Run correct commands in sequence in the terminal 
-OBS: it is necessary to wait for the previous one to finish executing (Run the last command when the application is running)
+OBS: it is necessary to wait for the previous one to finish executing
 ```shell
   yarn
   
   docker-compose up
-  
-  yarn typeorm migration:run
 ```
 or
 ```shell
   npm i
   
   docker-compose up
-  
-  nom run typeorm migration:run
 ``` 
 OBS: (I didn't test the if the npm commands takes errors, prefer to use yarn to avoid errors)
 
 If you se this the application is running correctly
 
 ![image](https://user-images.githubusercontent.com/50158294/160213579-986df38b-27e1-483a-97bf-634ff3b17f73.png)
+
+After see this run the following command
+`yarn typeorm migration:run`
+or
+`npm run typeorm migration:run`
 
 ## Testing the API
 ### To run the application tests run
