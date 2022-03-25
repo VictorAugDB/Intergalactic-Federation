@@ -1,6 +1,15 @@
 # Intergalatic-Federation
 A complete system to manage your intergalatic travels
 
+# Requirements
+[AcceptTransportContract](./requirements/acceptTransportContract.md)
+[AddPilot](./requirements/addPilot.md)
+[AddShip](./requirements/addShip.md)
+[ListOpenContract](./requirements/listOpenContracts.md)
+[PublishContracts](./requirements/publishContract.md)
+[RefuelShip](./requirements/refuelShip.md)
+[SettleContract](./requirements/settleContract.md)
+[TravelBetweenPlanets](./requirements/travelBetweenPlanets.md)
 
 ## Step by step to run application on your machine
 ### Prerequisite:

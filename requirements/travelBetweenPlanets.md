@@ -4,10 +4,10 @@
 - [x] Receive a POST request in /travelToPlanet
 - [x] Validate required fields **certificationDocument, destinationPlanet**
 - [x] Get pilot from repository
-- [x] Check if the travel is possible by checking the pilot locationPlanet
+- [x] Check if the travel is possible by checking the pilot **locationPlanet**
 - [x] Get ship from repository
 - [x] Check if the ship has enough fuel to travel
-- [x] Update the pilot in the repository with the planetLocation
+- [x] Update the pilot in the repository with the **locationPlanet**
 - [x] Update the ship in the repository with the fuelLevel minus fuel travel cost
 - [x] Returns 200 with success message
 

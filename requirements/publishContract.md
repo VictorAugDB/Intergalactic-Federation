@@ -3,7 +3,7 @@
 ## Success case
 - [x] Receive a POST request in /contracts
 - [x] Validate required fields **description, payload, originPlanet, destinationPlanet, value**
-- [x] Check if already exists a contract registered with the same id in the repository
+- [x] Check if already exists a contract registered with the same **id** in the repository
 - [x] Save the contract in the repository
 - [x] Returns 200 with registered contract data
 
