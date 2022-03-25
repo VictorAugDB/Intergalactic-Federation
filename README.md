@@ -19,12 +19,14 @@ A complete system to manage your intergalatic travels
 
 ### Run correct commands in sequence in the terminal 
 OBS: it is necessary to wait for the previous one to finish executing
+
 ```shell
   yarn
   
   docker-compose up
 ```
 or
+
 ```shell
   npm i
   
@@ -37,8 +39,11 @@ If you se this the application is running correctly
 ![image](https://user-images.githubusercontent.com/50158294/160213579-986df38b-27e1-483a-97bf-634ff3b17f73.png)
 
 After see this run the following command
+
 `yarn typeorm migration:run`
+
 or
+
 `npm run typeorm migration:run`
 
 ## Testing the API
