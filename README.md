@@ -38,7 +38,8 @@ Create a ship --> Create a pilot --> Publish a contract --> Accept a contract --
 
 You can optionally Travel between planets, Refuel ship if you need, and List the open contracts
 
-## To view the application data you need an database manager this image is from Beekeeper, but the credentials can be used on another database manager
+## View the application database
+OBS: You need an database manager this images is from Beekeeper, but the credentials can be used on another database manager
 On the new connection selection postgres
 
 Add:
