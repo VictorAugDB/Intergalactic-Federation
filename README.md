@@ -31,6 +31,7 @@ OBS: (I didn't test the if the npm commands takes errors, prefer to use yarn to 
 
 ### To make requests and test with REST you have two choices
 With the application running, go to the browser and write `http://localhost:3333/docs/` check the swagger docs and make requests
+
 Go to postman and import the file that has on the root called intergalatic_federation_REQUESTS and make requests
 
 ## Application flow
