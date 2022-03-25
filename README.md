@@ -12,13 +12,17 @@ A complete system to manage your intergalatic travels
 OBS: it is necessary to wait for the previous one to finish executing
 ```shell
   yarn
+  
   docker-compose up
+  
   yarn typeorm migration:run
 ```
 or
 ```shell
   npm i
+  
   docker-compose up
+  
   nom run typeorm migration:run
 ``` 
 OBS: (I didn't test the if the npm commands takes errors, prefer to use yarn to avoid errors)
