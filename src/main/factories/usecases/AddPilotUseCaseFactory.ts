@@ -1,4 +1,4 @@
-import { AddPilotUseCase } from '@/data/usecases/AddPilot/AddPillot'
+import { AddPilotUseCase } from '@/data/usecases/AddPilot/AddPilot'
 import { makePilotsRepositoryFactory } from '@/main/factories/repositories/PilotsRepositoryFactory'
 import { makeShipsRepositoryFactory } from '@/main/factories/repositories/ShipsRepositoryFactory'
 
