@@ -1,6 +1,7 @@
 import {
+  IAddToPlanetResourcesReceiveReportInput,
   IAddToPlanetResourcesReport,
-  IAddToPlanetResourcesReportInput,
+  IAddToPlanetResourcesSentReportInput,
 } from '@/data/contracts/repositories/reports/AddToPlanetResourcesReportReport'
 
 export const makeAddToPlanetResourcesReportRepositoryStub =
@@ -8,7 +9,13 @@ export const makeAddToPlanetResourcesReportRepositoryStub =
     class AddToPlanetResourcesReportRepositoryUseCaseStub
       implements IAddToPlanetResourcesReport
     {
-      async add(data: IAddToPlanetResourcesReportInput): Promise<void> {}
+      async addSent(
+        data: IAddToPlanetResourcesSentReportInput,
+      ): Promise<void> {}
+
+      async addReceive(
+        input: IAddToPlanetResourcesReceiveReportInput,
+      ): Promise<void> {}
     }
 
     return new AddToPlanetResourcesReportRepositoryUseCaseStub()

@@ -1,0 +1,1210 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Smart Sign API",
+    "description": "This is the Smart Sign 3.0.0 Documentation"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333/"
+    },
+    {
+      "url": "https://localhost:3333/"
+    }
+  ],
+  "paths": {
+    "/contracts": {
+      "post": {
+        "tags": [
+          "Contracts"
+        ],
+        "summary": "Publish Contract",
+        "description": "This endpoint is to publish a new contract.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublishContractRes"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MissingParamError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "AppError": {
+                    "$ref": "#/components/examples/AppError"
+                  },
+                  "MissingParamError": {
+                    "$ref": "#/components/examples/MissingParamError"
+                  }
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorMissingToken"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorInvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "MissingToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorMissingToken"
+                  },
+                  "InvalidToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorInvalidToken"
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublishContractReq"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Contracts"
+        ],
+        "summary": "List Open Contracts",
+        "description": "This endpoint is to list the open contracts.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListOpenContractsRes"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MissingParamError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "AppError": {
+                    "$ref": "#/components/examples/AppError"
+                  },
+                  "MissingParamError": {
+                    "$ref": "#/components/examples/MissingParamError"
+                  }
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorMissingToken"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorInvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "MissingToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorMissingToken"
+                  },
+                  "InvalidToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorInvalidToken"
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/contracts/accept": {
+      "post": {
+        "tags": [
+          "Contracts"
+        ],
+        "summary": "Accept a Transport Contract",
+        "description": "This endpoint is to accept a transport contract.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptTransportContractRes"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MissingParamError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "AppError": {
+                    "$ref": "#/components/examples/AppError"
+                  },
+                  "MissingParamError": {
+                    "$ref": "#/components/examples/MissingParamError"
+                  }
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorMissingToken"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorInvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "MissingToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorMissingToken"
+                  },
+                  "InvalidToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorInvalidToken"
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptTransportContractReq"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contracts/settle": {
+      "post": {
+        "tags": [
+          "Contracts"
+        ],
+        "summary": "Settle Contract",
+        "description": "This endpoint is to settle a contract.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettleContractRes"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MissingParamError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "AppError": {
+                    "$ref": "#/components/examples/AppError"
+                  },
+                  "MissingParamError": {
+                    "$ref": "#/components/examples/MissingParamError"
+                  }
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorMissingToken"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorInvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "MissingToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorMissingToken"
+                  },
+                  "InvalidToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorInvalidToken"
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettleContractReq"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pilots": {
+      "post": {
+        "tags": [
+          "Pilots"
+        ],
+        "summary": "Add Pilot",
+        "description": "This endpoint is to add a pilot.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddPilotRes"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MissingParamError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "AppError": {
+                    "$ref": "#/components/examples/AppError"
+                  },
+                  "MissingParamError": {
+                    "$ref": "#/components/examples/MissingParamError"
+                  }
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorMissingToken"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorInvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "MissingToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorMissingToken"
+                  },
+                  "InvalidToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorInvalidToken"
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPilotReq"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pilots/travel": {
+      "post": {
+        "tags": [
+          "Pilots"
+        ],
+        "summary": "Travel Between Planets",
+        "description": "This endpoint is to travel between planets.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TravelBetweenPlanetsRes"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MissingParamError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "AppError": {
+                    "$ref": "#/components/examples/AppError"
+                  },
+                  "MissingParamError": {
+                    "$ref": "#/components/examples/MissingParamError"
+                  }
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorMissingToken"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorInvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "MissingToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorMissingToken"
+                  },
+                  "InvalidToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorInvalidToken"
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TravelBetweenPlanetsReq"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ships": {
+      "post": {
+        "tags": [
+          "Ships"
+        ],
+        "summary": "Add Ship",
+        "description": "This endpoint is to add a ship.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddShipRes"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MissingParamError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "AppError": {
+                    "$ref": "#/components/examples/AppError"
+                  },
+                  "MissingParamError": {
+                    "$ref": "#/components/examples/MissingParamError"
+                  }
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorMissingToken"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorInvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "MissingToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorMissingToken"
+                  },
+                  "InvalidToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorInvalidToken"
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddShipReq"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ships/refuel": {
+      "post": {
+        "tags": [
+          "Ships"
+        ],
+        "summary": "Refuel Ship",
+        "description": "This endpoint is to refuel a ship.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefuelShipRes"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MissingParamError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "AppError": {
+                    "$ref": "#/components/examples/AppError"
+                  },
+                  "MissingParamError": {
+                    "$ref": "#/components/examples/MissingParamError"
+                  }
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorMissingToken"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UnauthorizedErrorInvalidToken"
+                    }
+                  ]
+                },
+                "examples": {
+                  "MissingToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorMissingToken"
+                  },
+                  "InvalidToken": {
+                    "$ref": "#/components/examples/UnauthorizedErrorInvalidToken"
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefuelShipReq"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "examples": {
+      "AppError": {
+        "value": {
+          "message": "any_error message",
+          "name": "AppError"
+        }
+      },
+      "MissingParamError": {
+        "value": {
+          "message": "Missing param: field",
+          "name": "MissingParamError"
+        }
+      },
+      "UnauthorizedErrorMissingToken": {
+        "value": {
+          "message": "JWT token is missing",
+          "name": "UnauthorizedError"
+        }
+      },
+      "UnauthorizedErrorInvalidToken": {
+        "value": {
+          "message": "Invalid JWT Token",
+          "name": "UnauthorizedError"
+        }
+      }
+    },
+    "schemas": {
+      "AddPilotReq": {
+        "type": "object",
+        "properties": {
+          "age": {
+            "type": "number",
+            "example": 18
+          },
+          "shipId": {
+            "type": "string",
+            "example": "13da910f-c466-45b1-b2f7-342d79dbce69"
+          },
+          "certificationDocument": {
+            "type": "string",
+            "example": "any_document"
+          },
+          "credits": {
+            "type": "number",
+            "example": 700
+          },
+          "locationPlanet": {
+            "type": "string",
+            "example": "andvari"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          }
+        }
+      },
+      "TravelBetweenPlanetsReq": {
+        "type": "object",
+        "properties": {
+          "certificationDocument": {
+            "type": "string",
+            "example": "16e3dbab-1e20-496d-9af0-07f01ff95fc9"
+          },
+          "destinationPlanet": {
+            "type": "string",
+            "example": "calas"
+          }
+        }
+      },
+      "AddPilotRes": {
+        "type": "object",
+        "properties": {
+          "age": {
+            "type": "number",
+            "example": 18
+          },
+          "shipId": {
+            "type": "string",
+            "example": "any_id"
+          },
+          "certificationDocument": {
+            "type": "string",
+            "example": "any_document"
+          },
+          "credits": {
+            "type": "number",
+            "example": 700
+          },
+          "locationPlanet": {
+            "type": "string",
+            "example": "andvari"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          }
+        }
+      },
+      "TravelBetweenPlanetsRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "SUCCESS"
+          }
+        }
+      },
+      "AddShipReq": {
+        "type": "object",
+        "properties": {
+          "fuelCapacity": {
+            "type": "number",
+            "example": 100
+          },
+          "fuelLevel": {
+            "type": "number",
+            "example": 70
+          },
+          "location": {
+            "type": "string",
+            "example": "andvari"
+          },
+          "weightCapacity": {
+            "type": "number",
+            "example": 20
+          }
+        }
+      },
+      "RefuelShipReq": {
+        "type": "object",
+        "properties": {
+          "amountOfFuel": {
+            "type": "number",
+            "example": 10
+          },
+          "certificationDocument": {
+            "type": "string",
+            "example": "any_document"
+          }
+        }
+      },
+      "AddShipRes": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "a49f0a38-5706-4f31-8fb7-6ccd5bb0d2d9"
+          },
+          "fuelCapacity": {
+            "type": "number",
+            "example": 100
+          },
+          "fuelLevel": {
+            "type": "number",
+            "example": 70
+          },
+          "location": {
+            "type": "string",
+            "example": "andvari"
+          },
+          "weightCapacity": {
+            "type": "number",
+            "example": 20
+          },
+          "weightLevel": {
+            "type": "number",
+            "example": 0
+          }
+        }
+      },
+      "RefuelShipRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "SUCCESS"
+          }
+        }
+      },
+      "PublishContractReq": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": "any_description"
+          },
+          "destinationPlanet": {
+            "type": "string",
+            "example": "aqua"
+          },
+          "originPlanet": {
+            "type": "string",
+            "example": "andvari"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "minerals"
+                },
+                "weight": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          },
+          "value": {
+            "type": "number",
+            "example": 500
+          }
+        }
+      },
+      "AcceptTransportContractReq": {
+        "type": "object",
+        "properties": {
+          "certificationDocument": {
+            "type": "string",
+            "example": "any_document"
+          },
+          "contractId": {
+            "type": "string",
+            "example": "6d5ef898-488d-4c21-ac6f-788680ca6cab"
+          }
+        }
+      },
+      "SettleContractReq": {
+        "type": "object",
+        "properties": {
+          "certificationDocument": {
+            "type": "string",
+            "example": "any_document"
+          },
+          "contractId": {
+            "type": "string",
+            "example": "886936d3-5c14-4e2e-b10f-4a8fb2e88c82"
+          }
+        }
+      },
+      "PublishContractRes": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "645d6743-771a-41d8-9906-f698d6821704"
+          },
+          "description": {
+            "type": "string",
+            "example": "any_description"
+          },
+          "destinationPlanet": {
+            "type": "string",
+            "example": "aqua"
+          },
+          "originPlanet": {
+            "type": "string",
+            "example": "andvari"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "minerals"
+                },
+                "weight": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          },
+          "value": {
+            "type": "number",
+            "example": 500
+          }
+        }
+      },
+      "ListOpenContractsRes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "5c090677-fb76-4810-831c-b8c58b863779"
+            },
+            "description": {
+              "type": "string",
+              "example": "any_description"
+            },
+            "destinationPlanet": {
+              "type": "string",
+              "example": "aqua"
+            },
+            "originPlanet": {
+              "type": "string",
+              "example": "andvari"
+            },
+            "payload": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "minerals"
+                  },
+                  "weight": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              }
+            },
+            "value": {
+              "type": "number",
+              "example": 500
+            }
+          }
+        }
+      },
+      "AcceptTransportContractRes": {
+        "type": "object",
+        "properties": {
+          "acceptanceDate": {
+            "type": "object",
+            "properties": {}
+          },
+          "contractId": {
+            "type": "string",
+            "example": "242fc8fc-0ad3-49a5-b65d-db843a98043d"
+          },
+          "shipWeightLevel": {
+            "type": "number",
+            "example": 20
+          }
+        }
+      },
+      "SettleContractRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "SUCCESS"
+          }
+        }
+      },
+      "MissingParamError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Missing param: field"
+          },
+          "name": {
+            "type": "string",
+            "example": "MissingParamError"
+          }
+        }
+      },
+      "ServerError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Server failed. Try again soon"
+          },
+          "name": {
+            "type": "string",
+            "example": "ServerError"
+          }
+        }
+      },
+      "AppError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "any_error message"
+          },
+          "name": {
+            "type": "string",
+            "example": "AppError"
+          }
+        }
+      },
+      "UnauthorizedErrorMissingToken": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "JWT token is missing"
+          },
+          "name": {
+            "type": "string",
+            "example": "UnauthorizedError"
+          }
+        }
+      },
+      "UnauthorizedErrorInvalidToken": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Invalid JWT Token"
+          },
+          "name": {
+            "type": "string",
+            "example": "UnauthorizedError"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

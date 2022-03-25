@@ -56,29 +56,18 @@ export class ShipsRepository implements ICreateShip, IGetShip, IUpdateShip {
     return ship
   }
 
-  async update({
-    id,
-    fuelCapacity,
-    fuelLevel,
-    location,
-    weightCapacity,
-    weightLevel,
-  }: IUpdateShipInput): Promise<IShip> {
+  async update(input: IUpdateShipInput): Promise<void> {
     this.singletonRepository()
     if (!this.repository) {
       throw new Error()
     }
+    const updateData = JSON.parse(JSON.stringify(input))
 
-    const ship = await this.repository.update(
-      { id },
+    await this.repository.update(
+      { id: input.id },
       {
-        fuelCapacity,
-        fuelLevel,
-        location,
-        weightCapacity,
-        weightLevel,
+        ...updateData,
       },
     )
-    return ship as unknown as IShip
   }
 }

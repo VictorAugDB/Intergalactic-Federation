@@ -74,27 +74,18 @@ export class PilotsRepository
     return pilot
   }
 
-  async update({
-    certificationDocument,
-    age,
-    credits,
-    locationPlanet,
-    name,
-    shipId,
-  }: IUpdatePilotInput): Promise<void> {
+  async update(input: IUpdatePilotInput): Promise<void> {
     this.singletonRepository()
     if (!this.repository) {
       throw new Error()
     }
 
+    const updateData = JSON.parse(JSON.stringify(input))
+
     await this.repository.update(
-      { certificationDocument },
+      { certificationDocument: input.certificationDocument },
       {
-        age,
-        credits,
-        locationPlanet,
-        name,
-        shipId,
+        ...updateData,
       },
     )
   }

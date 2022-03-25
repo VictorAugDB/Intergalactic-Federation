@@ -3,12 +3,12 @@ import { IGetContract } from '@/data/contracts/repositories/contracts/GetContrac
 import {
   IUpdateContract,
   IUpdateContractInput,
+  IUpdateContractResult,
 } from '@/data/contracts/repositories/contracts/UpdateContract'
 import { IGetPilot } from '@/data/contracts/repositories/pilots/GetPilot'
 import { IAddToPlanetResourcesReport } from '@/data/contracts/repositories/reports/AddToPlanetResourcesReportReport'
 import { IGetShip } from '@/data/contracts/repositories/ships/GetShip'
 import { IUpdateShip } from '@/data/contracts/repositories/ships/UpdateShip'
-import { mockFakeAcceptedContract } from '@/data/mocks/fakes/mockFakeAcceptContract'
 import { mockFakeContractResourcesWeight } from '@/data/mocks/fakes/mockFakeContractResourcesWeight'
 import { makeAddToPlanetResourcesReportRepositoryStub } from '@/data/mocks/stubs/makeAddToPlanetReportRepositoryStub'
 import { makeGetPilotRepositoryStub } from '@/data/mocks/stubs/makeGetPilotRepositoryStub'
@@ -53,8 +53,8 @@ export const makeGetContractRepositoryStub = (): IGetContract => {
 
 export const makeUpdateContractRepositoryStub = (): IUpdateContract => {
   class UpdateContractRepositoryUseCaseStub implements IUpdateContract {
-    async update(data: IUpdateContractInput): Promise<IContract> {
-      return mockFakeAcceptedContract()
+    async update(data: IUpdateContractInput): Promise<IUpdateContractResult> {
+      return { acceptanceDate: new Date() }
     }
   }
 
@@ -223,7 +223,7 @@ describe('AcceptTransportContractUseCase', () => {
       const { sut, updateContractRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       jest.spyOn(updateContractRepositoryStub, 'update').mockResolvedValueOnce({
-        ...mockFakeContract(),
+        acceptanceDate: undefined as unknown as Date,
       })
       const promise = sut.execute(fakeRequest)
 
@@ -237,7 +237,7 @@ describe('AcceptTransportContractUseCase', () => {
       const fakeRequest = makeFakeRequest()
       const addToPlanetResourcesRepoSpy = jest.spyOn(
         addToPlanetResourcesReportRepositoryStub,
-        'add',
+        'addSent',
       )
       await sut.execute(fakeRequest)
 
@@ -251,7 +251,7 @@ describe('AcceptTransportContractUseCase', () => {
       const { sut, addToPlanetResourcesReportRepositoryStub } = makeSut()
       const fakeRequest = makeFakeRequest()
       jest
-        .spyOn(addToPlanetResourcesReportRepositoryStub, 'add')
+        .spyOn(addToPlanetResourcesReportRepositoryStub, 'addSent')
         .mockRejectedValueOnce(new Error())
       const promise = sut.execute(fakeRequest)
 
@@ -295,6 +295,21 @@ describe('AcceptTransportContractUseCase', () => {
 
     await expect(promise).rejects.toBeInstanceOf(AppError)
     await expect(promise).rejects.toThrowError(new AppError('Ship not found!'))
+  })
+
+  test('Should throw an AppError if contract is already accepted', async () => {
+    const { sut, getContractRepositoryStub } = makeSut()
+    jest.spyOn(getContractRepositoryStub, 'getById').mockResolvedValueOnce({
+      ...mockFakeContract(),
+      acceptanceDate: new Date(),
+    })
+
+    const promise = sut.execute(makeFakeRequest())
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError('Contract already accepted!'),
+    )
   })
 
   test("Should throw an AppError if pilot is not on the same planet as contract's originPlanet", async () => {

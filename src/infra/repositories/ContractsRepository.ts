@@ -4,6 +4,7 @@ import { IListContracts } from '@/data/contracts/repositories/contracts/ListCont
 import {
   IUpdateContract,
   IUpdateContractInput,
+  IUpdateContractResult,
 } from '@/data/contracts/repositories/contracts/UpdateContract'
 import { Contract } from '@/domain/entities/Contract'
 import { IContract } from '@/domain/models/Contract'
@@ -59,37 +60,22 @@ export class ContractsRepository
     return contract
   }
 
-  async update({
-    id,
-    acceptanceDate,
-    description,
-    destinationPlanet,
-    originPlanet,
-    payload,
-    pilotCertificationDocument,
-    settlementDate,
-    value,
-  }: IUpdateContractInput): Promise<IContract> {
+  async update(input: IUpdateContractInput): Promise<IUpdateContractResult> {
     this.singletonRepository()
     if (!this.repository) {
       throw new Error()
     }
 
-    const result = await this.repository.update(
-      { id },
+    const updateData = JSON.parse(JSON.stringify(input))
+
+    await this.repository.update(
+      { id: input.id },
       {
-        acceptanceDate,
-        description,
-        destinationPlanet,
-        originPlanet,
-        payload,
-        pilotCertificationDocument,
-        settlementDate,
-        value,
+        ...updateData,
       },
     )
 
-    return result as unknown as IContract
+    return { acceptanceDate: input.acceptanceDate as Date }
   }
 
   async listOpenContracts(): Promise<IContract[]> {

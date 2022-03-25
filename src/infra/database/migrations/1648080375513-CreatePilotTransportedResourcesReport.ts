@@ -16,14 +16,17 @@ export class CreatePilotTransportedResourcesReport1648080375513
           {
             name: 'water',
             type: 'integer',
+            isNullable: true,
           },
           {
             name: 'food',
             type: 'integer',
+            isNullable: true,
           },
           {
             name: 'minerals',
             type: 'integer',
+            isNullable: true,
           },
         ],
       }),

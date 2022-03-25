@@ -104,7 +104,7 @@ export class SettleContractUseCase implements ISettleContract {
       `${contractId} Description paid -₭${value}`,
     )
 
-    await this.addToPlanetResourcesReportRepository.add({
+    await this.addToPlanetResourcesReportRepository.addReceive({
       planet: destinationPlanet,
       received: {
         water: payload.find((resource) => resource.name === 'water')?.weight,

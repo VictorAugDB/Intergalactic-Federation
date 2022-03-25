@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "98cfd09f-736a-485b-a4d1-fdfa3d1794fe",
+		"name": "Intergalatic Federation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AddShip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fuelCapacity\": 100,\r\n    \"fuelLevel\": 100,\r\n    \"location\": \"calas\",\r\n    \"weightCapacity\": 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/ships",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"ships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddPilot",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"certificationDocument\": \"12345\",\r\n    \"shipId\": \"d5ad9ec4-dc93-4d43-8629-2c51d7156112\",\r\n    \"name\": \"John Two\",\r\n    \"age\": 18,\r\n    \"credits\": 500,\r\n    \"locationPlanet\": \"calas\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/pilots",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pilots"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PublishContract",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"emergency resources\",\r\n    \"payload\": [\r\n        {\r\n            \"name\": \"food\",\r\n            \"weight\": 5\r\n        },\r\n        {\r\n            \"name\": \"minerals\",\r\n            \"weight\": 5\r\n        },\r\n        {\r\n            \"name\": \"water\",\r\n            \"weight\": 5\r\n        }\r\n    ],\r\n    \"originPlanet\": \"aqua\",\r\n    \"destinationPlanet\": \"andvari\",\r\n    \"value\": 500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/contracts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contracts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListOpenContracts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/contracts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contracts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AcceptTransportContract",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contractId\": \"3f8ed13d-98b9-417e-bdea-2906670d921b\",\r\n    \"certificationDocument\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/contracts/accept",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contracts",
+						"accept"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SettleContract",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contractId\": \"3f8ed13d-98b9-417e-bdea-2906670d921b\",\r\n    \"certificationDocument\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/contracts/settle",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contracts",
+						"settle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TravelBetweenPlanets",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"destinationPlanet\": \"aqua\",\r\n    \"certificationDocument\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/pilots/travel",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pilots",
+						"travel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RefuelShip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amountOfFuel\": 13,\r\n    \"certificationDocument\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/ships/refuel",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"ships",
+						"refuel"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

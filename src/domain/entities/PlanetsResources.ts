@@ -11,9 +11,23 @@ export class PlanetsResources {
   @PrimaryColumn()
   planet!: string
 
-  @Column('jsonb')
+  @Column({
+    type: 'jsonb',
+    default: {
+      food: 0,
+      water: 0,
+      minerals: 0,
+    },
+  })
   sent!: IResources
 
-  @Column('jsonb')
+  @Column({
+    type: 'jsonb',
+    default: {
+      food: 0,
+      water: 0,
+      minerals: 0,
+    },
+  })
   received!: IResources
 }

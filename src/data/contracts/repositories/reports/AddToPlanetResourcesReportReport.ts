@@ -1,17 +1,19 @@
-export type IAddToPlanetResourcesReportInput = {
+export type IResources = {
+  food?: number
+  minerals?: number
+  water?: number
+}
+
+export type IAddToPlanetResourcesSentReportInput = {
   planet: string
-  sent?: {
-    food?: number
-    minerals?: number
-    water?: number
-  }
-  received?: {
-    food?: number
-    minerals?: number
-    water?: number
-  }
+  sent: IResources
+}
+export type IAddToPlanetResourcesReceiveReportInput = {
+  planet: string
+  received: IResources
 }
 
 export interface IAddToPlanetResourcesReport {
-  add: (input: IAddToPlanetResourcesReportInput) => Promise<void>
+  addSent: (input: IAddToPlanetResourcesSentReportInput) => Promise<void>
+  addReceive: (input: IAddToPlanetResourcesReceiveReportInput) => Promise<void>
 }

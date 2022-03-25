@@ -5,5 +5,5 @@ export interface IUpdateShipInput extends Partial<IShip> {
 }
 
 export interface IUpdateShip {
-  update: (input: IUpdateShipInput) => Promise<IShip>
+  update: (input: IUpdateShipInput) => Promise<void>
 }

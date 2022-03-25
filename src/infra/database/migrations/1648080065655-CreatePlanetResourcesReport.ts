@@ -16,10 +16,12 @@ export class CreatePlanetResourcesReport1648080065655
           {
             name: 'sent',
             type: 'jsonb',
+            isNullable: true,
           },
           {
             name: 'received',
             type: 'jsonb',
+            isNullable: true,
           },
         ],
       }),

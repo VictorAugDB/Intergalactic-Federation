@@ -39,6 +39,9 @@ export class AcceptTransportContractUseCase
     if (!contract) {
       throw new AppError('Contract not found!')
     }
+    if (contract.acceptanceDate) {
+      throw new AppError('Contract already accepted!')
+    }
 
     if (locationPlanet !== contract.originPlanet) {
       throw new AppError(
@@ -68,17 +71,17 @@ export class AcceptTransportContractUseCase
       acceptanceDate: new Date(),
       pilotCertificationDocument: certificationDocument,
     })
+    console.log(acceptanceDate)
     if (!acceptanceDate) {
       throw new Error()
     }
 
-    const { weightLevel: shipWeightLevel } =
-      await this.updateShipRepository.update({
-        id: shipId,
-        weightLevel: weightLevel + contractResourcesWeight,
-      })
+    await this.updateShipRepository.update({
+      id: shipId,
+      weightLevel: weightLevel + contractResourcesWeight,
+    })
 
-    await this.addToPlanetResourcesReportRepository.add({
+    await this.addToPlanetResourcesReportRepository.addSent({
       planet: originPlanet,
       sent: {
         water: payload.find((resource) => resource.name === 'water')?.weight,
@@ -88,6 +91,10 @@ export class AcceptTransportContractUseCase
       },
     })
 
-    return { contractId, acceptanceDate, shipWeightLevel }
+    return {
+      contractId,
+      acceptanceDate,
+      shipWeightLevel: weightLevel + contractResourcesWeight,
+    }
   }
 }
