@@ -1,9 +1,9 @@
 import { ITravelBetweenPlanetsDTO } from '@/application/dtos/TravelBetweenPlanets'
-import { randUuid } from '@ngneat/falso'
+import { mockFakePilot } from '@/shared/mocks/fakePilot'
 
 export function makeTravelBetweenPlanetsDocReqSchema(): ITravelBetweenPlanetsDTO {
   return {
-    certificationDocument: randUuid(),
+    certificationDocument: mockFakePilot().certificationDocument,
     destinationPlanet: 'calas',
   }
 }

@@ -178,6 +178,23 @@ describe('AddPilotUseCase', () => {
     })
   })
 
+  test('Should throw an AppError if age is less than 18', async () => {
+    const { sut } = makeSut()
+
+    const fakeRequest = {
+      ...makeFakeRequest(),
+      age: 17,
+    }
+    const promise = sut.execute(fakeRequest)
+
+    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toThrowError(
+      new AppError(
+        'You are not old enough to be a pilot! come back in a few years.',
+      ),
+    )
+  })
+
   test('Should throw an AppError if already exists pilot with requested certificationDocument', async () => {
     const { sut, getPilotRepositoryStub } = makeSut()
     jest

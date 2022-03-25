@@ -29,6 +29,12 @@ export class AddPilotUseCase implements IAddPilot {
     const hasPilotWithSameName = await this.getPilotRepository.getByName(name)
     if (hasPilotWithSameName) throw new AppError('Pilot already exists!')
 
+    if (age < 18) {
+      throw new AppError(
+        'You are not old enough to be a pilot! come back in a few years.',
+      )
+    }
+
     const ship = await this.getShipRepository.getById(shipId)
     if (!ship) throw new AppError('Ship does not exists!')
 
