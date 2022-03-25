@@ -18,7 +18,7 @@ A complete system to manage your intergalatic travels
   * Beekeeper, or another database manager (Optional, only if you need to see the data and application reports) [Beekeeper](https://www.beekeeperstudio.io/)
 
 ### Run correct commands in sequence in the terminal 
-OBS: it is necessary to wait for the previous one to finish executing
+OBS: it is necessary to wait for the previous one to finish executing (All the commands must be runned on application folder)
 
 ```shell
   yarn
