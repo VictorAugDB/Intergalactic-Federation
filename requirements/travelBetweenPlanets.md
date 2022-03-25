@@ -1,7 +1,7 @@
 # Travel Between Planets
 
 ## Success case
-- [x] Receive a POST request in /travelToPlanet
+- [x] Receive a POST request in /pilots/travel
 - [x] Validate required fields **certificationDocument, destinationPlanet**
 - [x] Get pilot from repository
 - [x] Check if the travel is possible by checking the pilot **locationPlanet**

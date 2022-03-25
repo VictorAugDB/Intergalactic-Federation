@@ -1,7 +1,7 @@
 # Refuel Ship
 
 ## Success case
-- [x] Receive a POST request in /contracts
+- [x] Receive a POST request in /ships/refuel
 - [x] Validate required fields **certificationDocument, amountOfFuel**
 - [x] Get the pilot in the repository
 - [x] Check if pilot has enough **credits**
