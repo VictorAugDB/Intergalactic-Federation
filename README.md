@@ -2,14 +2,14 @@
 A complete system to manage your intergalatic travels
 
 # Requirements
-[AcceptTransportContract](./requirements/acceptTransportContract.md)
-[AddPilot](./requirements/addPilot.md)
-[AddShip](./requirements/addShip.md)
-[ListOpenContract](./requirements/listOpenContracts.md)
-[PublishContracts](./requirements/publishContract.md)
-[RefuelShip](./requirements/refuelShip.md)
-[SettleContract](./requirements/settleContract.md)
-[TravelBetweenPlanets](./requirements/travelBetweenPlanets.md)
+1. [AcceptTransportContract](./requirements/acceptTransportContract.md)
+2. [AddPilot](./requirements/addPilot.md)
+3. [AddShip](./requirements/addShip.md)
+4. [ListOpenContract](./requirements/listOpenContracts.md)
+5. [PublishContracts](./requirements/publishContract.md)
+6. [RefuelShip](./requirements/refuelShip.md)
+7. [SettleContract](./requirements/settleContract.md)
+8. [TravelBetweenPlanets](./requirements/travelBetweenPlanets.md)
 
 ## Step by step to run application on your machine
 ### Prerequisite:
