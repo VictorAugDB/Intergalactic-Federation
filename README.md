@@ -32,7 +32,7 @@ or
   
   docker-compose up
 ``` 
-OBS: (I didn't test the if the npm commands takes errors, prefer to use yarn to avoid errors)
+OBS: (I didn't test if the npm commands takes errors, prefer to use yarn to avoid errors)
 
 If you se this the application is running correctly
 
